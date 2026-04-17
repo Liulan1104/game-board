@@ -1,0 +1,122 @@
+[
+  {
+    "date": "2026-04-17",
+    "name": "王者荣耀世界",
+    "company": "腾讯天美",
+    "platform": "iOS/Android/PC",
+    "eventType": "release",
+    "type": "开放世界MMOARPG",
+    "publisher": "腾讯",
+    "note": "全平台公测",
+    "website": "https://world.qq.com/",
+    "bilibili": ""
+  },
+  {
+    "date": "2026-04-17",
+    "name": "Pragmata",
+    "company": "CAPCOM",
+    "platform": "PS5/Xbox/PC/Switch2",
+    "eventType": "release",
+    "type": "科幻动作冒险",
+    "publisher": "卡普空",
+    "note": "全球同步发售",
+    "website": "https://www.capcom-games.com/pragmata/zh-hans/",
+    "bilibili": ""
+  },
+  {
+    "date": "2026-04-待定",
+    "name": "怪物猎人：旅人 二测",
+    "company": "腾讯×卡普空",
+    "platform": "iOS/Android",
+    "eventType": "test",
+    "type": "动作狩猎RPG",
+    "publisher": "腾讯",
+    "note": "二测招募中，暂无正式上线公告",
+    "website": "http://mho.qq.com/",
+    "bilibili": ""
+  },
+  {
+    "date": "2026-04-21",
+    "name": "星布谷地 星旅测试",
+    "company": "米哈游",
+    "platform": "iOS/Android/PC",
+    "eventType": "test",
+    "type": "Q版模拟经营",
+    "publisher": "米哈游",
+    "note": "米哈游新IP首测",
+    "website": "https://planet.mihoyo.com/",
+    "bilibili": ""
+  },
+  {
+    "date": "2026-04-23",
+    "name": "异环",
+    "company": "完美世界Hotta",
+    "platform": "PC/PS5/iOS/Android/鸿蒙",
+    "eventType": "release",
+    "type": "都市开放世界RPG",
+    "publisher": "完美世界",
+    "note": "3000万预约，全平台公测",
+    "website": "https://yh.wanmei.com/",
+    "bilibili": ""
+  },
+  {
+    "date": "2026-04-26",
+    "name": "崩坏星穹铁道 三周年庆",
+    "company": "米哈游",
+    "platform": "全平台",
+    "eventType": "anniversary",
+    "type": "回合制RPG",
+    "publisher": "米哈游",
+    "note": "三周年庆（2023年4月26日上线）",
+    "website": "https://sr.mihoyo.com/",
+    "bilibili": ""
+  },
+  {
+    "date": "2026-05-01",
+    "name": "明日方舟 七周年庆",
+    "company": "鹰角网络",
+    "platform": "全平台",
+    "eventType": "anniversary",
+    "type": "策略塔防",
+    "publisher": "鹰角",
+    "note": "七周年庆（2019年5月1日安卓公测）",
+    "website": "https://ak.hypergryph.com/",
+    "bilibili": ""
+  },
+  {
+    "date": "2026-05-23",
+    "name": "鸣潮 二周年庆",
+    "company": "库洛游戏",
+    "platform": "全平台",
+    "eventType": "anniversary",
+    "type": "开放世界动作RPG",
+    "publisher": "库洛",
+    "note": "二周年庆（2024年5月23日上线）",
+    "website": "https://mc.kurogames.com/",
+    "bilibili": ""
+  },
+  {
+    "date": "2026-07-04",
+    "name": "绝区零 二周年庆",
+    "company": "米哈游",
+    "platform": "全平台",
+    "eventType": "anniversary",
+    "type": "动作RPG",
+    "publisher": "米哈游",
+    "note": "二周年庆+2.0版本（2024年7月4日上线）",
+    "website": "https://zzz.mihoyo.com/",
+    "bilibili": ""
+  },
+  {
+    "date": "2026-09-28",
+    "name": "原神 六周年庆",
+    "company": "米哈游",
+    "platform": "全平台",
+    "eventType": "anniversary",
+    "type": "开放世界RPG",
+    "publisher": "米哈游",
+    "note": "六周年庆（2020年9月28日上线）",
+    "website": "https://ys.mihoyo.com/",
+    "bilibili": ""
+  }
+]
