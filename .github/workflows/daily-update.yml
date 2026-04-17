@@ -1,0 +1,196 @@
+name: 🎮 游戏行业看板 - 每日自动更新
+
+on:
+  schedule:
+    # 每天早上 9 点（北京时间）自动执行
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+    inputs:
+      target_date:
+        description: '指定日期 (YYYY-MM-DD)，留空则自动抓取昨天'
+        required: false
+        type: string
+
+jobs:
+  collect-daily-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 lxml -q
+
+      - name: Scrape and update data
+        id: scrape
+        run: |
+          python3 << 'EOF'
+          import os
+          import json
+          import requests
+          from datetime import datetime, timedelta
+          from bs4 import BeautifulSoup
+
+          # ── 目标日期（默认抓取昨天，因为9:00时当天新闻尚未完整）──
+          target_date = os.environ.get('TARGET_DATE', '')
+          if not target_date:
+              target_date = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+          print(f"📅 目标日期: {target_date}")
+
+          # ── 1. 抓取热点新闻 ──
+          hot_topics = []
+
+          # B站热搜榜
+          try:
+              r = requests.get(
+                  'https://api.bilibili.com/x/web-interface/ranking/v2?rid=4&type=all',
+                  timeout=8, headers={'User-Agent': 'Mozilla/5.0'}
+              )
+              if r.status_code == 200:
+                  data = r.json().get('data', {}).get('list', [])
+                  for i, item in enumerate(data[:20]):
+                      title = item.get('title', '')
+                      keywords = ['游戏','原神','崩铁','王者','鸣潮','绝区零','方舟',
+                                  'LOL','英雄联盟','三角洲','星铁','米哈游','鹰角']
+                      if any(k in title for k in keywords):
+                          hot_topics.append({
+                              'rank': i + 1,
+                              'cat': '手游',
+                              'title': title,
+                              'source': f'B站热搜 #{i+1}',
+                              'company': '',
+                              'hot': f'{item.get("like", 0)}点赞',
+                              'detail': item.get('desc', title)
+                          })
+          except Exception as e:
+              print(f"⚠️ B站热搜抓取失败: {e}")
+
+          # 微博热搜
+          try:
+              r = requests.get(
+                  'https://weibo.com/ajax/side/hotSearch',
+                  timeout=8,
+                  headers={'User-Agent': 'Mozilla/5.0', 'Referer': 'https://weibo.com'}
+              )
+              if r.status_code == 200:
+                  data = r.json().get('data', {}).get('realtime', [])
+                  for item in data[:30]:
+                      word = item.get('word', '')
+                      keywords = ['游戏','原神','崩铁','王者','鸣潮','绝区零','方舟','LOL']
+                      if any(k in word for k in keywords):
+                          hot_topics.append({
+                              'rank': 0,
+                              'cat': '行业',
+                              'title': word,
+                              'source': '微博热搜',
+                              'company': '',
+                              'hot': f'热搜 #{item.get("num", 0)}',
+                              'detail': word
+                          })
+          except Exception as e:
+              print(f"⚠️ 微博热搜抓取失败: {e}")
+
+          # 去重 + 排序
+          seen_titles = set()
+          unique_topics = []
+          for t in hot_topics:
+              key = t['title'][:20]
+              if key not in seen_titles:
+                  seen_titles.add(key)
+                  unique_topics.append(t)
+
+          unique_topics.sort(key=lambda x: x['rank'] if x['rank'] > 0 else 999)
+          for i, t in enumerate(unique_topics[:20]):
+              t['rank'] = i + 1
+
+          print(f"✅ 抓取到 {len(unique_topics)} 条热点")
+
+          # ── 2. 写入 data/daily/{date}.json（历史存档）──
+          day_label = datetime.strptime(target_date, '%Y-%m-%d').strftime('%-m月%-d日')
+          day_label = day_label.replace('January','1月').replace('February','2月') \
+                               .replace('March','3月').replace('April','4月') \
+                               .replace('May','5月').replace('June','6月') \
+                               .replace('July','7月').replace('August','8月') \
+                               .replace('September','9月').replace('October','10月') \
+                               .replace('November','11月').replace('December','12月')
+          weekdays = ['周一','周二','周三','周四','周五','周六','周日']
+          wday = weekdays[datetime.strptime(target_date, '%Y-%m-%d').weekday()]
+          day_label = day_label + '（' + wday + '）'
+
+          latest_report = {
+              'date': target_date,
+              'dayLabel': day_label,
+              'news': unique_topics
+          }
+
+          os.makedirs('data/daily', exist_ok=True)
+          with open(f'data/daily/{target_date}.json', 'w', encoding='utf-8') as f:
+              json.dump(latest_report, f, ensure_ascii=False, indent=2)
+          print(f"✅ 已写入 data/daily/{target_date}.json")
+
+          # ── 3. 写入 data/latest.json（快捷引用，指向当天）──
+          with open('data/latest.json', 'w', encoding='utf-8') as f:
+              json.dump(latest_report, f, ensure_ascii=False, indent=2)
+          print(f"✅ 已写入 data/latest.json（{len(unique_topics)} 条）")
+
+          # ── 4. 写入 data/games.json（游戏日历）──
+          games = [
+              # ── 测试节点 ──
+              {"date":"2026-04-待定","name":"怪物猎人：旅人 二测","company":"腾讯×卡普空","category":"测试","genre":"动作狩猎RPG","platform":"iOS/Android","note":"二测招募中，暂无正式上线公告","source":"http://mho.qq.com/"},
+              {"date":"2026-04-21","name":"星布谷地 星旅测试","company":"米哈游","category":"测试","genre":"Q版模拟经营","platform":"iOS/Android/PC","note":"米哈游新IP首测","source":"https://planet.mihoyo.com/"},
+              {"date":"2026-04-22","name":"三国：百将牌 删档测试","company":"哔哩哔哩游戏","category":"测试","genre":"竞技卡牌","platform":"iOS/Android/PC/Steam","note":"B站自研卡牌首测","source":"https://3guo.biligame.com/"},
+              # ── 公测/上线节点 ──
+              {"date":"2026-04-17","name":"王者荣耀世界","company":"腾讯天美","category":"上线","genre":"开放世界MMOARPG","platform":"iOS/Android/PC","note":"全平台公测","source":"https://world.qq.com/"},
+              {"date":"2026-04-17","name":"Pragmata","company":"CAPCOM","category":"上线","genre":"科幻动作冒险","platform":"PS5/Xbox/PC/Switch2","note":"全球同步发售","source":"https://www.capcom-games.com/pragmata/zh-hans/"},
+              {"date":"2026-04-23","name":"异环","company":"完美世界Hotta","category":"上线","genre":"都市开放世界RPG","platform":"PC/PS5/iOS/Android/鸿蒙","note":"3000万预约，全平台公测","source":"https://yh.wanmei.com/"},
+              # ── 周年庆节点 ──
+              {"date":"2026-04-26","name":"崩坏星穹铁道 三周年庆","company":"米哈游","category":"周年庆","genre":"回合制RPG","platform":"全平台","note":"三周年庆（2023年4月26日上线）","source":"https://sr.mihoyo.com/"},
+              {"date":"2026-05-01","name":"明日方舟 七周年庆","company":"鹰角网络","category":"周年庆","genre":"策略塔防","platform":"全平台","note":"七周年庆（2019年5月1日安卓公测）","source":"https://ak.hypergryph.com/"},
+              {"date":"2026-05-23","name":"鸣潮 二周年庆","company":"库洛游戏","category":"周年庆","genre":"开放世界动作RPG","platform":"全平台","note":"二周年庆（2024年5月23日上线）","source":"https://mc.kurogames.com/"},
+              {"date":"2026-07-04","name":"绝区零 二周年庆","company":"米哈游","category":"周年庆","genre":"动作RPG","platform":"全平台","note":"二周年庆+2.0版本（2024年7月4日上线）","source":"https://zzz.mihoyo.com/"},
+              {"date":"2026-09-28","name":"原神 六周年庆","company":"米哈游","category":"周年庆","genre":"开放世界RPG","platform":"全平台","note":"六周年庆（2020年9月28日上线）","source":"https://ys.mihoyo.com/"},
+          ]
+          with open('data/games.json', 'w', encoding='utf-8') as f:
+              json.dump(games, f, ensure_ascii=False, indent=2)
+          print(f"✅ 已写入 data/games.json（{len(games)} 条）")
+          EOF
+
+        env:
+          TARGET_DATE: ${{ github.event.inputs.target_date || '' }}
+
+      - name: Cleanup old data (keep 365 days)
+        run: |
+          python3 << 'EOF'
+          import os, json
+          from datetime import datetime, timedelta
+
+          cutoff = (datetime.now() - timedelta(days=365)).strftime('%Y-%m-%d')
+          data_dir = 'data/daily'
+          if not os.path.exists(data_dir):
+              print("无历史数据目录，跳过清理")
+              exit(0)
+
+          deleted = []
+          for fname in os.listdir(data_dir):
+              if not fname.endswith('.json'):
+                  continue
+              if fname.replace('.json', '') < cutoff:
+                  os.remove(os.path.join(data_dir, fname))
+                  deleted.append(fname)
+
+          print(f"✅ 已删除 {len(deleted)} 个旧文件")
+          print(f"✅ 保留 {len(os.listdir(data_dir))} 个历史文件")
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/
+          git diff --staged --quiet || git commit -m "🤖 Auto update: $(date +%Y-%m-%d)"
+          git push

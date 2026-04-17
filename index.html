@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎮 游戏行业看板 - 在线版</title>
+  <title>🎮 游戏行业看板</title>
   <style>
     :root {
       --bg: #0d0f1a;
@@ -47,10 +47,6 @@
       min-height: 100vh;
     }
 
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--surface); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
     /* ── Header ── */
     header {
       background: var(--surface);
@@ -63,370 +59,910 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      backdrop-filter: blur(12px);
     }
-    .header-left { display: flex; align-items: center; gap: 12px; }
-    .header-logo { font-size: 22px; }
-    .header-title { font-size: 16px; font-weight: 700; }
-    .header-sub {
-      font-size: 11px; color: var(--accent3);
-      background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.3);
-      padding: 2px 8px; border-radius: 6px;
-    }
-    .header-right { display: flex; align-items: center; gap: 10px; }
 
-    /* ── Container ── */
-    .container { max-width: 1400px; margin: 0 auto; padding: 20px 24px; }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #7c6cf8, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-    /* ── Control Bar ── */
-    .control-bar {
-      display: flex; align-items: center; gap: 16px;
-      margin-bottom: 20px; flex-wrap: wrap;
+    .logo-icon { font-size: 24px; }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
-    .date-nav {
-      display: flex; align-items: center;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; overflow: hidden;
+
+    .date-badge {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--text2);
     }
-    .date-nav button {
-      background: none; border: none; color: var(--text2);
-      padding: 8px 14px; cursor: pointer; font-size: 14px;
-      transition: background 0.2s;
+
+    .date-badge span { color: var(--accent3); font-weight: 600; }
+
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 4px;
     }
-    .date-nav button:hover { background: var(--surface2); color: var(--text); }
-    .date-display {
-      padding: 8px 16px; font-size: 14px; font-weight: 600;
-      color: var(--accent3); border-left: 1px solid var(--border);
-      border-right: 1px solid var(--border); min-width: 160px;
-      text-align: center; cursor: pointer; transition: background 0.2s;
-    }
-    .date-display:hover { background: var(--surface2); }
-    .date-input-wrap { position: relative; }
-    .date-input {
-      position: absolute; opacity: 0; width: 160px; height: 40px; cursor: pointer;
-    }
-    .tab-bar {
-      display: flex; background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; overflow: hidden;
-    }
+
     .tab-btn {
-      padding: 8px 20px; border: none; background: none; color: var(--text2);
-      font-size: 13px; cursor: pointer; transition: all 0.2s;
-      border-right: 1px solid var(--border);
-    }
-    .tab-btn:last-child { border-right: none; }
-    .tab-btn:hover { background: var(--surface2); color: var(--text); }
-    .tab-btn.active { background: var(--accent); color: white; font-weight: 600; }
-    .data-range {
-      margin-left: auto; font-size: 12px; color: var(--text3); align-self: center;
+      padding: 6px 20px;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
     }
 
-    /* ── Search Box ── */
-    .search-wrap {
-      position: relative;
-      margin-bottom: 12px;
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
     }
-    .search-row {
-      display: flex; gap: 8px; align-items: center;
+
+    .tab-btn:hover:not(.active) {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    /* ── Search Bar ── */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
     }
     .search-input-wrap {
-      position: relative; flex: 1;
+      position: relative;
+      flex: 1;
+      min-width: 200px;
     }
     .search-input {
       width: 100%;
-      background: var(--surface);
+      background: var(--surface2);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 9px 16px 9px 38px;
+      border-radius: 8px;
       color: var(--text);
       font-size: 13px;
+      padding: 8px 36px 8px 12px;
+      font-family: inherit;
       outline: none;
       transition: border-color 0.2s;
     }
-    .search-input::placeholder { color: var(--text3); }
     .search-input:focus { border-color: var(--accent); }
-    .search-icon {
-      position: absolute; left: 12px; top: 50%;
+    .search-input::placeholder { color: var(--text3); }
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
       transform: translateY(-50%);
-      font-size: 14px; pointer-events: none;
+      background: none;
+      border: none;
+      color: var(--text3);
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      padding: 4px;
+      display: none;
     }
-    .search-date-wrap {
-      display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
-      margin-top: 6px;
+    .search-clear.show { display: block; }
+    .date-range {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .search-date-label { font-size: 12px; color: var(--text3); white-space: nowrap; }
-    .search-date-input {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 8px; padding: 6px 10px; color: var(--text);
-      font-size: 12px; outline: none; cursor: pointer;
+    .date-range input {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 12px;
+      padding: 7px 10px;
+      font-family: inherit;
+      outline: none;
       transition: border-color 0.2s;
+      cursor: pointer;
+      color-scheme: dark;
     }
-    .search-date-input:focus { border-color: var(--accent); }
-    .search-date-input::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
-    .search-results-meta {
-      font-size: 11px; color: var(--text3); margin-bottom: 10px;
-      padding: 0 4px;
+    .date-range input:focus { border-color: var(--accent); }
+    .date-range span { color: var(--text3); font-size: 12px; }
+    .search-result-label {
+      font-size: 13px;
+      color: var(--accent3);
+      margin-bottom: 10px;
+      display: none;
     }
-    .search-clear-btn {
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 8px; padding: 6px 12px; color: var(--text2);
-      font-size: 12px; cursor: pointer; transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .search-clear-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ── Stats ── */
-    .stats {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px; margin-bottom: 20px;
-    }
-    .stat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 14px 18px;
-    }
-    .stat-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .stat-value { font-size: 26px; font-weight: 700; color: var(--text); }
-    .stat-sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
-
-    /* ── Filter Chips ── */
-    .filter-section { margin-bottom: 20px; }
-    .filter-row {
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-    }
-    .filter-label { font-size: 12px; color: var(--text3); }
-    .filter-chip {
-      padding: 5px 14px; border-radius: 20px; font-size: 12px;
-      cursor: pointer; border: 1px solid var(--border); background: var(--surface);
-      color: var(--text2); transition: all 0.2s; user-select: none;
-    }
-    .filter-chip:hover { border-color: var(--accent); color: var(--accent); }
-    .filter-chip.active { background: rgba(124,108,248,0.15); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+    .search-result-label.show { display: block; }
 
     /* ── Main Layout ── */
-    .main-layout {
-      display: grid; grid-template-columns: 1fr 340px; gap: 20px;
-    }
-    @media (max-width: 960px) {
-      .main-layout { grid-template-columns: 1fr; }
-    }
-
-    /* ── Cards ── */
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-    }
-    .card-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 20px; border-bottom: 1px solid var(--border);
-      background: rgba(0,0,0,0.2);
-    }
-    .card-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
-    .card-count { font-size: 11px; color: var(--text3); }
-
-    /* ── News Grid ── */
-    .news-grid { display: flex; flex-direction: column; }
-    .news-item {
-      display: flex; gap: 14px; padding: 14px 20px;
-      border-bottom: 1px solid rgba(42,47,74,0.5);
-      cursor: pointer; transition: background 0.15s;
-    }
-    .news-item:last-child { border-bottom: none; }
-    .news-item:hover { background: rgba(124,108,248,0.05); }
-    .news-rank {
-      font-size: 20px; font-weight: 700; color: var(--text3);
-      min-width: 32px; text-align: center; line-height: 1.2;
-    }
-    .news-rank.top1 { color: #fbbf24; }
-    .news-rank.top2 { color: #94a3b8; }
-    .news-rank.top3 { color: #cd7f32; }
-    .news-content { flex: 1; min-width: 0; }
-    .news-title {
-      font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.5;
-      margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .news-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .news-tag {
-      font-size: 10px; padding: 1px 8px; border-radius: 10px; font-weight: 600;
-    }
-    .tag-手游 { background: rgba(59,130,246,0.15); color: #60a5fa; }
-    .tag-端游 { background: rgba(124,108,248,0.15); color: #a78bfa; }
-    .tag-电竞 { background: rgba(34,211,238,0.15); color: #22d3ee; }
-    .tag-行业 { background: rgba(52,211,153,0.15); color: #34d399; }
-    .tag-IP { background: rgba(249,115,22,0.15); color: #f97316; }
-    .news-source { font-size: 11px; color: var(--text3); }
-    .news-hot { display: flex; align-items: center; gap: 3px; font-size: 11px; color: var(--red); margin-left: auto; }
-    : 1px solid rgba(34,211,238,0.25);
-      border-radius: 6px; padding: 1px 8px; text-decoration: none;
-      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px 24px;
     }
 
-    .news-item.search-result { gap: 10px; }
-    .news-item.search-result .news-rank { font-size: 13px; min-width: auto; color: var(--text3); align-self: flex-start; }
-    .news-date-badge {
-      font-size: 10px; color: var(--accent3); background: rgba(34,211,238,0.1);
-      border: 1px solid rgba(34,211,238,0.3); border-radius: 6px;
-      padding: 1px 6px; white-space: nowrap; align-self: flex-start; margin-top: 2px;
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── Stats Bar ── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
     }
 
-    /* ── Game Events View ── */
-    #eventsView { display: none; }
+    @media (max-width: 1100px) {
+      .stats-bar { grid-template-columns: repeat(3, 1fr); }
+    }
 
-    /* Calendar ── */
-    .cal-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px 6px; }
-    .cal-month { font-size: 13px; font-weight: 600; }
-    .cal-nav-btn {
-      background: var(--surface); border: 1px solid var(--border); color: var(--text2);
-      padding: 3px 10px; border-radius: 6px; font-size: 12px;
-      cursor: pointer; transition: all 0.2s;
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color 0.2s;
     }
-    .cal-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .cal-grid {
-      display: grid; grid-template-columns: repeat(7, 1fr);
-      gap: 2px; padding: 4px 8px 8px;
-    }
-    .cal-weekday { text-align: center; font-size: 10px; color: var(--text3); padding: 4px; font-weight: 600; }
-    .cal-day {
-      min-height: 58px; display: flex; flex-direction: column;
-      align-items: flex-start; justify-content: flex-start; border-radius: 8px;
-      cursor: pointer; transition: all 0.15s; font-size: 11px;
-      border: 1px solid transparent; padding: 5px 4px 4px;
-      overflow: hidden;
-    }
-    .cal-day:hover { background: var(--surface2); border-color: var(--border); }
-    .cal-day.other-month { opacity: 0.3; }
-    .cal-day.today { border-color: var(--accent3); }
-    .cal-day.has-data { background: rgba(124,108,248,0.08); }
-    .cal-day-num { line-height: 1; color: var(--text2); font-size: 11px; margin-bottom: 3px; }
-    .cal-day.today .cal-day-num { color: var(--accent3); font-weight: 700; }
-    .cal-event-row { display: flex; align-items: center; gap: 2px; width: 100%; margin-bottom: 1px; }
-    .cal-event-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-    .cal-event-name {
-      font-size: 9px; color: var(--text2); font-weight: 500;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      line-height: 1.3;
-    }
-    .cal-more { font-size: 9px; color: var(--text3); padding-left: 7px; line-height: 1.3; }
-    .dot-test { background: #60a5fa; }
-    .dot-release { background: var(--accent2); }
-    .dot-anniversary { background: #fbbf24; }
-    [data-theme="light"] .dot-test { background: #2563eb; }
-    [data-theme="light"] .dot-release { background: #ea580c; }
-    [data-theme="light"] .dot-anniversary { background: #d97706; }
-    .cal-legend { display: flex; gap: 16px; justify-content: center; padding: 8px 12px 10px; flex-wrap: wrap; }
-    .cal-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); }
-    .cal-legend-pip { width: 28px; height: 8px; border-radius: 4px; }
-    .pip-test { background: #60a5fa; }
-    .pip-release { background: var(--accent2); }
-    .pip-anniversary { background: #fbbf24; }
-    [data-theme="light"] .pip-test { background: #2563eb; }
-    [data-theme="light"] .pip-release { background: #ea580c; }
-    [data-theme="light"] .pip-anniversary { background: #d97706; }
 
-    /* ── Event Groups ── */
-    .event-groups { padding: 0; }
-    .event-group { border-bottom: 1px solid rgba(42,47,74,0.5); }
-    .event-group:last-child { border-bottom: none; }
-    .event-group-header {
-      display: flex; align-items: center; gap: 8px;
-      padding: 12px 20px; cursor: pointer;
-      background: rgba(0,0,0,0.15);
-      transition: background 0.15s;
-    }
-    .event-group-header:hover { background: rgba(124,108,248,0.06); }
-    .event-group-icon { font-size: 16px; }
-    .event-group-title { font-size: 13px; font-weight: 600; }
-    .event-group-count { font-size: 11px; color: var(--text3); margin-left: auto; padding-right: 4px; }
-    .event-group-toggle { font-size: 12px; color: var(--text3); transition: transform 0.2s; }
-    .event-group-toggle.open { transform: rotate(180deg); }
-    .event-group-items { display: none; }
-    .event-group-items.open { display: block; }
-    .event-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 20px 10px 32px;
-      border-bottom: 1px solid rgba(42,47,74,0.3);
-      cursor: pointer; transition: background 0.15s;
-    }
-    .event-item:last-child { border-bottom: none; }
-    .event-item:hover { background: rgba(124,108,248,0.04); }
-    .event-badge {
-      width: 26px; height: 26px; border-radius: 7px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 700; flex-shrink: 0;
-    }
-    .badge-test { background: rgba(96,165,250,0.15); color: #60a5fa; }
-    .badge-release { background: rgba(249,115,22,0.15); color: var(--accent2); }
-    .badge-update { background: rgba(52,211,153,0.15); color: var(--green); }
-    .event-info { flex: 1; min-width: 0; }
-    .event-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .event-meta { font-size: 11px; color: var(--text3); }
-    .event-date { font-size: 11px; color: var(--accent3); font-weight: 600; white-space: nowrap; }
+    .stat-card:hover { border-color: var(--accent); }
 
-    /* ── Events Stats Bar ── */
-    .events-stats {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .si-purple { background: rgba(124,108,248,0.15); }
+    .si-orange { background: rgba(249,115,22,0.15); }
+    .si-cyan { background: rgba(34,211,238,0.15); }
+    .si-green { background: rgba(52,211,153,0.15); }
+    .si-yellow { background: rgba(251,191,36,0.15); }
+
+    .stat-info { min-width: 0; }
+    .stat-num { font-size: 24px; font-weight: 700; line-height: 1; }
+    .stat-label { font-size: 12px; color: var(--text3); margin-top: 4px; }
+    .sn-purple { color: var(--accent); }
+    .sn-orange { color: var(--accent2); }
+    .sn-cyan { color: var(--accent3); }
+    .sn-green { color: var(--green); }
+    .sn-yellow { color: var(--yellow); }
+
+    /* ── News List ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-bottom: 16px;
     }
-    .event-stat-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px 16px;
-      text-align: center; cursor: pointer; transition: all 0.2s;
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .event-stat-card:hover { border-color: var(--accent); }
-    .event-stat-card.active { border-color: var(--accent); background: rgba(124,108,248,0.08); }
-    [data-theme="light"] .event-stat-card.active { background: rgba(108,92,231,0.07); }
-    .event-stat-icon { font-size: 18px; margin-bottom: 4px; }
-    .event-stat-label { font-size: 11px; color: var(--text3); margin-bottom: 2px; }
-    .event-stat-value { font-size: 22px; font-weight: 700; color: var(--text); }
 
-    /* ── Empty State ── */
-    .empty-state { text-align: center; padding: 48px 24px; color: var(--text3); }
-    .empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
-    .empty-state p { font-size: 14px; }
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
 
-    /* ── Loading ── */
-    .loading-state { display: flex; align-items: center; justify-content: center; padding: 48px; gap: 10px; color: var(--text3); font-size: 14px; }
-    .spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .filter-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-chip {
+      padding: 4px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text2);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .news-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .news-card.cat-手游::before { background: var(--accent); }
+    .news-card.cat-端游::before { background: var(--accent2); }
+    .news-card.cat-电竞::before { background: var(--accent3); }
+    .news-card.cat-行业::before { background: var(--green); }
+    .news-card.cat-IP::before { background: var(--yellow); }
+
+    .news-card:hover {
+      border-color: var(--accent);
+      background: var(--surface2);
+      transform: translateY(-1px);
+    }
+
+    .news-rank {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .rank-1 { background: linear-gradient(135deg, #fbbf24, #f97316); color: #fff; }
+    .rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); color: #fff; }
+    .rank-3 { background: linear-gradient(135deg, #d97706, #92400e); color: #fff; }
+    .rank-other { background: var(--surface2); color: var(--text3); }
+
+    .news-body { flex: 1; min-width: 0; }
+
+    .news-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .news-source {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+
+    .tag-手游 { background: rgba(124,108,248,0.2); color: #a5a0ff; }
+    .tag-端游 { background: rgba(249,115,22,0.2); color: #fba06a; }
+    .tag-电竞 { background: rgba(34,211,238,0.2); color: #67e8f9; }
+    .tag-行业 { background: rgba(52,211,153,0.2); color: #6ee7b7; }
+    .tag-IP { background: rgba(251,191,36,0.2); color: #fcd34d; }
+
+    .hot-badge {
+      font-size: 11px;
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    /* ── Date Picker Bar ── */
+    .date-picker-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 32px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .date-picker-label { font-size: 13px; color: var(--text3); white-space: nowrap; font-weight: 500; }
+    .date-picker-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+    .dchip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text2);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dchip:hover { border-color: var(--accent); color: var(--accent); }
+    .dchip.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 500; }
+
+    /* ── Section Divider ── */
+    .section-divider {
+      height: 12px;
+    }
+
+    /* ── Custom Date Picker ── */
+    .date-picker-custom {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .date-picker-custom input[type="date"] {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text);
+      font-size: 12px;
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+    .date-picker-custom input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.7);
+      cursor: pointer;
+    }
+    .custom-date-btn {
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text2);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .custom-date-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Footer Note ── */
+    .news-footer-note {
+      margin-top: 16px;
+      padding: 10px 16px;
+      background: rgba(124,108,248,0.06);
+      border: 1px solid rgba(124,108,248,0.2);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text3);
+      text-align: center;
+    }
+
+    /* ── Calendar View ── */
+    .calendar-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cal-title { font-size: 18px; font-weight: 700; }
+    .cal-subtitle { font-size: 13px; color: var(--text3); margin-top: 2px; }
+
+    .cal-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cal-nav-btn {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .cal-nav-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .cal-month-label {
+      font-size: 16px;
+      font-weight: 600;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cal-weekday {
+      padding: 12px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text3);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .cal-weekday:first-child, .cal-weekday:last-child {
+      color: var(--accent);
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    .cal-cell {
+      min-height: 110px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 8px;
+      cursor: default;
+      transition: background 0.15s;
+      position: relative;
+    }
+
+    .cal-cell:nth-child(7n) { border-right: none; }
+
+    .cal-cell:hover { background: var(--surface2); }
+
+    .cal-cell.other-month { opacity: 0.3; }
+
+    .cal-cell.today {
+      background: rgba(124,108,248,0.08);
+    }
+
+    .cal-cell.today .cal-day-num {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .cal-day-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text2);
+    }
+
+    .cal-cell.weekend .cal-day-num {
+      color: var(--accent);
+    }
+
+    .game-pill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      margin-bottom: 3px;
+      cursor: pointer;
+      transition: all 0.15s;
+      line-height: 1.3;
+      overflow: hidden;
+    }
+
+    .game-pill:hover { filter: brightness(1.2); transform: scale(1.02); }
+
+    .gp-major {
+      background: rgba(124,108,248,0.25);
+      color: #c4b5fd;
+      border: 1px solid rgba(124,108,248,0.4);
+    }
+
+    .gp-mid {
+      background: rgba(249,115,22,0.2);
+      color: #fdba74;
+      border: 1px solid rgba(249,115,22,0.3);
+    }
+
+    .gp-minor {
+      background: rgba(234,179,8,0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(234,179,8,0.25);
+    }
+
+    .gp-test {
+      background: rgba(59,130,246,0.12);
+      color: #60a5fa;
+      border: 1px solid rgba(59,130,246,0.25);
+    }
+
+    .gp-release {
+      background: rgba(249,115,22,0.12);
+      color: #fb923c;
+      border: 1px solid rgba(249,115,22,0.25);
+    }
+
+    [data-theme="light"] .gp-minor {
+      background: rgba(217,119,6,0.1);
+      color: #d97706;
+      border-color: rgba(217,119,6,0.2);
+    }
+    [data-theme="light"] .gp-test {
+      background: rgba(37,99,235,0.1);
+      color: #2563eb;
+      border-color: rgba(37,99,235,0.2);
+    }
+    [data-theme="light"] .gp-release {
+      background: rgba(249,115,22,0.1);
+      color: #ea580c;
+      border-color: rgba(249,115,22,0.2);
+    }
+
+    
+
+    .more-pill {
+      font-size: 11px;
+      color: var(--text3);
+      padding: 2px 4px;
+      cursor: pointer;
+    }
+
+    /* ── Game List beside calendar ── */
+    .calendar-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+    }
+
+    .game-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .sidebar-title {
+      padding: 14px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-list { padding: 8px 0; }
+
+    .sidebar-item {
+      padding: 10px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-bottom: 1px solid rgba(42,47,74,0.5);
+    }
+
+    .sidebar-item:last-child { border-bottom: none; }
+    .sidebar-item:hover { background: var(--surface2); }
+
+    .si-date {
+      width: 40px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .sid-month { font-size: 10px; color: var(--text3); text-transform: uppercase; }
+    .sid-day { font-size: 20px; font-weight: 700; color: var(--accent); line-height: 1; }
+    .sid-week { font-size: 10px; color: var(--text3); }
+
+    .si-info { flex: 1; min-width: 0; }
+    .sin-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .sin-meta { font-size: 11px; color: var(--text3); display: flex; gap: 6px; }
+
+    .level-badge {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* 手游/端游标签颜色 */
+    .lb-mobile { background: rgba(124,108,248,0.2); color: #a5a0ff; }
+    .lb-pc { background: rgba(34,211,238,0.15); color: #67e8f9; }
+    .lb-test { background: rgba(52,211,153,0.15); color: #6ee7b7; }
+    .lb-other { background: rgba(148,163,184,0.2); color: #94a3b8; }
+
+    /* ── Legend ── */
+    .cal-legend {
+      display: flex;
+      gap: 16px;
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── Calendar Stats Bar ── */
+    .cal-stats-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 32px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .cal-cat-filter {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .cal-cat-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text2);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .cal-cat-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .cal-cat-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .cal-stat-item {
+      text-align: center;
+      padding: 6px 14px;
+      background: var(--surface2);
+      border-radius: 8px;
+    }
+
+    .cal-stat-num {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .cal-stat-label {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    .cs-orange { color: #f97316; }
+    .cs-green { color: #34d399; }
+    .cs-cyan { color: #22d3ee; }
+    .cs-yellow { color: #fbbf24; }
+      background: var(--surface2);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 3px;
+    }
+
+    /* ── Sidebar Category Chips ── */
+    .cal-cat-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px 16px;
+    }
+    .cal-chip {
+      padding: 5px 12px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text2);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .cal-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .cal-chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
 
     /* ── Modal ── */
     .modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
-      z-index: 200; align-items: center; justify-content: center; padding: 24px;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
     }
-    .modal-overlay.active { display: flex; }
-    .modal {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 16px; max-width: 580px; width: 100%; max-height: 80vh;
-      overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    }
-    .modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 24px; border-bottom: 1px solid var(--border);
-    }
-    .modal-title { font-size: 15px; font-weight: 600; }
-    .modal-close { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 22px; transition: color 0.2s; }
-    .modal-close:hover { color: var(--text); }
-    .modal-body { padding: 20px 24px; }
-    .modal-news-title { font-size: 17px; font-weight: 700; line-height: 1.4; margin-bottom: 12px; }
-    .modal-news-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-    .modal-news-content { font-size: 14px; line-height: 1.8; color: var(--text2); }
-    .modal-game-row { display: flex; padding: 10px 0; border-bottom: 1px solid rgba(42,47,74,0.5); font-size: 14px; align-items: center; }
-    .modal-game-row:last-child { border-bottom: none; }
-    .modal-game-label { color: var(--text3); width: 80px; flex-shrink: 0; }
-    .modal-game-value { color: var(--text); }
-    .modal-game-link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--accent3); text-decoration: none; padding: 2px 8px; border-radius: 6px; background: rgba(34,211,238,0.08); border: 1px solid rgba(34,211,238,0.2); margin-right: 6px; transition: all 0.15s; }
-    .modal-game-link:hover { background: rgba(34,211,238,0.15); border-color: var(--accent3); }
 
-    /* ── Toast ── */
-    .toast {
-      position: fixed; bottom: 24px; right: 24px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px 20px; font-size: 13px;
-      z-index: 300; display: none; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
     }
-    .toast.show { display: block; animation: slideIn 0.3s ease; }
-    @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      width: 460px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+      transform: scale(0.95);
+      transition: transform 0.2s;
+    }
+
+    .modal-overlay.open .modal {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      float: right;
+      background: none;
+      border: none;
+      color: var(--text3);
+      font-size: 20px;
+      cursor: pointer;
+      line-height: 1;
+      margin-top: -4px;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal-tag { display: inline-block; margin-bottom: 10px; }
+    .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+    .modal-meta { font-size: 13px; color: var(--text3); margin-bottom: 16px; }
+    .modal-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+    .modal-body { font-size: 14px; line-height: 1.8; color: var(--text2); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .stats-bar { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 1024px) {
+      .calendar-layout { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: repeat(3, 1fr); }
+      .news-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      header { padding: 0 16px; }
+      .tab-nav { display: none; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      main { padding: 16px; }
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .view.active .news-card,
+    .view.active .stat-card {
+      animation: fadeIn 0.3s ease both;
+    }
+
+    .view.active .news-card:nth-child(1) { animation-delay: 0.02s; }
+    .view.active .news-card:nth-child(2) { animation-delay: 0.04s; }
+    .view.active .news-card:nth-child(3) { animation-delay: 0.06s; }
+    .view.active .news-card:nth-child(4) { animation-delay: 0.08s; }
+    .view.active .news-card:nth-child(5) { animation-delay: 0.10s; }
+    .view.active .news-card:nth-child(6) { animation-delay: 0.12s; }
+
+    .mobile-tabs {
+      display: none;
+      padding: 16px;
+      gap: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .mobile-tabs { display: flex; }
+    }
 
     /* ── Page Footer ── */
     .page-footer {
@@ -438,907 +974,886 @@
       border-top: 1px solid var(--border);
       background: var(--surface);
     }
+    [data-theme="light"] .page-footer { background: var(--surface); }
   </style>
 </head>
 <body>
 
-<!-- Header -->
+<!-- ── Header ── -->
 <header>
-  <div class="header-left">
-    <span class="header-logo">🎮</span>
-    <span class="header-title">游戏行业看板</span>
-    <span class="header-sub">在线版</span>
+  <div class="logo">
+    <span class="logo-icon">🎮</span>
+    游戏行业看板
   </div>
-  <div class="header-right">
-    <span id="lastUpdated" style="font-size:12px;color:var(--text3)"></span>
-    <button id="themeToggle" onclick="toggleTheme()" title="切换主题" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:4px;color:var(--text2);transition:all 0.2s;">
-      <span id="themeIcon">🌙</span>
-      <span id="themeLabel" style="font-size:11px;">深色</span>
+  <div class="header-meta">
+    <div class="date-badge" id="todayBadge">4月17日</div>
+    <nav class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('news', this)">📰 热点新闻</button>
+      <button class="tab-btn" onclick="switchTab('calendar', this)">📅 上线日历</button>
+    </nav>
+    <button id="themeToggle" onclick="toggleTheme()" title="切换主题" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:4px;color:var(--text2);transition:all 0.2s;margin-left:8px;">
+      <span id="themeIcon">☀️</span>
+      <span id="themeLabel" style="font-size:11px;">浅色</span>
     </button>
   </div>
 </header>
 
-<div class="container">
+<!-- ── Mobile Tabs ── -->
+<div class="mobile-tabs">
+  <button class="tab-btn active" onclick="switchTab('news', this)" style="flex:1">📰 热点新闻</button>
+  <button class="tab-btn" onclick="switchTab('calendar', this)" style="flex:1">📅 上线日历</button>
+</div>
 
-  <!-- Control Bar -->
-  <div class="control-bar">
-    <div id="dateNavBar">
-      <div class="date-nav">
-        <button onclick="changeDate(-1)" title="前一天">◀</button>
-        <div class="date-display" id="dateDisplay" onclick="document.getElementById('dateInput').click()">
-          <span id="dateLabel">加载中…</span>
-        </div>
-        <button onclick="changeDate(1)" title="后一天">▶</button>
+<main>
+
+  <!-- ═══════════════ NEWS VIEW ═══════════════ -->
+  <div id="view-news" class="view active">
+
+    <!-- 日期选择栏 - 默认显示当日新闻 -->
+    <div class="date-picker-bar" id="datePickerBar">
+      <span class="date-picker-label">📅 选择日期</span>
+      <div class="date-picker-custom">
+        <input type="date" id="customDatePicker" onchange="onCustomDateSelect(this.value)" />
+        <button class="custom-date-btn" onclick="document.getElementById('customDatePicker').showPicker?.() || document.getElementById('customDatePicker').focus()">📅 自选</button>
       </div>
-      <div class="date-input-wrap">
-        <input type="date" id="dateInput" class="date-input" onchange="selectDate(this.value)">
-      </div>
+      <div class="date-picker-chips" id="datePickerChips"></div>
     </div>
 
-    <div class="tab-bar">
-      <button class="tab-btn active" id="tabDaily" onclick="switchTab('daily', this)">📰 游戏新闻日报</button>
-      <button class="tab-btn" id="tabEvents" onclick="switchTab('events', this)">🎮 游戏大事件</button>
-    </div>
-    <div class="data-range" id="dataRange"></div>
-  </div>
-
-  <!-- ════════════════════════════════════════ -->
-  <!--  DAILY VIEW (日报)                       -->
-  <!-- ════════════════════════════════════════ -->
-  <div id="dailyPanel">
-
-    <!-- Search Box -->
-    <div class="search-wrap">
-      <div class="search-row">
-        <div class="search-input-wrap">
-          <span class="search-icon">🔍</span>
-          <input
-            type="text"
-            class="search-input"
-            id="searchInput"
-            placeholder="搜索全部365天内的热点新闻…"
-            autocomplete="off"
-          />
-        </div>
-        <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()" style="display:none">清除搜索</button>
-      </div>
-      <div class="search-date-wrap">
-        <span class="search-date-label">时间范围</span>
-        <input type="date" class="search-date-input" id="searchDateFrom" onchange="onSearchDateChange()" />
-        <span class="search-date-label">至</span>
-        <input type="date" class="search-date-input" id="searchDateTo" onchange="onSearchDateChange()" />
-      </div>
-    </div>
+    <div class="section-divider"></div>
 
     <!-- Stats -->
-    <div class="stats" id="stats"></div>
+    <div class="stats-bar" id="newsStatsBar"></div>
 
-    <!-- Category Filters -->
-    <div class="filter-section">
-      <div class="filter-row" id="catFilters"></div>
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <div class="search-input-wrap">
+        <input class="search-input" id="newsSearchInput" type="text" placeholder="🔍 搜索关键词…" oninput="onNewsSearchInput(event)" />
+        <button class="search-clear" id="newsSearchClear" onclick="clearNewsSearch()">×</button>
+      </div>
+      <div class="date-range">
+        <span>日期:</span>
+        <input type="date" id="newsDateFrom" onchange="onNewsDateChange()" />
+        <span>至</span>
+        <input type="date" id="newsDateTo" onchange="onNewsDateChange()" />
+      </div>
+    </div>
+    <div class="search-result-label" id="newsSearchLabel"></div>
+
+    <!-- Filter + News List -->
+    <div class="section-header">
+      <div class="section-title" id="newsSectionTitle">当日新闻</div>
+      <div class="filter-row" id="filterRow">
+        <button class="filter-chip active" onclick="filterNews('all', this)">全部</button>
+        <button class="filter-chip" onclick="filterNews('手游', this)">手游</button>
+        <button class="filter-chip" onclick="filterNews('端游', this)">端游</button>
+        <button class="filter-chip" onclick="filterNews('电竞', this)">电竞</button>
+        <button class="filter-chip" onclick="filterNews('行业', this)">行业</button>
+        <button class="filter-chip" onclick="filterNews('IP', this)">IP/动漫</button>
+      </div>
     </div>
 
-    <!-- News List -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">
-          <span>📰</span>
-          <span id="newsListTitle">热点新闻</span>
+    <div class="news-grid" id="newsGrid"></div>
+  </div>
+
+  <!-- ═══════════════ CALENDAR VIEW ═══════════════ -->
+  <div id="view-calendar" class="view">
+    <div class="calendar-layout">
+      <!-- Calendar -->
+      <div>
+        <div class="calendar-container">
+          <div class="cal-header">
+            <div>
+              <div class="cal-title" id="calTitle">2026年 4月</div>
+              <div class="cal-subtitle">游戏上线日历</div>
+            </div>
+            <div class="cal-nav">
+              <button class="cal-nav-btn" onclick="changeMonth(-1)">‹</button>
+              <div class="cal-month-label" id="calMonthLabel">2026年4月</div>
+              <button class="cal-nav-btn" onclick="changeMonth(1)">›</button>
+            </div>
+          </div>
+          <div class="cal-weekdays">
+            <div class="cal-weekday">日</div>
+            <div class="cal-weekday">一</div>
+            <div class="cal-weekday">二</div>
+            <div class="cal-weekday">三</div>
+            <div class="cal-weekday">四</div>
+            <div class="cal-weekday">五</div>
+            <div class="cal-weekday">六</div>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>📦 公测/上线</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>🧪 测试</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div>🎉 周年庆</div>
+          </div>
         </div>
-        <span class="card-count" id="newsCount"></span>
       </div>
-      <div id="newsList" class="news-grid">
-        <div class="loading-state"><div class="spinner"></div>加载数据…</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ════════════════════════════════════════ -->
-  <!--  EVENTS VIEW (游戏大事件)                -->
-  <!-- ════════════════════════════════════════ -->
-  <div id="eventsView">
-
-    <!-- Quick Stats: 3 group totals -->
-    <div class="events-stats" id="eventsStats"></div>
-
-    <!-- Calendar -->
-    <div class="card" style="margin-bottom: 16px;">
-      <div class="card-header">
-        <div class="card-title">📅 大事件日历</div>
-      </div>
-      <div class="cal-header">
-        <button class="cal-nav-btn" onclick="changeCalMonth(-1)">◀</button>
-        <span class="cal-month" id="calMonthLabel"></span>
-        <button class="cal-nav-btn" onclick="changeCalMonth(1)">▶</button>
-      </div>
-      <div class="cal-grid" id="calendarGrid"></div>
-      <div class="cal-legend">
-        <div class="cal-legend-item"><div class="cal-legend-pip pip-test"></div>🧪 测试</div>
-        <div class="cal-legend-item"><div class="cal-legend-pip pip-release"></div>📦 公测上线</div>
-        <div class="cal-legend-item"><div class="cal-legend-pip pip-anniversary"></div>🎉 周年庆</div>
-      </div>
-    </div>
-
-    <!-- Grouped Event List -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">
-          <span>📋</span>
-          <span id="eventsListTitle">大事件列表</span>
+      <!-- Sidebar -->
+      <div class="game-sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">📊 月度统计</div>
+          <div style="padding:16px">
+            <div id="calStatsGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px"></div>
+          </div>
         </div>
-        <span class="card-count" id="eventsCount"></span>
-      </div>
-      <div id="eventGroups" class="event-groups">
-        <div class="loading-state"><div class="spinner"></div></div>
+        <div class="sidebar-section">
+          <div class="sidebar-title">🏷️ 分类筛选</div>
+          <div class="cal-cat-chips" id="calCatChips">
+            <button class="cal-chip active" onclick="filterSidebarCat('all', this)">全部</button>
+            <button class="cal-chip" onclick="filterSidebarCat('上线', this)">📦 公测/上线</button>
+            <button class="cal-chip" onclick="filterSidebarCat('测试', this)">🧪 测试</button>
+            <button class="cal-chip" onclick="filterSidebarCat('周年庆', this)">🎉 周年庆</button>
+          </div>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-title">⭐ 本月重点关注</div>
+          <div class="sidebar-list" id="upcomingList"></div>
+        </div>
       </div>
     </div>
   </div>
 
-</div>
+</main>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="modalTitle">详情</div>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
+<!-- ── Modal ── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
   </div>
 </div>
-
-<!-- Toast -->
-<div class="toast" id="toast"></div>
 
 <script>
-// ════════════════════════════════════════════════════
-//  STATE
-// ════════════════════════════════════════════════════
-const allData = {};            // date -> { date, dayLabel, news[] }
-const availableDates = [];     // sorted list of available date strings
-let currentDate = '';          // 'YYYY-MM-DD'
-let currentFilter = 'all';     // 'all' | category string
-let currentView = 'daily';     // 'daily' | 'events'
-let currentCalMonth = 0;       // offset from current month
-let currentEventFilter = 'all'; // 'all' | 'test' | 'release' | 'update'
-let allGames = [];             // 全局游戏大事件数据（从 data/games.json 加载）
-let searchQuery = '';          // 当前搜索关键词
-let searchIndex = [];          // [{ date, dayLabel, ...news }]
-let searchDebounceTimer = null;
-let searchDateFrom = '';       // 搜索起始日期
-let searchDateTo = '';         // 搜索截止日期
+// ══════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════
 
-// ════════════════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════════════════
-async function init() {
-  await loadAllData();
-  await loadGamesData();
-  buildSearchIndex();
-  const today = new Date();
-  const todayStr = formatDate(today);
+// ══════════════════════════════════════
+//  DATA - 从 GitHub 实时加载
+// ══════════════════════════════════════
 
-  // 设置搜索日期筛选器（全部365天）
-  const yearAgo = new Date(today);
-  yearAgo.setFullYear(today.getFullYear() - 1);
-  const fromStr = formatDate(yearAgo);
-  document.getElementById('searchDateFrom').value = fromStr;
-  document.getElementById('searchDateFrom').max = todayStr;
-  document.getElementById('searchDateTo').value = todayStr;
-  document.getElementById('searchDateTo').max = todayStr;
-  searchDateFrom = fromStr;
-  searchDateTo = todayStr;
+// ⚠️ 部署后替换为你的仓库地址
+const DATA_BASE = 'https://raw.githubusercontent.com/Liulan1104/game-board/main/data';
 
-  currentDate = availableDates.includes(todayStr) ? todayStr : availableDates[availableDates.length - 1];
-  currentCalMonth = 0;
+// ── 内嵌备用数据（当GitHub加载失败时使用）──
+const fallbackNewsDataRaw = {
+  '2026-04-16': [
+    { rank: 1, cat: '手游', source: '抖音热搜 #1', title: '《王者荣耀世界》预热PV发布3小时破亿播放，全民期待', company: '腾讯天美', hot: '1.2亿播放', detail: '腾讯天美发布《王者荣耀世界》公测前终极预热PV，上线3小时内B站+抖音双平台播放量突破1.2亿，成为2026年最受期待的手游。', url: '' },
+    { rank: 2, cat: '电竞', source: 'LPL官方', title: '2026LPL春季赛半决赛BLG 3:1战胜JDG，决赛对阵WBG', company: 'LPL赛事', hot: '半决赛战报', detail: '2026年LPL春季赛半决赛，BLG以3:1击败JDG晋级决赛，将与WBG争夺冠军奖杯。', url: '' },
+    { rank: 3, cat: '手游', source: 'B站热搜 #5', title: '米哈游《绝区零》3周年版本直播创纪录，观看人数超800万', company: '米哈游', hot: '800万观看', detail: '《绝区零》三周年官方直播活动创下历史新高，同时在线观看人数超800万。', url: '' },
+    { rank: 4, cat: '手游', source: '网易官宣', title: '《逆水寒》手游2周年庆典开启，新资料片"天演之境"上线', company: '网易雷火', hot: '2周年庆典', detail: '《逆水寒》手游迎来2周年庆典，年度资料片"天演之境"同步上线。', url: '' },
+    { rank: 5, cat: '端游', source: 'Steam官方', title: '《霍格沃茨之遗》销量突破4000万，跨平台版本即将发售', company: '华纳兄弟', hot: 'Steam里程碑', detail: '《霍格沃茨之遗》Steam版销量正式突破4000万份。', url: '' },
+    { rank: 6, cat: '手游', source: 'B站热搜 #14', title: '《原神》4.7版本新角色"艾梅"演示发布，B站播放破千万', company: '米哈游', hot: '1200万播放', detail: '《原神》4.7版本新五星角色"艾梅"角色演示正式发布。', url: '' },
+    { rank: 7, cat: '行业', source: '央视新闻', title: '游戏产业首次纳入国家文化出口重点企业名单，15款游戏入选', company: '商务部', hot: '政策利好', detail: '商务部公布2026年国家文化出口重点企业和重点项目名单，《原神》《崩坏：星穹铁道》等15款国产游戏首次入选。', url: '' },
+    { rank: 8, cat: 'IP', source: '抖音热搜 #22', title: '《碧蓝航线》五周年动画预告发布，舰船拟人化再掀热潮', company: '蛮啾网络', hot: '340万热度', detail: '《碧蓝航线》五周年动画预告正式发布，将于年内上线B站独播。', url: '' },
+    { rank: 9, cat: '电竞', source: '微博热搜 #11', title: 'KPL春季赛决赛AG超玩会夺冠，赛后采访引发2亿阅读', company: 'KPL赛事', hot: '2亿阅读', detail: '2026年KPL春季赛决赛，AG超玩会以4:2击败对手夺得冠军。', url: '' },
+    { rank: 10, cat: '手游', source: '腾讯官宣', title: '《金铲铲之战》×《咒术回战》联动开启，五条领域登场', company: '腾讯TiMi', hot: '跨界联动', detail: '《金铲铲之战》与《咒术回战》联动正式开启。', url: '' },
+    { rank: 11, cat: '行业', source: '英伟达GTC大会', title: 'NVIDIA发布DLSS 4.0，游戏行业AI画质革命加速', company: 'NVIDIA', hot: '技术革新', detail: 'NVIDIA在GTC大会上正式发布DLSS 4.0技术。', url: '' },
+    { rank: 12, cat: '端游', source: 'Steam官方', title: '《怪物猎人：荒野》Steam在线峰值突破18万，好评率87%', company: '卡普空', hot: 'Steam热销', detail: '《怪物猎人：荒野》Steam版上线后在线峰值突破18万人。', url: '' },
+    { rank: 13, cat: '手游', source: '鹰角官宣', title: '《明日方舟：终末地》删档测试4月25日开启，招募进行中', company: '鹰角网络', hot: '测试招募', detail: '鹰角网络宣布《明日方舟：终末地》将于4月25日开启删档测试。', url: '' },
+    { rank: 14, cat: 'IP', source: '快看漫画', title: '《偷偷藏不住》动画电影立项，赵露思或将担任配音', company: '快看漫画', hot: '影视化动态', detail: '快看漫画宣布人气漫画《偷偷藏不住》动画电影正式立项。', url: '' },
+    { rank: 15, cat: '手游', source: 'B站热搜 #28', title: '《蓝色协议》国际服今日上线，Steam同时在线8万人', company: '万代南梦宫', hot: '国际服上线', detail: '万代南梦宫开发的日系MMORPG《蓝色协议》国际服正式上线。', url: '' },
+    { rank: 16, cat: '电竞', source: '守望先锋官宣', title: '《守望先锋》2026年全球总决赛落户上海，8月开战', company: '暴雪/网易', hot: '电竞盛事', detail: '暴雪与网易联合宣布2026年《守望先锋》全球总决赛将于8月在上海举行。', url: '' },
+    { rank: 17, cat: '行业', source: '七麦数据', title: '2026年3月App Store游戏免费榜：《王者荣耀世界》预约即登顶', company: '七麦数据', hot: '榜单数据', detail: '七麦数据发布2026年3月App Store游戏免费榜，《王者荣耀世界》凭借预抽卡活动空降榜首。', url: '' },
+    { rank: 18, cat: '手游', source: '叠纸官宣', title: '《恋与深空》×故宫博物院联动正式公布，文物活化新范式', company: '叠纸游戏', hot: '文化联动', detail: '叠纸游戏与故宫博物院正式宣布联动合作，将故宫文物元素融入《恋与深空》游戏内容。', url: '' },
+    { rank: 19, cat: '端游', source: 'Epic Games官宣', title: 'Epic公布虚幻引擎6预览版，游戏开发进入新纪元', company: 'Epic Games', hot: '技术发布', detail: 'Epic Games正式公布虚幻引擎6预览版。', url: '' },
+    { rank: 20, cat: '行业', source: '中国音像与数字出版协会', title: '游戏版权纠纷调解机制正式建立，首批12家平台加入', company: '中数协', hot: '行业规范', detail: '中国音像与数字出版协会宣布游戏版权纠纷诉前调解机制正式建立。', url: '' }
+  ],
+  '2026-04-17': [
+    { rank: 1, cat: '手游', source: '腾讯官宣', title: '《王者荣耀世界》移动端今日正式上线，iOS/Android/PC三端互通', company: '腾讯天美', hot: '今日上线', detail: '腾讯天美工作室《王者荣耀世界》移动端今日正式上线，三端互通。', url: '' },
+    { rank: 2, cat: '手游', source: '微博/B站', title: '《崩坏：星穹铁道》LAND嘉年华门票1分钟售罄，引发行业惊叹', company: '米哈游', hot: '1分钟售罄', detail: '《崩坏：星穹铁道》即兴巡演LAND嘉年华门票1分钟售罄。', url: '' },
+    { rank: 3, cat: '手游', source: '鹰角官宣', title: '《明日方舟：终末地》1.2版本「春晓时」今日上线，新干员登场', company: '鹰角网络', hot: '版本更新', detail: '鹰角网络《明日方舟：终末地》1.2版本「春晓时」今日正式上线。', url: '' },
+    { rank: 4, cat: '手游', source: '抖音/爱奇艺', title: '《逆天邪神年番》开播首日：抖音热度766万，IP联动效应持续', company: '爱奇艺动漫', hot: '766万热度', detail: '国漫《逆天邪神年番》开播首日表现亮眼，抖音热搜766万热度。', url: '' },
+    { rank: 5, cat: '端游', source: 'CAPCOM官宣', title: '《Pragmata》今日全球同步发售，PS5/Xbox/PC/Switch2多平台上线', company: 'CAPCOM', hot: '全球发售', detail: 'CAPCOM科幻动作游戏《Pragmata》今日全球同步发售。', url: '' },
+    { rank: 6, cat: '行业', source: 'B站热搜', title: '《异环》公测今日开启，3000万预约创纪录', company: '完美世界Hotta', hot: '公测开启', detail: '完美世界《异环》全平台公测今日正式开启，预约量超3000万。', url: '' },
+    { rank: 7, cat: '手游', source: '米哈游官宣', title: '《崩坏星穹铁道》三周年庆典今日开启，多重福利活动上线', company: '米哈游', hot: '三周年庆', detail: '《崩坏星穹铁道》迎来三周年庆典，限定活动和多重福利同步开启。', url: '' },
+    { rank: 8, cat: '电竞', source: '微博热搜', title: '《永劫无间》职业联赛春季赛决赛落幕，NBPL新王诞生', company: '24 Entertainment', hot: '职业联赛', detail: '《永劫无间》职业联赛春季赛决赛圆满落幕，新王加冕。', url: '' },
+    { rank: 9, cat: '行业', source: 'App Store', title: '《王者荣耀世界》上线即登顶iOS免费榜，腾讯股价上涨', company: '腾讯', hot: '登顶免费榜', detail: '《王者荣耀世界》上线后迅速登顶App Store免费榜。', url: '' },
+    { rank: 10, cat: 'IP', source: 'B站热搜', title: '《原神》4.7版本今日更新，新角色与剧情同步上线', company: '米哈游', hot: '版本更新', detail: '《原神》4.7版本「琉光之梦」今日正式更新。', url: '' },
+    { rank: 11, cat: '端游', source: 'Steam官方', title: '《黑神话：悟空》DLC"真假美猴王"开发中，画面泄露引热议', company: '游戏科学', hot: 'DLC开发中', detail: '游戏科学《黑神话：悟空》DLC正在开发中，概念图泄露引发热议。', url: '' },
+    { rank: 12, cat: '电竞', source: 'VCT官方', title: 'VCT上海大师赛即将开赛，12支全球战队齐聚上海', company: 'VCT赛事', hot: '电竞盛事', detail: '2026年VCT上海大师赛即将开赛，全球12支顶级战队参赛。', url: '' },
+    { rank: 13, cat: '手游', source: '鹰角官宣', title: '《明日方舟》七周年庆典5月1日开启，新干员预告发布', company: '鹰角网络', hot: '七周年庆预告', detail: '《明日方舟》七周年庆典将于5月1日正式开启。', url: '' },
+    { rank: 14, cat: '行业', source: 'Sensor Tower', title: '2026年Q1全球手游收入榜：原神回归前五，腾讯系霸榜', company: 'Sensor Tower', hot: '收入榜单', detail: 'Sensor Tower发布2026年Q1全球手游收入榜。', url: '' },
+    { rank: 15, cat: 'IP', source: '抖音热搜', title: '《鸣潮》二周年庆预热开启，1.4版本内容提前曝光', company: '库洛游戏', hot: '二周年预热', detail: '《鸣潮》二周年庆典预热活动正式开启。', url: '' },
+    { rank: 16, cat: '端游', source: 'Steam官方', title: '《蓝色协议》国际服首周表现稳健，Steam好评率76%', company: '万代南梦宫', hot: '国际服表现', detail: '《蓝色协议》国际服上线首周表现稳健。', url: '' },
+    { rank: 17, cat: '电竞', source: 'KPL官方', title: 'KPL春季赛决赛收视率创历史新高，峰值观众破亿', company: 'KPL赛事', hot: '收视纪录', detail: '2026年KPL春季赛决赛收视率创下历史新高。', url: '' },
+    { rank: 18, cat: '行业', source: '伽马数据', title: '中国游戏市场Q1规模达890亿元，端游增速首超手游', company: '伽马数据', hot: '行业数据', detail: '伽马数据发布2026年Q1中国游戏产业报告。', url: '' },
+    { rank: 19, cat: '手游', source: '网易官宣', title: '《阴阳师》×《咒术回战》联动活动今日开启', company: '网易Zen工作室', hot: '联动开启', detail: '网易《阴阳师》与《咒术回战》联动活动正式开启。', url: '' },
+    { rank: 20, cat: '行业', source: '苹果App Store', title: 'App Store游戏板块改版，新增"开发者角"功能', company: '苹果', hot: '平台改版', detail: '苹果App Store宣布对游戏板块进行重大改版。', url: '' }
+  ]
+};
 
-  // 绑定搜索事件
-  document.getElementById('searchInput').addEventListener('input', onSearchInput);
+const fallbackGamesData = [
+  { date: '2026-04-17', name: '王者荣耀世界', company: '腾讯天美', platform: 'iOS/Android/PC', eventType: 'release', type: '开放世界MMOARPG', publisher: '腾讯', note: '全平台公测', source: 'https://world.qq.com/' },
+  { date: '2026-04-17', name: 'Pragmata', company: 'CAPCOM', platform: 'PS5/Xbox/PC/Switch2', eventType: 'release', type: '科幻动作冒险', publisher: '卡普空', note: '全球同步发售', source: 'https://www.capcom-games.com/pragmata/zh-hans/' },
+  { date: '2026-04-17', name: '异环', company: '完美世界Hotta', platform: 'PC/PS5/iOS/Android/鸿蒙', eventType: 'release', type: '都市开放世界RPG', publisher: '完美世界', note: '3000万预约，全平台公测', source: 'https://yh.wanmei.com/' },
+  { date: '2026-04-21', name: '星布谷地 星旅测试', company: '米哈游', platform: 'iOS/Android/PC', eventType: 'test', type: 'Q版模拟经营', publisher: '米哈游', note: '米哈游新IP首测', source: 'https://planet.mihoyo.com/' },
+  { date: '2026-04-22', name: '三国：百将牌 删档测试', company: '哔哩哔哩游戏', platform: 'iOS/Android/PC/Steam', eventType: 'test', type: '竞技卡牌', publisher: '哔哩哔哩', note: 'B站自研卡牌首测', source: 'https://3guo.biligame.com/' },
+  { date: '2026-04-待定', name: '怪物猎人：旅人 二测', company: '腾讯×卡普空', platform: 'iOS/Android', eventType: 'test', type: '动作狩猎RPG', publisher: '腾讯', note: '二测招募中，暂无正式上线公告', source: 'http://mho.qq.com/' },
+  { date: '2026-04-26', name: '崩坏星穹铁道 三周年庆', company: '米哈游', platform: '全平台', eventType: 'anniversary', type: '回合制RPG', publisher: '米哈游', note: '三周年庆（2023年4月26日上线）', source: 'https://sr.mihoyo.com/' },
+  { date: '2026-05-01', name: '明日方舟 七周年庆', company: '鹰角网络', platform: '全平台', eventType: 'anniversary', type: '策略塔防', publisher: '鹰角', note: '七周年庆（2019年5月1日安卓公测）', source: 'https://ak.hypergryph.com/' },
+  { date: '2026-05-23', name: '鸣潮 二周年庆', company: '库洛游戏', platform: '全平台', eventType: 'anniversary', type: '开放世界动作RPG', publisher: '库洛', note: '二周年庆（2024年5月23日上线）', source: 'https://mc.kurogames.com/' },
+  { date: '2026-07-04', name: '绝区零 二周年庆', company: '米哈游', platform: '全平台', eventType: 'anniversary', type: '动作RPG', publisher: '米哈游', note: '二周年庆+2.0版本（2024年7月4日上线）', source: 'https://zzz.mihoyo.com/' },
+  { date: '2026-09-28', name: '原神 六周年庆', company: '米哈游', platform: '全平台', eventType: 'anniversary', type: '开放世界RPG', publisher: '米哈游', note: '六周年庆（2020年9月28日上线）', source: 'https://ys.mihoyo.com/' }
+];
 
-  renderAll();
-  document.getElementById('dateInput').max = todayStr;
+const newsDataRaw = {};  // 运行时从 GitHub 填充，失败则用 fallback
+let gamesData = [];      // 运行时从 GitHub 填充
+
+// 获取最近N天的日期列表
+function getRecentDates(days = 30) {
+  const dates = [];
+  for (let i = 0; i < days; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    dates.push(d.toISOString().split('T')[0]);
+  }
+  return dates;
 }
 
-// ════════════════════════════════════════════════════
-//  DATA LOADING
-// ════════════════════════════════════════════════════
-async function loadAllData() {
+// 将 eventType 映射为 category
+function mapGameCategory(g) {
+  const eventTypeMap = {
+    'release': '上线',
+    'test': '测试',
+    'anniversary': '周年庆'
+  };
+  return {
+    ...g,
+    category: g.category || eventTypeMap[g.eventType] || g.eventType || '其他',
+    genre: g.genre || g.type || g.note || ''
+  };
+}
+
+// 从 GitHub 加载数据（失败则用内嵌备用数据）
+async function loadOnlineData() {
   try {
-    const todayStr = formatDate(new Date());
-    await loadDateFile(todayStr);
-    const response = await fetch('data/daily/');
-    if (response.ok) {
-      const text = await response.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(text, 'text/html');
-      const links = doc.querySelectorAll('a');
-      for (const link of links) {
-        const href = link.getAttribute('href');
-        if (href && href.match(/^\d{4}-\d{2}-\d{2}\.json$/)) {
-          await loadDateFile(href.replace('.json', ''));
-        }
+    const [gamesRes] = await Promise.all([
+      fetch(`${DATA_BASE}/games.json?_=${Date.now()}`, { cache: 'no-store' })
+    ]);
+    if (gamesRes.ok) {
+      const rawData = await gamesRes.json();
+      gamesData = rawData.map(mapGameCategory);
+    } else {
+      // GitHub 加载失败，使用备用数据
+      gamesData = fallbackGamesData.map(mapGameCategory);
+    }
+
+    // 从 daily/ 文件夹加载最近30天的新闻数据
+    const recentDates = getRecentDates(30);
+    const dailyPromises = recentDates.map(date =>
+      fetch(`${DATA_BASE}/daily/${date}.json?_=${Date.now()}`, { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .catch(() => null)
+    );
+
+    const dailyResults = await Promise.all(dailyPromises);
+    let hasOnlineData = false;
+    dailyResults.forEach(report => {
+      if (report && report.date && report.news) {
+        newsDataRaw[report.date] = report.news;
+        hasOnlineData = true;
       }
+    });
+
+    // 如果没有从 GitHub 加载到任何数据，使用备用数据
+    if (!hasOnlineData) {
+      Object.keys(fallbackNewsDataRaw).forEach(date => {
+        newsDataRaw[date] = fallbackNewsDataRaw[date];
+      });
     }
   } catch (e) {
-    // fallback: 尝试最近60天
-    const today = new Date();
-    for (let i = 0; i < 60; i++) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      await loadDateFile(formatDate(d));
-    }
+    console.warn('⚠️ 数据加载失败，使用备用数据：', e.message);
+    // 使用备用数据
+    Object.keys(fallbackNewsDataRaw).forEach(date => {
+      newsDataRaw[date] = fallbackNewsDataRaw[date];
+    });
+    gamesData = fallbackGamesData.map(mapGameCategory);
   }
 }
 
-async function loadDateFile(dateStr) {
-  if (allData[dateStr]) return;
-  try {
-    const response = await fetch(`data/daily/${dateStr}.json?t=${Date.now()}`);
-    if (response.ok) {
-      const data = await response.json();
-      allData[dateStr] = data;
-      if (!availableDates.includes(dateStr)) {
-        availableDates.push(dateStr);
-      }
+// ══════════════════════════════════════
+//  TAB SWITCH
+// ══════════════════════════════════════
+
+function switchTab(view, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick') === btn.getAttribute('onclick')) {
+      b.classList.add('active');
     }
-  } catch (e) { /* silently fail */ }
-}
-
-async function loadGamesData() {
-  try {
-    const response = await fetch('data/games.json?t=' + Date.now());
-    if (response.ok) {
-      allGames = await response.json();
-    }
-  } catch (e) {
-    allGames = [];
-  }
-}
-
-// ════════════════════════════════════════════════════
-//  SEARCH INDEX
-// ════════════════════════════════════════════════════
-function buildSearchIndex() {
-  searchIndex = [];
-  for (const dateStr in allData) {
-    const day = allData[dateStr];
-    for (const news of (day.news || [])) {
-      searchIndex.push({ date: dateStr, dayLabel: day.dayLabel, ...news });
-    }
-  }
-}
-
-function onSearchInput(e) {
-  searchQuery = e.target.value.trim();
-  document.getElementById('searchClearBtn').style.display = searchQuery ? 'inline-flex' : 'none';
-  clearTimeout(searchDebounceTimer);
-  searchDebounceTimer = setTimeout(() => {
-    renderNewsList();
-  }, 200);
-}
-
-function performSearch(query) {
-  if (!query) return [];
-  const q = query.toLowerCase();
-  return searchIndex.filter(item => {
-    // ✅ 只匹配标题，不匹配来源/厂商/正文
-    const matchTitle = item.title.toLowerCase().includes(q);
-    const matchDate =
-      (!searchDateFrom || item.date >= searchDateFrom) &&
-      (!searchDateTo   || item.date <= searchDateTo);
-    return matchTitle && matchDate;
   });
 }
 
-function onSearchDateChange() {
-  searchDateFrom = document.getElementById('searchDateFrom').value;
-  searchDateTo = document.getElementById('searchDateTo').value;
-  renderNewsList();
+// ══════════════════════════════════════
+//  NEWS DATA - init时将raw数据去重+365天过滤后展开
+// ══════════════════════════════════════
+
+let newsData = []; // 扁平化后的有效新闻
+
+// 从分组数据展开为扁平数组（去重，按日期+rank去重）
+function buildNewsData() {
+  const seen = new Set();
+  const result = [];
+  // 按日期降序遍历（最新的在前面）
+  const dates = Object.keys(newsDataRaw).sort().reverse();
+  dates.forEach(date => {
+    (newsDataRaw[date] || []).forEach(item => {
+      const key = date + '|' + item.rank;
+      if (!seen.has(key)) {
+        seen.add(key);
+        result.push({ ...item, date });
+      }
+    });
+  });
+  return result;
 }
 
-function clearSearch() {
+// 过滤超出365天的数据（相对于今天）
+function filterExpired(rawData, days = 365) {
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - days);
+  const cutoffStr = formatDate(cutoff);
+  // 过滤掉超期数据
+  const filtered = {};
+  Object.keys(rawData).forEach(date => {
+    if (date >= cutoffStr) {
+      filtered[date] = rawData[date];
+    }
+  });
+  return filtered;
+}
+
+// ══════════════════════════════════════
+//  NEWS RENDER
+// ══════════════════════════════════════
+
+let currentFilter = 'all';
+let searchQuery = '';
+let searchDateFrom = '';
+let searchDateTo = '';
+let searchDebounceTimer = null;
+let selectedDay = ''; // 当前选中的日期，空=全部
+
+function onNewsSearchInput(e) {
+  searchQuery = e.target.value.trim();
+  const clearBtn = document.getElementById('newsSearchClear');
+  clearBtn.classList.toggle('show', !!searchQuery);
+  clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(() => renderNews(), 200);
+}
+
+function clearNewsSearch() {
   searchQuery = '';
-  document.getElementById('searchInput').value = '';
-  // 重置日期范围
-  const today = new Date();
-  const thirtyDaysAgo = new Date(today);
-  thirtyDaysAgo.setDate(today.getDate() - 30);
-  const todayStr = formatDate(today);
-  const fromStr = formatDate(thirtyDaysAgo);
-  document.getElementById('searchDateFrom').value = fromStr;
-  document.getElementById('searchDateTo').value = todayStr;
-  searchDateFrom = fromStr;
-  searchDateTo = todayStr;
-  document.getElementById('searchClearBtn').style.display = 'none';
-  renderNewsList();
+  document.getElementById('newsSearchInput').value = '';
+  document.getElementById('newsSearchClear').classList.remove('show');
+  renderNews();
 }
 
-// ════════════════════════════════════════════════════
-//  RENDER
-// ════════════════════════════════════════════════════
-function renderAll() {
-  renderDateDisplay();
-  renderStats();
-  renderCatFilters();
-  renderNewsList();
-  renderCalendar();
-  renderEventsStats();
-  renderEventGroups();
-  renderDataRange();
+function onNewsDateChange() {
+  searchDateFrom = document.getElementById('newsDateFrom').value;
+  searchDateTo = document.getElementById('newsDateTo').value;
+  renderNews();
 }
 
-function renderDateDisplay() {
-  const data = allData[currentDate];
-  const label = data ? data.dayLabel : currentDate;
-  document.getElementById('dateLabel').textContent = label;
-  document.getElementById('dateInput').value = currentDate;
+function filterNews(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderNews();
 }
 
-function renderStats() {
-  const data = allData[currentDate];
-  const statsEl = document.getElementById('stats');
-  if (!data) {
-    statsEl.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>暂无数据</p></div>';
-    return;
-  }
-  const news = data.news || [];
-  const cats = ['手游', '端游', '电竞', '行业', 'IP'];
-  const catCounts = {};
-  cats.forEach(c => catCounts[c] = news.filter(n => n.cat === c).length);
+// ── 日期选择器 ──
+function renderDatePickerChips() {
+  // 获取今天的日期（只显示昨天及之前的数据，因为9:00抓取的是昨天）
+  const today = formatDate(new Date());
+  const allDates = [...new Set(newsData.map(n => n.date))]
+    .filter(d => d < today)  // 过滤掉今天
+    .sort().reverse().slice(0, 14);
+  const container = document.getElementById('datePickerChips');
+  if (!container) return;
 
-  statsEl.innerHTML = `
-    <div class="stat-card">
-      <div class="stat-label">手游相关</div>
-      <div class="stat-value">${catCounts['手游']}</div>
-      <div class="stat-sub">条</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">电竞相关</div>
-      <div class="stat-value">${catCounts['电竞']}</div>
-      <div class="stat-sub">条</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">行业相关</div>
-      <div class="stat-value">${catCounts['行业']}</div>
-      <div class="stat-sub">条</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">端游</div>
-      <div class="stat-value">${catCounts['端游']}</div>
-      <div class="stat-sub">条</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">IP</div>
-      <div class="stat-value">${catCounts['IP']}</div>
-      <div class="stat-sub">条</div>
-    </div>
-  `;
+  container.innerHTML = allDates.map(d => {
+    const parts = d.split('-');
+    const monthDay = `${parts[1]}-${parts[2]}`;
+    const dow = ['周日','周一','周二','周三','周四','周五','周六'][new Date(d + 'T00:00:00').getDay()];
+    const label = `${monthDay}（${dow}）`;
+    return `<button class="dchip${selectedDay === d ? ' active' : ''}" onclick="selectDay('${d}', this)">${label}</button>`;
+  }).join('');
 }
 
-function renderCatFilters() {
-  const cats = ['all', '手游', '端游', '电竞', '行业', 'IP'];
-  const labels = { all: '全部', 手游: '🎮 手游', 端游: '🖥️ 端游', 电竞: '🏆 电竞', 行业: '📊 行业', IP: '🎬 IP' };
+function selectDay(day, btn) {
+  selectedDay = selectedDay === day ? '' : day;
+  document.getElementById('customDatePicker').value = '';
+  renderDatePickerChips();
+  renderNews();
+}
 
-  document.getElementById('catFilters').innerHTML = cats.map(c => `
-    <div class="filter-chip ${currentFilter === c ? 'active' : ''}"
-         onclick="setCatFilter('${c}')">${labels[c]}</div>
+function onCustomDateSelect(date) {
+  if (!date) return;
+  selectedDay = date;
+  renderDatePickerChips();
+  renderNews();
+}
+
+function renderNewsStats() {
+  const cats = [
+    { key: '手游', label: '🎮 手游', color: 'si-purple' },
+    { key: '端游', label: '🖥️ 端游', color: 'si-orange' },
+    { key: '电竞', label: '🏆 电竞', color: 'si-green' },
+    { key: '行业', label: '📊 行业', color: 'si-cyan' },
+    { key: 'IP',   label: '🎬 IP/动漫', color: 'si-yellow' },
+  ];
+  const counts = {};
+  // 只统计当前选中日期的数据
+  const dataForStats = selectedDay ? newsData.filter(n => n.date === selectedDay) : newsData;
+  cats.forEach(c => { counts[c.key] = dataForStats.filter(n => n.cat === c.key).length; });
+
+  const el = document.getElementById('newsStatsBar');
+  el.innerHTML = cats.map(c => `
+    <div class="stat-card" onclick="quickFilterCat('${c.key}')" style="cursor:pointer" title="点击筛选${c.key}">
+      <div class="stat-icon ${c.color}">${c.label.split(' ')[0]}</div>
+      <div class="stat-info">
+        <div class="stat-num ${c.color}">${counts[c.key]}</div>
+        <div class="stat-label">${c.label.split(' ')[1]}</div>
+      </div>
+    </div>
   `).join('');
 }
 
-function renderNewsList() {
-  const panel = document.getElementById('dailyPanel');
-  const view = document.getElementById('eventsView');
-  const newsList = document.getElementById('newsList');
+function quickFilterCat(cat) {
+  const chipMap = {
+    'all': '全部', '手游': '手游', '端游': '端游',
+    '电竞': '电竞', '行业': '行业', 'IP': 'IP/动漫',
+  };
+  const chips = document.querySelectorAll('.filter-chip');
+  chips.forEach(b => {
+    const isMatch = b.textContent.trim() === chipMap[cat];
+    b.classList.toggle('active', isMatch);
+    if (isMatch) filterNews(cat, b);
+  });
+}
 
-  if (currentView === 'events') {
-    panel.style.display = 'none';
-    view.style.display = 'block';
-    return;
+function renderNews() {
+  renderNewsStats();
+
+  const grid = document.getElementById('newsGrid');
+  const searchLabel = document.getElementById('newsSearchLabel');
+  const sectionTitle = document.getElementById('newsSectionTitle');
+
+  // 关键词搜索（搜索title和detail）
+  let items = searchQuery
+    ? newsData.filter(n => n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          (n.detail && n.detail.toLowerCase().includes(searchQuery.toLowerCase())))
+    : [...newsData];
+
+// 日期范围筛选
+  if (searchDateFrom) {
+    items = items.filter(n => n.date >= searchDateFrom);
+  }
+  if (searchDateTo) {
+    items = items.filter(n => n.date <= searchDateTo);
   }
 
-  panel.style.display = 'block';
-  view.style.display = 'none';
-
-  // ── 搜索模式 ──
-  if (searchQuery) {
-    const results = performSearch(searchQuery);
-    let items = results;
-    if (currentFilter !== 'all') {
-      items = items.filter(n => n.cat === currentFilter);
-    }
-    document.getElementById('newsCount').textContent = `${items.length}条`;
-    document.getElementById('newsListTitle').textContent = `🔍 搜索结果：${searchQuery}`;
-    if (items.length === 0) {
-      newsList.innerHTML = '<div class="empty-state"><div class="emoji">🔍</div><p>没有找到相关内容</p></div>';
-      return;
-    }
-    newsList.innerHTML = items.map(news => {
-      const rankClass = news.rank === 1 ? 'top1' : news.rank === 2 ? 'top2' : news.rank === 3 ? 'top3' : '';
-      return `
-        <div class="news-item search-result" onclick="showNewsModal('${news.rank}', '${news.date}')">
-          <div class="news-rank ${rankClass}">${news.rank}</div>
-          <div class="news-content">
-            <div class="news-title">${escHtml(news.title)}</div>
-            <div class="news-meta">
-              <span class="news-tag tag-${news.cat}">${news.cat}</span>
-              <span class="news-source">${escHtml(news.source)}</span>
-              <span class="news-hot">🔥 ${escHtml(news.hot)}</span>
-            </div>
-          </div>
-          <div class="news-date-badge">${news.date}</div>
-        </div>
-      `;
-    }).join('');
-    return;
+// 单日筛选
+  if (selectedDay) {
+    items = items.filter(n => n.date === selectedDay);
   }
 
-  // ── 日报模式 ──
-  const data = allData[currentDate];
-  if (!data) {
-    newsList.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>暂无该日数据</p></div>';
-    document.getElementById('newsListTitle').textContent = '热点新闻';
-    return;
-  }
-
-  let items = data.news || [];
+  // 分类筛选
   if (currentFilter !== 'all') {
     items = items.filter(n => n.cat === currentFilter);
   }
 
-  document.getElementById('newsCount').textContent = `${items.length}条`;
-  document.getElementById('newsListTitle').textContent = '热点新闻';
+  // 标题逻辑：有搜索词 → "搜索结果"；单日选中 → "X月X日热点"；默认 → "昨日热点"
+  if (searchQuery) {
+    searchLabel.textContent = `共 ${items.length} 条结果${currentFilter !== 'all' ? '（已选' + currentFilter + '分类）' : ''}`;
+    searchLabel.classList.add('show');
+    sectionTitle.textContent = '🔍 搜索结果';
+  } else if (selectedDay) {
+    const parts = selectedDay.split('-');
+    const label = `${parseInt(parts[1])}月${parseInt(parts[2])}日热点`;
+    sectionTitle.textContent = label;
+    searchLabel.classList.remove('show');
+  } else {
+    sectionTitle.textContent = '昨日热点';
+    searchLabel.classList.remove('show');
+  }
 
   if (items.length === 0) {
-    newsList.innerHTML = '<div class="empty-state"><div class="emoji">🔍</div><p>没有符合条件的新闻</p></div>';
+    grid.innerHTML = '<div style="text-align:center;padding:48px;color:var(--text3);font-size:14px">没有找到符合条件的新闻</div>';
     return;
   }
 
-  newsList.innerHTML = items.map(news => {
-    const rankClass = news.rank === 1 ? 'top1' : news.rank === 2 ? 'top2' : news.rank === 3 ? 'top3' : '';
+  grid.innerHTML = items.map(n => {
+    const rankClass = n.rank === 1 ? 'rank-1' : n.rank === 2 ? 'rank-2' : n.rank === 3 ? 'rank-3' : 'rank-other';
     return `
-      <div class="news-item" onclick="showNewsModal('${news.rank}', '${currentDate}')">
-        <div class="news-rank ${rankClass}">${news.rank}</div>
-        <div class="news-content">
-          <div class="news-title">${escHtml(news.title)}</div>
+      <div class="news-card cat-${n.cat}" onclick="openNewsDetail('${n.date}', ${n.rank})">
+        <div class="news-rank ${rankClass}">${n.rank}</div>
+        <div class="news-body">
+          <div class="news-title">${n.title}</div>
           <div class="news-meta">
-            <span class="news-tag tag-${news.cat}">${news.cat}</span>
-            <span class="news-source">${escHtml(news.source)}</span>
-            <span class="news-source">· ${escHtml(news.company)}</span>
-            <span class="news-hot">🔥 ${escHtml(news.hot)}</span>
+            <span class="news-source">${n.source}</span>
+            <span class="tag tag-${n.cat}">${n.cat}</span>
+            <span class="hot-badge">🔥 ${n.hot}</span>
+            <span style="color:var(--text3);font-size:11px;margin-left:4px">${n.date}</span>
           </div>
         </div>
       </div>
-    `;
+`;
   }).join('');
 }
 
-// ─── Events View ───────────────────────────────────
-function renderEventsStats() {
-  const statsEl = document.getElementById('eventsStats');
-  const testCount = allGames.filter(g => g.eventType === 'test').length;
-  const releaseCount = allGames.filter(g => g.eventType === 'release').length;
-  const annivCount = allGames.filter(g => g.eventType === 'anniversary').length;
-
-  const groups = [
-    { type: 'test', icon: '🧪', label: '测试', count: testCount },
-    { type: 'release', icon: '🚀', label: '公测上线', count: releaseCount },
-    { type: 'anniversary', icon: '🎉', label: '周年庆', count: annivCount },
-  ];
-
-  statsEl.innerHTML = groups.map(g => `
-    <div class="event-stat-card ${currentEventFilter === g.type ? 'active' : ''}"
-         onclick="setEventFilter('${g.type}')">
-      <div class="event-stat-icon">${g.icon}</div>
-      <div class="event-stat-label">${g.label}</div>
-      <div class="event-stat-value">${g.count}</div>
-    </div>
-  `).join('');
+function openNewsDetail(date, rank) {
+  const n = newsData.find(item => item.date === date && item.rank === rank);
+  if (!n) return;
+  document.getElementById('modalContent').innerHTML = `
+    <span class="tag tag-${n.cat} modal-tag">${n.cat}</span>
+    <div class="modal-title">${n.title}</div>
+    <div class="modal-meta">📅 ${n.date} &nbsp;|&nbsp; 来源：${n.source} &nbsp;|&nbsp; 厂商：${n.company} &nbsp;|&nbsp; 热度：${n.hot}</div>
+    <hr class="modal-divider">
+    <div class="modal-body">${n.detail || '暂无详情'}</div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
 }
 
-function renderEventGroups() {
-  const container = document.getElementById('eventGroups');
+// ══════════════════════════════════════
+//  CALENDAR RENDER
+// ══════════════════════════════════════
 
-  // 基于 allGames（全局唯一）过滤
-  let games = [...allGames];
-  if (currentEventFilter !== 'all') {
-    games = games.filter(g => g.eventType === currentEventFilter);
+let calYear = 2026;
+let calMonth = 3; // 0-indexed: 3 = April
+
+function changeMonth(dir) {
+  calMonth += dir;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  renderCalendar();
+}
+
+const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+function getGameKey(date) {
+  // date is a Date object, return yyyy-mm-dd
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+}
+
+function buildGameMap() {
+  const map = {};
+  gamesData.forEach(g => {
+    if (!map[g.date]) map[g.date] = [];
+    map[g.date].push(g);
+  });
+  return map;
+}
+
+function renderCalendar() {
+  const title = `${calYear}年 ${monthNames[calMonth]}`;
+  document.getElementById('calTitle').textContent = title;
+  document.getElementById('calMonthLabel').textContent = `${calYear}年${monthNames[calMonth]}`;
+
+  const today = new Date();
+  const firstDay = new Date(calYear, calMonth, 1);
+  const lastDay = new Date(calYear, calMonth + 1, 0);
+  const startDow = firstDay.getDay(); // 0=Sun
+
+  const gameMap = buildGameMap();
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+
+  // Prev month fill
+  for (let i = 0; i < startDow; i++) {
+    const d = new Date(calYear, calMonth, -startDow + i + 1);
+    const cell = buildCell(d, gameMap, true);
+    grid.appendChild(cell);
   }
 
-  // 按日期排序
-  games.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-  document.getElementById('eventsCount').textContent = `${games.length}项`;
-  document.getElementById('eventsListTitle').textContent =
-    currentEventFilter === 'all' ? '全部大事件' :
-    currentEventFilter === 'test' ? '🧪 测试' :
-    currentEventFilter === 'anniversary' ? '🎉 周年庆' : '🚀 公测上线';
-
-  if (games.length === 0) {
-    container.innerHTML = '<div class="empty-state"><div class="emoji">📭</div><p>暂无大事件</p></div>';
-    return;
+  // Current month
+  for (let d = 1; d <= lastDay.getDate(); d++) {
+    const date = new Date(calYear, calMonth, d);
+    const cell = buildCell(date, gameMap, false);
+    grid.appendChild(cell);
   }
 
-  const groups = [
-    { type: 'test', icon: '🧪', label: '测试', title: '🧪 测试' },
-    { type: 'release', icon: '🚀', label: '公测上线', title: '🚀 公测上线' },
-    { type: 'anniversary', icon: '🎉', label: '周年庆', title: '🎉 周年庆' },
-  ];
+  // Next month fill
+  const total = startDow + lastDay.getDate();
+  const remaining = total % 7 === 0 ? 0 : 7 - (total % 7);
+  for (let i = 1; i <= remaining; i++) {
+    const d = new Date(calYear, calMonth + 1, i);
+    const cell = buildCell(d, gameMap, true);
+    grid.appendChild(cell);
+  }
 
-  container.innerHTML = groups.map(g => {
-    const groupGames = games.filter(gg => gg.eventType === g.type);
-    if (groupGames.length === 0) return '';
+  renderUpcoming();
+  renderStatsGrid();
+  renderCalendarWithMap(gameMap);
+}
+
+function buildCell(date, gameMap, otherMonth) {
+  const today = new Date();
+  const key = getGameKey(date);
+  const games = gameMap[key] || [];
+  const isToday = date.toDateString() === today.toDateString();
+  const dow = date.getDay();
+  const isWeekend = dow === 0 || dow === 6;
+
+  const cell = document.createElement('div');
+  cell.className = `cal-cell${otherMonth ? ' other-month' : ''}${isToday ? ' today' : ''}${isWeekend ? ' weekend' : ''}`;
+
+  const dayNum = document.createElement('div');
+  dayNum.className = 'cal-day-num';
+  dayNum.textContent = date.getDate();
+  cell.appendChild(dayNum);
+
+  // 根据分类筛选过滤
+  const filteredGames = calCategoryFilter === 'all' ? games : games.filter(g => g.category === calCategoryFilter);
+  const maxShow = 2;
+  filteredGames.slice(0, maxShow).forEach(g => {
+    const pill = document.createElement('div');
+    // 根据分类着色：上线橙色、测试蓝色、周年庆黄色
+    const cls = g.category === '上线' ? 'gp-release' : g.category === '测试' ? 'gp-test' : 'gp-minor';
+    pill.className = `game-pill ${cls}`;
+    pill.textContent = g.name;
+    pill.title = `${g.name} - ${g.company}`;
+    pill.onclick = () => openGame(g);
+    cell.appendChild(pill);
+  });
+
+  if (filteredGames.length > maxShow) {
+    const more = document.createElement('div');
+    more.className = 'more-pill';
+    more.textContent = `+${filteredGames.length - maxShow} 更多`;
+    cell.appendChild(more);
+  }
+
+  return cell;
+}
+
+// 侧边栏分类筛选
+let sidebarCatFilter = 'all';
+
+function filterSidebarCat(cat, btn) {
+  sidebarCatFilter = cat;
+  // 更新按钮状态
+  document.querySelectorAll('.cal-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // 重新渲染重点关注列表
+  renderUpcoming();
+}
+
+function renderUpcoming() {
+  const today = new Date();
+  const upcoming = gamesData
+    .filter(g => {
+      const d = new Date(g.date);
+      if (isNaN(d)) return false;
+      const diff = (d - today) / 86400000;
+      return diff >= -1 && diff <= 30;
+    })
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const list = document.getElementById('upcomingList');
+  // 根据侧边栏筛选的分类过滤
+  const filtered = sidebarCatFilter === 'all' ? upcoming : upcoming.filter(g => g.category === sidebarCatFilter);
+  list.innerHTML = filtered.map(g => {
+    const d = new Date(g.date);
+    const m = monthNames[d.getMonth()];
+    const day = d.getDate();
+    const weeks = ['日','一','二','三','四','五','六'];
+    const w = '周' + weeks[d.getDay()];
+    // 分类标签颜色
+    const catColor = { '上线': 'lb-s', '测试': 'lb-test', '周年庆': 'lb-b' }[g.category] || 'lb-other';
+    const catLabel = { '上线': '📦 上线', '测试': '🧪 测试', '周年庆': '🎉 周年庆' }[g.category] || g.category;
     return `
-      <div class="event-group">
-        <div class="event-group-header" onclick="toggleEventGroup('${g.type}')">
-          <span class="event-group-icon">${g.icon}</span>
-          <span class="event-group-title">${g.title}</span>
-          <span class="event-group-count">${groupGames.length}项</span>
-          <span class="event-group-toggle" id="toggle-${g.type}">▼</span>
+      <div class="sidebar-item" onclick='openGame(${JSON.stringify(g)})'>
+        <div class="si-date">
+          <div class="sid-month">${m}</div>
+          <div class="sid-day">${day}</div>
+          <div class="sid-week">${w}</div>
         </div>
-        <div class="event-group-items open" id="group-${g.type}">
-          ${groupGames.map(game => `
-            <div class="event-item" onclick="showGameModal('${game.name}')">
-              <div class="event-badge badge-${game.eventType}">
-                ${game.eventType === 'test' ? '测' : '公'}
-              </div>
-              <div class="event-info">
-                <div class="event-name">${escHtml(game.name)}</div>
-                <div class="event-meta">${escHtml(game.company)} · ${escHtml(game.platform)}</div>
-              </div>
-              <div class="event-date">${game.date.slice(5).replace('-','/')}</div>
-            </div>
-          `).join('')}
+        <div class="si-info">
+          <div class="sin-title">${g.name} <span class="level-badge ${catColor}">${catLabel}</span></div>
+          <div class="sin-meta"><span>${g.company}</span><span>${g.platform}</span></div>
+          <div class="sin-meta" style="color:#64748b;font-size:10px;margin-top:2px">${g.note}</div>
         </div>
       </div>
     `;
   }).join('');
 }
 
-function toggleEventGroup(type) {
-  const items = document.getElementById(`group-${type}`);
-  const toggle = document.getElementById(`toggle-${type}`);
-  items.classList.toggle('open');
-  toggle.classList.toggle('open');
+function renderStatsGrid() {
+  const total = gamesData.length;
+  const release = gamesData.filter(g => g.category === '上线').length;
+  const test = gamesData.filter(g => g.category === '测试').length;
+  const anniversary = gamesData.filter(g => g.category === '周年庆').length;
+
+  document.getElementById('calStatsGrid').innerHTML = `
+    <div style="text-align:center;padding:8px;background:rgba(249,115,22,0.1);border-radius:8px">
+      <div style="font-size:20px;font-weight:700;color:#f97316">${release}</div>
+      <div style="font-size:10px;color:#64748b">📦 公测/上线</div>
+    </div>
+    <div style="text-align:center;padding:8px;background:rgba(59,130,246,0.1);border-radius:8px">
+      <div style="font-size:20px;font-weight:700;color:#3b82f6">${test}</div>
+      <div style="font-size:10px;color:#64748b">🧪 测试</div>
+    </div>
+    <div style="text-align:center;padding:8px;background:rgba(234,179,8,0.1);border-radius:8px">
+      <div style="font-size:20px;font-weight:700;color:#fbbf24">${anniversary}</div>
+      <div style="font-size:10px;color:#64748b">🎉 周年庆</div>
+    </div>
+    <div style="text-align:center;padding:8px;background:rgba(124,108,248,0.1);border-radius:8px">
+      <div style="font-size:20px;font-weight:700;color:#7c6cf8">${total}</div>
+      <div style="font-size:10px;color:#64748b">总游戏数</div>
+    </div>
+  `;
 }
 
-// ─── Calendar ──────────────────────────────────────
-function renderCalendar() {
+// 分类筛选状态
+let calCategoryFilter = 'all';
+
+function filterCalCategory(cat, btn) {
+  calCategoryFilter = cat;
+  // 更新按钮状态
+  document.querySelectorAll('.cal-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // 重新渲染日历和重点关注
+  const gameMap = buildGameMap();
+  renderCalendarWithMap(gameMap);
+  renderUpcoming();
+}
+
+// 带筛选的日历渲染
+function renderCalendarWithMap(gameMap) {
   const today = new Date();
-  const calDate = new Date(today.getFullYear(), today.getMonth() + currentCalMonth, 1);
+  const firstDay = new Date(calYear, calMonth, 1);
+  const lastDay = new Date(calYear, calMonth + 1, 0);
+  const startDow = firstDay.getDay();
 
-  document.getElementById('calMonthLabel').textContent =
-    `${calDate.getFullYear()}年${calDate.getMonth() + 1}月`;
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
 
-  const grid = document.getElementById('calendarGrid');
-  const year = calDate.getFullYear();
-  const month = calDate.getMonth();
-  const firstDow = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const todayStr = formatDate(today);
-
-// 按日期分组全局游戏数据（仅测试+公测，去掉版本更新）
-  const dateGames = {};
-  for (const g of allGames) {
-    if (g.eventType === 'update') continue;
-    if (!dateGames[g.date
-
-  let html = ['日','一','二','三','四','五','六'].map(d => `<div class="cal-weekday">${d}</div>`).join('');
-
-  for (let i = 0; i < firstDow; i++) {
-    const prevDate = new Date(year, month, -firstDow + i + 1);
-    const prevStr = formatDate(prevDate);
-    const prevGames = dateGames[prevStr] || [];
-    const prevRows = prevGames.slice(0,2).map(g => {
-      const dotCls = g.eventType === 'test' ? 'dot-test' : g.eventType === 'anniversary' ? 'dot-anniversary' : 'dot-release';
-      const shortName = g.name.length > 6 ? g.name.slice(0,6)+'…' : g.name;
-      return `<div class="cal-event-row"><div class="cal-event-dot ${dotCls}"></div><div class="cal-event-name">${shortName}</div></div>`;
-    }).join('');
-    html += `<div class="cal-day other-month" onclick="showCalDayModal('${prevStr}')">
-      <div class="cal-day-num">${prevDate.getDate()}</div>
-      ${prevGames.length ? prevRows : ''}
-    </div>`;
+  // Prev month fill
+  for (let i = 0; i < startDow; i++) {
+    const d = new Date(calYear, calMonth, -startDow + i + 1);
+    const cell = buildCell(d, gameMap, true);
+    grid.appendChild(cell);
   }
 
-  for (let d = 1; d <= daysInMonth; d++) {
-    const dateStr = `${year}-${String(month + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday = dateStr === todayStr;
-    const games = dateGames[dateStr] || [];
-    const hasData = games.length > 0;
-
-    const MAX_SHOW = 3;
-    const shown = games.slice(0, MAX_SHOW);
-    const extra = games.length - MAX_SHOW;
-    const eventRows = shown.map(g => {
-      const dotCls = g.eventType === 'test' ? 'dot-test' : g.eventType === 'anniversary' ? 'dot-anniversary' : 'dot-release';
-      const shortName = g.name.length > 7 ? g.name.slice(0, 7) + '…' : g.name;
-      return `<div class="cal-event-row"><div class="cal-event-dot ${dotCls}"></div><div class="cal-event-name" title="${escHtml(g.name)}">${shortName}</div></div>`;
-    }).join('');
-    const moreRow = extra > 0 ? `<div class="cal-more">+${extra}更多</div>` : '';
-
-    let cls = 'cal-day';
-    if (isToday) cls += ' today';
-    if (hasData) cls += ' has-data';
-
-    html += `<div class="${cls}" onclick="showCalDayModal('${dateStr}')" title="${games.map(g=>g.name+'('+g.eventType+')').join(', ')}">
-      <div class="cal-day-num">${d}</div>
-      ${hasData ? eventRows + moreRow : ''}
-    </div>`;
+  // Current month
+  for (let d = 1; d <= lastDay.getDate(); d++) {
+    const date = new Date(calYear, calMonth, d);
+    const cell = buildCell(date, gameMap, false);
+    grid.appendChild(cell);
   }
 
-  const totalCells = firstDow + daysInMonth;
-  const remainder = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
-  for (let i = 0; i < remainder; i++) {
-    const nextDate = new Date(year, month + 1, i + 1);
-    const nextStr = formatDate(nextDate);
-    const nextGames = dateGames[nextStr] || [];
-    const nextRows = nextGames.slice(0,2).map(g => {
-      const dotCls = g.eventType === 'test' ? 'dot-test' : g.eventType === 'anniversary' ? 'dot-anniversary' : 'dot-release';
-      const shortName = g.name.length > 6 ? g.name.slice(0,6)+'…' : g.name;
-      return `<div class="cal-event-row"><div class="cal-event-dot ${dotCls}"></div><div class="cal-event-name">${shortName}</div></div>`;
-    }).join('');
-    html += `<div class="cal-day other-month" onclick="showCalDayModal('${nextStr}')">
-      <div class="cal-day-num">${i + 1}</div>
-      ${nextGames.length ? nextRows : ''}
-    </div>`;
+  // Next month fill
+  const total = startDow + lastDay.getDate();
+  const remaining = total % 7 === 0 ? 0 : 7 - (total % 7);
+  for (let i = 1; i <= remaining; i++) {
+    const d = new Date(calYear, calMonth + 1, i);
+    const cell = buildCell(d, gameMap, true);
+    grid.appendChild(cell);
   }
-
-  grid.innerHTML = html;
 }
 
-function renderDataRange() {
-  if (availableDates.length === 0) return;
-  const sorted = availableDates.sort();
-  const earliest = sorted[0];
-  const latest = sorted[sorted.length - 1];
-  document.getElementById('dataRange').textContent =
-    `数据范围：${earliest} ~ ${latest}（${sorted.length}天）`;
-  document.getElementById('lastUpdated').textContent =
-    `已加载 ${sorted.length} 天数据`;
+function openGame(g) {
+  // 分类标签
+  const catColor = { '上线': 'lb-s', '测试': 'lb-test', '周年庆': 'lb-b' }[g.category] || 'lb-other';
+  const catLabel = { '上线': '📦 公测/上线', '测试': '🧪 测试', '周年庆': '🎉 周年庆' }[g.category] || g.category;
+  document.getElementById('modalContent').innerHTML = `
+    <span class="level-badge ${catColor} modal-tag" style="font-size:13px;padding:4px 12px">${catLabel}</span>
+    <div class="modal-title">${g.name}</div>
+    <div class="modal-meta">📅 上线日期：${g.date} &nbsp;|&nbsp; 🏢 厂商：${g.company}</div>
+    <hr class="modal-divider">
+    <div class="modal-body">
+      <p>🎮 <strong>类型：</strong>${g.genre}</p>
+      <p style="margin-top:8px">📱 <strong>平台：</strong>${g.platform}</p>
+      <p style="margin-top:8px">💡 <strong>备注：</strong>${g.note}</p>
+      ${g.source ? `<p style="margin-top:8px"><strong>📎 官方来源：</strong><a href="${g.source}" target="_blank" style="color:#3b82f6;text-decoration:none">${g.source}</a></p>` : ''}
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
 }
 
-// ════════════════════════════════════════════════════
-//  INTERACTIONS
-// ════════════════════════════════════════════════════
-async function changeDate(delta) {
-  const idx = availableDates.indexOf(currentDate);
-  const newIdx = idx + delta;
-  if (newIdx < 0 || newIdx >= availableDates.length) {
-    showToast('已达数据边界');
-    return;
+// ══════════════════════════════════════
+//  MODAL
+// ══════════════════════════════════════
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
   }
-  currentDate = availableDates[newIdx];
-  if (!allData[currentDate]) {
-    await loadDateFile(currentDate);
-  }
-  // 切换日期时清空搜索
-  searchQuery = '';
-  document.getElementById('searchInput').value = '';
-  renderAll();
 }
 
-async function selectDate(dateStr) {
-  if (!dateStr) return;
-  if (!availableDates.includes(dateStr)) {
-    await loadDateFile(dateStr);
-    if (!allData[dateStr]) {
-      showToast(`暂无 ${dateStr} 的数据`);
-      return;
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal({target: document.getElementById('modalOverlay')});
+});
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+
+async function init() {
+  // 先从 GitHub 加载数据
+  await loadOnlineData();
+
+  // Set today date
+  const now = new Date();
+  const todayStr = formatDate(now);
+  const monthDay = `${now.getMonth() + 1}月${now.getDate()}日`;
+  document.getElementById('todayBadge').textContent = monthDay;
+
+  // ── 365天自动清除：过滤超期数据 ──
+  const days365 = {};
+  Object.keys(newsDataRaw).forEach(date => {
+    if (date >= todayStr) {
+      days365[date] = newsDataRaw[date];
     }
-    availableDates.push(dateStr);
-    availableDates.sort();
-  }
-  currentDate = dateStr;
-  // 切换日期时清空搜索
-  searchQuery = '';
-  document.getElementById('searchInput').value = '';
-  renderAll();
-}
+  });
+  newsData = buildNewsData();
 
-async function jumpToDate(dateStr) {
-  if (!availableDates.includes(dateStr)) {
-    await loadDateFile(dateStr);
-    if (!allData[dateStr]) {
-      showToast('暂无该日期数据');
-      return;
+  // 设置日期范围筛选器（默认最近30天）
+  const toDate = todayStr;
+  const fromDate = formatDate(new Date(now.getTime() - 29 * 24 * 60 * 60 * 1000));
+  document.getElementById('newsDateFrom').value = fromDate;
+  document.getElementById('newsDateTo').value = toDate;
+  document.getElementById('newsDateFrom').max = toDate;
+  document.getElementById('newsDateTo').max = toDate;
+  document.getElementById('customDatePicker').max = toDate;
+  searchDateFrom = fromDate;
+  searchDateTo = toDate;
+
+  // 默认选中昨天（如果昨天有数据的话）
+  const yesterday = formatDate(new Date(now.getTime() - 24 * 60 * 60 * 1000));
+  const allDates = [...new Set(newsData.map(n => n.date))].sort().reverse();
+  selectedDay = allDates.includes(yesterday) ? yesterday : (allDates[0] || '');
+
+  // 若无数据超出30天范围，自动扩展
+  if (newsData.length > 0) {
+    const oldest = newsData[newsData.length - 1].date;
+    if (oldest < fromDate) {
+      document.getElementById('newsDateFrom').value = oldest;
+      searchDateFrom = oldest;
     }
-    availableDates.push(dateStr);
-    availableDates.sort();
   }
-  currentDate = dateStr;
-  // 跳转时清空搜索
-  searchQuery = '';
-  document.getElementById('searchInput').value = '';
-  currentView = 'daily';
-  document.getElementById('tabDaily').classList.add('active');
-  document.getElementById('tabEvents').classList.remove('active');
-  renderAll();
-}
 
-function changeCalMonth(delta) {
-  currentCalMonth += delta;
+  // 渲染日期选择器
+  renderDatePickerChips();
+
+  renderNews();
   renderCalendar();
 }
 
-function setCatFilter(cat) {
-  currentFilter = cat;
-  renderCatFilters();
-  renderNewsList();
+function formatDate(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-function setEventFilter(type) {
-  currentEventFilter = type;
-  renderEventsStats();
-  renderEventGroups();
-}
-
-function switchTab(view, btn) {
-  currentView = view;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  const dateNavBar = document.getElementById('dateNavBar');
-  if (view === 'events') {
-    dateNavBar.style.display = 'none';
-    renderNewsList();
-    renderEventsStats();
-    renderEventGroups();
-    renderCalendar();
-  } else {
-    dateNavBar.style.display = 'flex';
-    renderNewsList();
-  }
-}
-
-function showNewsModal(rank, date) {
-  const data = allData[date];
-  if (!data) return;
-  const news = data.news.find(n => String(n.rank) === String(rank));
-  if (!news) return;
-
-  document.getElementById('modalTitle').textContent = `第${news.rank}条 · ${data.dayLabel}`;
-  document.getElementById('modalBody').innerHTML = `
-    <div class="modal-news-title">${escHtml(news.title)}</div>
-    <div class="modal-news-meta">
-      <span class="news-tag tag-${news.cat}">${news.cat}</span>
-      <span class="news-source">${escHtml(news.source)}</span>
-      <span class="news-source">· ${escHtml(news.company)}</span>
-      <span class="news-hot">🔥 ${escHtml(news.hot)}</span>
-    </div>
-    <div class="modal-news-content">${escHtml(news.detail)}</div>
-  `;
-  document.getElementById('modal').classList.add('active');
-}
-
-function showGameModal(gameName) {
-  const game = allGames.find(g => g.name === gameName);
-  if (!game) return;
-
-  const typeLabel = { test: '测试', release: '公测上线' };
-  const typeColor = { test: '#60a5fa', release: 'var(--accent2)' };
-
-  // 链接按钮
-  const links = [];
-  if (game.website) {
-    links.push(`<a href="${escHtml(game.website)}" target="_blank" rel="noopener" class="modal-game-link">🌐 官网</a>`);
-  }
-  if (game.bilibili) {
-    links.push(`<a href="${escHtml(game.bilibili)}" target="_blank" rel="noopener" class="modal-game-link">📺 B站游戏中心</a>`);
-  }
-  const linksHtml = links.length > 0
-    ? `<div class="modal-game-row" style="border-bottom:none;padding-bottom:0">
-         <div class="modal-game-label">相关链接</div>
-         <div style="display:flex;gap:6px;flex-wrap:wrap">${links.join('')}</div>
-       </div>`
-    : '';
-
-  document.getElementById('modalTitle').textContent = `🎮 ${game.name}`;
-  document.getElementById('modalBody').innerHTML = `
-    <div class="modal-game-row">
-      <div class="modal-game-label">日期</div>
-      <div class="modal-game-value" style="color:var(--accent3);font-weight:600">${game.date}</div>
-    </div>
-    <div class="modal-game-row">
-      <div class="modal-game-label">事件类型</div>
-      <div class="modal-game-value" style="color:${typeColor[game.eventType] || 'var(--text)'}">${typeLabel[game.eventType] || game.eventType}</div>
-    </div>
-    <div class="modal-game-row">
-      <div class="modal-game-label">厂商</div>
-      <div class="modal-game-value">${escHtml(game.company)}</div>
-    </div>
-    <div class="modal-game-row">
-      <div class="modal-game-label">平台</div>
-      <div class="modal-game-value">${escHtml(game.platform)}</div>
-    </div>
-    <div class="modal-game-row">
-      <div class="modal-game-label">类型</div>
-      <div class="modal-game-value">${escHtml(game.type)}</div>
-    </div>
-    <div class="modal-game-row">
-      <div class="modal-game-label">备注</div>
-      <div class="modal-game-value">${escHtml(game.note)}</div>
-    </div>
-    ${linksHtml}
-  `;
-  document.getElementById('modal').classList.add('active');
-}
-
-function closeModal() {
-  document.getElementById('modal').classList.remove('active');
-}
-
-// 日历点击当天事件弹窗
-function showCalDayModal(dateStr) {
-  const games = allGames.filter(g => g.date === dateStr && g.eventType !== 'update');
-  if (games.length === 0) {
-    showToast('该日无事件');
-    return;
-  }
-
-  const typeLabel = { test: '测试', release: '公测上线', anniversary: '周年庆' };
-  const typeColor = { test: '#60a5fa', release: 'var(--accent2)', anniversary: '#fbbf24' };
-
-  const rows = games.map(g => `
-    <div class="modal-game-row">
-      <div class="modal-game-label">${typeLabel[g.eventType] || g.eventType}</div>
-      <div class="modal-game-value" style="font-weight:600">${escHtml(g.name)}</div>
-    </div>
-    <div class="modal-game-row">
-      <div class="modal-game-label">厂商</div>
-      <div class="modal-game-value">${escHtml(g.company)}</div>
-    </div>
-    <div class="modal-game-row">
-      <div class="modal-game-label">平台</div>
-      <div class="modal-game-value">${escHtml(g.platform)}</div>
-    </div>
-    <div class="modal-game-row" style="border-bottom:2px solid var(--border)">
-      <div class="modal-game-label">类型</div>
-      <div class="modal-game-value">${escHtml(g.type)}</div>
-    </div>
-  `).join('');
-
-  document.getElementById('modalTitle').textContent = `📅 ${dateStr} 游戏事件`;
-  document.getElementById('modalBody').innerHTML = rows;
-  document.getElementById('modal').classList.add('active');
-}
-
-// ════════════════════════════════════════════════════
-//  UTILITIES
-// ════════════════════════════════════════════════════
-function formatDate(date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
-}
-
-function escHtml(str) {
-  if (!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// ════════════════════════════════════════════════════
-//  KEYBOARD SHORTCUTS
-// ════════════════════════════════════════════════════
-document.addEventListener('keydown', e => {
-  if (currentView === 'daily' && document.activeElement !== document.getElementById('searchInput')) {
-    if (e.key === 'ArrowLeft') changeDate(-1);
-    if (e.key === 'ArrowRight') changeDate(1);
-  }
-  if (e.key === 'Escape') closeModal();
-});
-
-// ════════════════════════════════════════════════════
+// ══════════════════════════════════════
 //  THEME TOGGLE
-// ════════════════════════════════════════════════════
+// ══════════════════════════════════════
 function toggleTheme() {
   const html = document.documentElement;
   const isLight = html.getAttribute('data-theme') === 'light';
@@ -1361,19 +1876,16 @@ function applyThemeUI(theme) {
 }
 
 function initTheme() {
-  const saved = localStorage.getItem('kanban-theme') || 'dark';
+  const saved = localStorage.getItem('kanban-theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
   applyThemeUI(saved);
 }
 
-// ════════════════════════════════════════════════════
-//  START
-// ════════════════════════════════════════════════════
 initTheme();
 init();
 </script>
 
-<!-- Page Footer -->
+<!-- ── Page Footer ── -->
 <div class="page-footer">
   <div>本看板由AI搭建，部分信息可能有误，仅作参考</div>
   <div>design by 流岚@bilibili</div>
