@@ -1,0 +1,176 @@
+name: 📅 游戏日历 - 每周自动更新
+
+on:
+  schedule:
+    # 每周一早上 9 点（北京时间）自动执行
+    - cron: '0 1 * * 1'
+  workflow_dispatch:
+    inputs:
+      weeks:
+        description: '更新未来几周 (默认9周)'
+        required: false
+        type: string
+        default: '9'
+
+jobs:
+  update-calendar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Update games calendar
+        run: |
+          python3 << 'EOF'
+          import os
+          import json
+          import requests
+          from datetime import datetime, timedelta
+
+          weeks = int(os.environ.get('WEEKS', '9'))
+
+          # ── 从B站游戏中心抓取测试信息 ──
+          def fetch_bilibili_tests():
+            """尝试从B站获取游戏测试预告"""
+            test_games = []
+            try:
+              # B站游戏中心开测预告API
+              url = 'https://game.bilibili.com/api/getGameTimeline?type=test&page_size=50'
+              headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'Referer': 'https://game.bilibili.com/'
+              }
+              r = requests.get(url, headers=headers, timeout=10)
+              if r.status_code == 200:
+                data = r.json()
+                for item in data.get('data', [])[:20]:
+                  test_games.append({
+                    'date': item.get('start_time', '')[:10] if item.get('start_time') else 'TBD',
+                    'name': item.get('game_name', ''),
+                    'company': item.get('developer', ''),
+                    'platform': 'iOS/Android/PC',
+                    'eventType': 'test',
+                    'type': item.get('genre', ''),
+                    'publisher': item.get('developer', ''),
+                    'note': f"B站开测预告",
+                    'source': item.get('url', '')
+                  })
+                print(f"✅ B站获取 {len(test_games)} 条测试信息")
+            except Exception as e:
+              print(f"⚠️ B站API获取失败: {e}")
+            return test_games
+
+          # ── 生成未来N周的固定周年庆（根据上线日期计算）──
+          def generate_anniversary_events(weeks=9):
+            """根据已知的游戏上线日期，自动计算未来N周的周年庆"""
+            anniversaries = []
+
+            # 已知的周年庆配置：(游戏名, 上线日期, 厂商)
+            known_games = [
+              ('原神', '2020-09-28', '米哈游', '开放世界RPG'),
+              ('崩坏星穹铁道', '2023-04-26', '米哈游', '回合制RPG'),
+              ('绝区零', '2024-07-04', '米哈游', '动作RPG'),
+              ('鸣潮', '2024-05-23', '库洛游戏', '开放世界动作RPG'),
+              ('明日方舟', '2019-05-01', '鹰角网络', '策略塔防'),
+            ]
+
+            today = datetime.now()
+            future_date = today + timedelta(weeks=weeks * 7)
+
+            for game_name, launch_date, company, genre in known_games:
+              try:
+                # 计算上次周年庆日期
+                launch = datetime.strptime(launch_date, '%Y-%m-%d')
+                # 从上线日期开始，每年加一年直到超过未来日期
+                years = 1
+                while True:
+                  anniv = datetime(launch.year + years, launch.month, launch.day)
+                  if anniv > future_date:
+                    break
+                  if anniv >= today:
+                    anniversaries.append({
+                      'date': anniv.strftime('%Y-%m-%d'),
+                      'name': f'{game_name} {to_chinese_num(years)}周年庆',
+                      'company': company,
+                      'platform': '全平台',
+                      'eventType': 'anniversary',
+                      'type': genre,
+                      'publisher': company,
+                      'note': f'{to_chinese_num(years)}周年庆（{launch_date}上线）',
+                      'source': f'https://{game_name}.mihoyo.com/' if company == '米哈游' else ''
+                    })
+                  years += 1
+              except Exception as e:
+                print(f"⚠️ 计算 {game_name} 周年庆失败: {e}")
+
+            return anniversaries
+
+          def to_chinese_num(n):
+            """数字转中文"""
+            cn = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+            if n <= 10:
+              return cn[n]
+            return str(n)
+
+          # ── 主逻辑 ──
+          weeks = int(os.environ.get('WEEKS', '9'))
+
+          # 1. 尝试从B站获取测试信息
+          bilibili_tests = fetch_bilibili_tests()
+
+          # 2. 生成未来周年庆
+          anniversaries = generate_anniversary_events(weeks)
+
+          # 3. 读取现有games.json
+          games_path = 'data/games.json'
+          existing_games = []
+          if os.path.exists(games_path):
+            with open(games_path, 'r', encoding='utf-8') as f:
+              existing_games = json.load(f)
+            print(f"📂 读取现有 {len(existing_games)} 条事件")
+
+          # 4. 合并去重（优先保留手动添加的详细事件）
+          all_games = existing_games.copy()
+          existing_dates = {(g.get('date', ''), g.get('name', '')) for g in existing_games}
+
+          # 添加B站测试（如果没有相同日期+名称）
+          for g in bilibili_tests:
+            key = (g['date'], g['name'])
+            if key not in existing_dates and g['date'] != 'TBD':
+              all_games.append(g)
+              existing_dates.add(key)
+
+          # 添加周年庆（如果没有相同日期）
+          anniv_dates = {a['date'] for a in anniversaries}
+          for a in anniversaries:
+            if a['date'] not in anniv_dates or not any(g.get('date') == a['date'] and g.get('category') == '周年庆' for g in all_games):
+              all_games.append(a)
+
+          # 5. 按日期排序
+          all_games.sort(key=lambda x: x.get('date', '9999'))
+
+          # 6. 写入文件
+          with open(games_path, 'w', encoding='utf-8') as f:
+            json.dump(all_games, f, ensure_ascii=False, indent=2)
+
+          print(f"✅ 更新完成: {len(all_games)} 条事件")
+          print(f"   - 周年庆: {len([g for g in all_games if g.get('eventType') == 'anniversary'])} 条")
+          print(f"   - 测试: {len([g for g in all_games if g.get('eventType') == 'test'])} 条")
+          print(f"   - 上线: {len([g for g in all_games if g.get('eventType') == 'release'])} 条")
+          EOF
+
+        env:
+          WEEKS: ${{ github.event.inputs.weeks || '9' }}
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/games.json
+          git diff --staged --quiet || git commit -m "📅 Auto update: 游戏日历 $(date +%Y-%m-%d)"
+          git push
