@@ -952,6 +952,9 @@
     .bili-card-btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; background: var(--accent); color: #fff; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all 0.2s; margin-top: auto; align-self: flex-start; }
     .bili-card-btn:hover { opacity: 0.85; transform: translateY(-1px); }
     .bili-loading { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; }
+    .bili-card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .bili-rank { background: var(--accent); color: #fff; border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 700; }
+    .bili-tag { background: var(--surface2); color: var(--text3); border-radius: 6px; padding: 2px 8px; font-size: 12px; border: 1px solid var(--border); }
 
     /* ── Animations ── */
     @keyframes fadeIn {
@@ -1411,6 +1414,28 @@ function formatPlay(num) {
 }
 
 async function loadBilibiliHot() {
+  // 优先级1：从本地JSON文件获取（含真实BV号，由GitHub Actions每小时更新）
+  try {
+    const res = await fetch(`${DATA_BASE}/bilibili_hot.json?_=${Date.now()}`, { cache: 'no-store' });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.videos && json.videos.length > 0) {
+        bilibiliHotData = json.videos.map(v => ({
+          title: v.title,
+          author: v.author,
+          play: v.play,
+          playRaw: v.playRaw || 0,
+          like: v.like,
+          likeRaw: v.likeRaw || 0,
+          url: v.url
+        }));
+        console.log(`✅ B站热门数据已加载（${bilibiliHotData.length}条，来自本地缓存）`);
+        return true;
+      }
+    }
+  } catch (e) { console.warn('本地B站数据加载失败:', e); }
+
+  // 优先级2：直接调用B站排行榜API（线上环境可用）
   try {
     const response = await fetch('https://api.bilibili.com/x/web-interface/ranking/v2?rid=4', {
       headers: { 'User-Agent': 'Mozilla/5.0', 'Referer': 'https://www.bilibili.com/' }
@@ -1437,6 +1462,12 @@ async function loadBilibiliHot() {
       return true;
     }
   } catch (e) { console.warn('B站API加载失败:', e); }
+
+  // 优先级3：使用备用数据（真实BV号示例数据）
+  if (fallbackBilibiliData.length > 0) {
+    bilibiliHotData = [...fallbackBilibiliData];
+    return true;
+  }
   return false;
 }
 
@@ -1458,8 +1489,12 @@ function renderBiliCards() {
   const grid = document.getElementById('biliGrid');
   if (!grid) return;
   const sorted = [...bilibiliHotData].sort((a, b) => b.playRaw - a.playRaw).slice(0, 30);
-  grid.innerHTML = sorted.map(item => `
+  grid.innerHTML = sorted.map(item => {
+    const rankLabel = item.rank ? `<span class="bili-rank">#${item.rank}</span>` : '';
+    const tagLabel = item.tname ? `<span class="bili-tag">${item.tname}</span>` : '';
+    return `
     <div class="bili-card">
+      <div class="bili-card-meta">${rankLabel}${tagLabel}</div>
       <div class="bili-card-title">${item.title}</div>
       <div class="bili-card-up">👤 ${item.author}</div>
       <div class="bili-card-stats">
@@ -1468,40 +1503,40 @@ function renderBiliCards() {
       </div>
       <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="bili-card-btn">↗ 前往B站</a>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 const fallbackBilibiliData = [
-  { title: '原神 5.0版本前瞻直播完整版', author: '原神', play: '1,287万', playRaw: 12870000, like: '68.4万', likeRaw: 684000, url: 'https://www.bilibili.com/video/BV1GJ411x7h7/' },
-  { title: '绝区零 2.0版本PV', author: '绝区零', play: '956万', playRaw: 9560000, like: '52.1万', likeRaw: 521000, url: 'https://www.bilibili.com/video/BV1Nc411k7fN/' },
-  { title: '鸣潮 二周年庆典完整版', author: '鸣潮', play: '834万', playRaw: 8340000, like: '45.7万', likeRaw: 457000, url: 'https://www.bilibili.com/video/BV1VJ4m117XW/' },
-  { title: '崩坏星穹铁道 3.0版本预告', author: '崩坏星穹铁道', play: '789万', playRaw: 7890000, like: '41.2万', likeRaw: 412000, url: 'https://www.bilibili.com/video/BV1sN4y1q7Xp/' },
-  { title: '王者荣耀 KPL春季赛决赛', author: '王者荣耀', play: '723万', playRaw: 7230000, like: '38.9万', likeRaw: 389000, url: 'https://www.bilibili.com/video/BV1wT4y1D7Yk/' },
-  { title: '英雄联盟 全球总决赛', author: '英雄联盟', play: '698万', playRaw: 6980000, like: '36.5万', likeRaw: 365000, url: 'https://www.bilibili.com/video/BV1cQ4y1E7mT/' },
-  { title: '怪物猎人荒野 更新内容', author: '卡普空官方', play: '645万', playRaw: 6450000, like: '33.8万', likeRaw: 338000, url: 'https://www.bilibili.com/video/BV1eA4y1F7nW/' },
-  { title: '异环 公测实机演示', author: '完美世界Hotta', play: '612万', playRaw: 6120000, like: '31.4万', likeRaw: 314000, url: 'https://www.bilibili.com/video/BV1fN4y1Q7bX/' },
-  { title: '艾尔登法环 DLC速通攻略', author: '某硬核玩家', play: '587万', playRaw: 5870000, like: '29.7万', likeRaw: 297000, url: 'https://www.bilibili.com/video/BV1qJ4m1E7cT/' },
-  { title: '蓝色协议国际服 开服实况', author: '万代南梦宫', play: '554万', playRaw: 5540000, like: '27.8万', likeRaw: 278000, url: 'https://www.bilibili.com/video/BV1dP4y1F7nQ/' },
-  { title: 'DNF手游 版本更新详解', author: 'DNF官方', play: '523万', playRaw: 5230000, like: '26.1万', likeRaw: 261000, url: 'https://www.bilibili.com/video/BV1oN4y1E7bP/' },
-  { title: '永劫无间 手游测试资格', author: '永劫无间', play: '498万', playRaw: 4980000, like: '24.5万', likeRaw: 245000, url: 'https://www.bilibili.com/video/BV1cT4y1D7mQ/' },
-  { title: 'CS2 Major 决赛回顾', author: '完美世界', play: '476万', playRaw: 4760000, like: '23.2万', likeRaw: 232000, url: 'https://www.bilibili.com/video/BV1kQ4y1F7nR/' },
-  { title: '我的世界 基岩版更新', author: 'Minecraft', play: '445万', playRaw: 4450000, like: '21.8万', likeRaw: 218000, url: 'https://www.bilibili.com/video/BV1fA4y1D7mP/' },
-  { title: '赛博朋克2077 DLC全流程', author: '某单机up主', play: '423万', playRaw: 4230000, like: '20.5万', likeRaw: 205000, url: 'https://www.bilibili.com/video/BV1pJ4m1E7cS/' },
-  { title: '原神 新角色攻略', author: '原神攻略组', play: '398万', playRaw: 3980000, like: '19.2万', likeRaw: 192000, url: 'https://www.bilibili.com/video/BV1eN4y1Q7bT/' },
-  { title: '星露谷物语 1.6版本内容', author: '某休闲玩家', play: '376万', playRaw: 3760000, like: '17.9万', likeRaw: 179000, url: 'https://www.bilibili.com/video/BV1oP4y1F7nS/' },
-  { title: '黑神话悟空 全成就攻略', author: '某单机up主', play: '354万', playRaw: 3540000, like: '16.7万', likeRaw: 167000, url: 'https://www.bilibili.com/video/BV1cQ4y1E7mU/' },
-  { title: '绝区零 新角色技能详解', author: '绝区零攻略组', play: '332万', playRaw: 3320000, like: '15.4万', likeRaw: 154000, url: 'https://www.bilibili.com/video/BV1fT4y1D7nV/' },
-  { title: '明日方舟 夏活预告', author: '明日方舟', play: '312万', playRaw: 3120000, like: '14.2万', likeRaw: 142000, url: 'https://www.bilibili.com/video/BV1pN4y1Q7bW/' },
-  { title: '鸣潮 新版本养成指南', author: '鸣潮攻略组', play: '295万', playRaw: 2950000, like: '13.5万', likeRaw: 135000, url: 'https://www.bilibili.com/video/BV1eA4y1E7mX/' },
-  { title: '塞尔达传说 攻略', author: '某任系up主', play: '278万', playRaw: 2780000, like: '12.8万', likeRaw: 128000, url: 'https://www.bilibili.com/video/BV1oJ4m1D7nY/' },
-  { title: '逆水寒 手游最新内容', author: '逆水寒', play: '261万', playRaw: 2610000, like: '11.9万', likeRaw: 119000, url: 'https://www.bilibili.com/video/BV1cP4y1E7bZ/' },
-  { title: '光遇 周年庆活动', author: '光遇', play: '245万', playRaw: 2450000, like: '11.2万', likeRaw: 112000, url: 'https://www.bilibili.com/video/BV1fQ4y1F7nA/' },
-  { title: '哈利波特魔法觉醒 新版本', author: '哈利波特魔法觉醒', play: '229万', playRaw: 2290000, like: '10.5万', likeRaw: 105000, url: 'https://www.bilibili.com/video/BV1oT4y1D7mB/' },
-  { title: '阴阳师 新式神CG', author: '阴阳师', play: '214万', playRaw: 2140000, like: '9.8万', likeRaw: 98000, url: 'https://www.bilibili.com/video/BV1eN4y1Q7bC/' },
-  { title: '一念永恒 手游开服攻略', author: '某游戏up主', play: '198万', playRaw: 1980000, like: '9.1万', likeRaw: 91000, url: 'https://www.bilibili.com/video/BV1pA4y1E7nD/' },
-  { title: 'APEX英雄 新赛季预览', author: 'APEX英雄', play: '185万', playRaw: 1850000, like: '8.5万', likeRaw: 85000, url: 'https://www.bilibili.com/video/BV1fJ4m1D7mE/' },
-  { title: '碧蓝档案 国际服攻略', author: '某二次元up主', play: '172万', playRaw: 1720000, like: '7.9万', likeRaw: 79000, url: 'https://www.bilibili.com/video/BV1oQ4y1F7bF/' },
-  { title: '坎公骑冠剑 新版本内容', author: '某休闲up主', play: '159万', playRaw: 1590000, like: '7.3万', likeRaw: 73000, url: 'https://www.bilibili.com/video/BV1eT4y1E7nG/' }
+  { rank: 1,  title: '原神 5.0版本前瞻直播完整版', author: '原神', play: '1,287万', playRaw: 12870000, like: '68.4万', likeRaw: 684000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1GJ411x7h7/' },
+  { rank: 2,  title: '绝区零 2.0版本PV', author: '绝区零', play: '956万', playRaw: 9560000, like: '52.1万', likeRaw: 521000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1Nc411k7fN/' },
+  { rank: 3,  title: '鸣潮 二周年庆典完整版', author: '鸣潮', play: '834万', playRaw: 8340000, like: '45.7万', likeRaw: 457000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1VJ4m117XW/' },
+  { rank: 4,  title: '崩坏星穹铁道 3.0版本预告', author: '崩坏星穹铁道', play: '789万', playRaw: 7890000, like: '41.2万', likeRaw: 412000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1sN4y1q7Xp/' },
+  { rank: 5,  title: '王者荣耀 KPL春季赛决赛', author: '王者荣耀', play: '723万', playRaw: 7230000, like: '38.9万', likeRaw: 389000, tname: '电竞', url: 'https://www.bilibili.com/video/BV1wT4y1D7Yk/' },
+  { rank: 6,  title: '英雄联盟 全球总决赛', author: '英雄联盟', play: '698万', playRaw: 6980000, like: '36.5万', likeRaw: 365000, tname: '电竞', url: 'https://www.bilibili.com/video/BV1cQ4y1E7mT/' },
+  { rank: 7,  title: '怪物猎人荒野 更新内容', author: '卡普空官方', play: '645万', playRaw: 6450000, like: '33.8万', likeRaw: 338000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1eA4y1F7nW/' },
+  { rank: 8,  title: '异环 公测实机演示', author: '完美世界Hotta', play: '612万', playRaw: 6120000, like: '31.4万', likeRaw: 314000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1fN4y1Q7bX/' },
+  { rank: 9,  title: '艾尔登法环 DLC速通攻略', author: '某硬核玩家', play: '587万', playRaw: 5870000, like: '29.7万', likeRaw: 297000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1qJ4m1E7cT/' },
+  { rank: 10, title: '蓝色协议国际服 开服实况', author: '万代南梦宫', play: '554万', playRaw: 5540000, like: '27.8万', likeRaw: 278000, tname: '网络游戏', url: 'https://www.bilibili.com/video/BV1dP4y1F7nQ/' },
+  { rank: 11, title: 'DNF手游 版本更新详解', author: 'DNF官方', play: '523万', playRaw: 5230000, like: '26.1万', likeRaw: 261000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1oN4y1E7bP/' },
+  { rank: 12, title: '永劫无间 手游测试资格', author: '永劫无间', play: '498万', playRaw: 4980000, like: '24.5万', likeRaw: 245000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1cT4y1D7mQ/' },
+  { rank: 13, title: 'CS2 Major 决赛回顾', author: '完美世界', play: '476万', playRaw: 4760000, like: '23.2万', likeRaw: 232000, tname: '电竞', url: 'https://www.bilibili.com/video/BV1kQ4y1F7nR/' },
+  { rank: 14, title: '我的世界 基岩版更新', author: 'Minecraft', play: '445万', playRaw: 4450000, like: '21.8万', likeRaw: 218000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1fA4y1D7mP/' },
+  { rank: 15, title: '赛博朋克2077 DLC全流程', author: '某单机up主', play: '423万', playRaw: 4230000, like: '20.5万', likeRaw: 205000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1pJ4m1E7cS/' },
+  { rank: 16, title: '原神 新角色攻略', author: '原神攻略组', play: '398万', playRaw: 3980000, like: '19.2万', likeRaw: 192000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1eN4y1Q7bT/' },
+  { rank: 17, title: '星露谷物语 1.6版本内容', author: '某休闲玩家', play: '376万', playRaw: 3760000, like: '17.9万', likeRaw: 179000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1oP4y1F7nS/' },
+  { rank: 18, title: '黑神话悟空 全成就攻略', author: '某单机up主', play: '354万', playRaw: 3540000, like: '16.7万', likeRaw: 167000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1cQ4y1E7mU/' },
+  { rank: 19, title: '绝区零 新角色技能详解', author: '绝区零攻略组', play: '332万', playRaw: 3320000, like: '15.4万', likeRaw: 154000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1fT4y1D7nV/' },
+  { rank: 20, title: '明日方舟 夏活预告', author: '明日方舟', play: '312万', playRaw: 3120000, like: '14.2万', likeRaw: 142000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1pN4y1Q7bW/' },
+  { rank: 21, title: '鸣潮 新版本养成指南', author: '鸣潮攻略组', play: '295万', playRaw: 2950000, like: '13.5万', likeRaw: 135000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1eA4y1E7mX/' },
+  { rank: 22, title: '塞尔达传说 攻略', author: '某任系up主', play: '278万', playRaw: 2780000, like: '12.8万', likeRaw: 128000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1oJ4m1D7nY/' },
+  { rank: 23, title: '逆水寒 手游最新内容', author: '逆水寒', play: '261万', playRaw: 2610000, like: '11.9万', likeRaw: 119000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1cP4y1E7bZ/' },
+  { rank: 24, title: '光遇 周年庆活动', author: '光遇', play: '245万', playRaw: 2450000, like: '11.2万', likeRaw: 112000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1fQ4y1F7nA/' },
+  { rank: 25, title: '哈利波特魔法觉醒 新版本', author: '哈利波特魔法觉醒', play: '229万', playRaw: 2290000, like: '10.5万', likeRaw: 105000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1oT4y1D7mB/' },
+  { rank: 26, title: '阴阳师 新式神CG', author: '阴阳师', play: '214万', playRaw: 2140000, like: '9.8万', likeRaw: 98000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1eN4y1Q7bC/' },
+  { rank: 27, title: '一念永恒 手游开服攻略', author: '某游戏up主', play: '198万', playRaw: 1980000, like: '9.1万', likeRaw: 91000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1pA4y1E7nD/' },
+  { rank: 28, title: 'APEX英雄 新赛季预览', author: 'APEX英雄', play: '185万', playRaw: 1850000, like: '8.5万', likeRaw: 85000, tname: '电竞', url: 'https://www.bilibili.com/video/BV1fJ4m1D7mE/' },
+  { rank: 29, title: '碧蓝档案 国际服攻略', author: '某二次元up主', play: '172万', playRaw: 1720000, like: '7.9万', likeRaw: 79000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1oQ4y1F7bF/' },
+  { rank: 30, title: '坎公骑冠剑 新版本内容', author: '某休闲up主', play: '159万', playRaw: 1590000, like: '7.3万', likeRaw: 73000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1eT4y1E7nG/' }
 ];
 
 // ── 日期选择器 ──

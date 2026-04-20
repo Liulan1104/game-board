@@ -1,0 +1,226 @@
+{
+  "date": "2026-04-20",
+  "dayLabel": "4月20日（周一）",
+  "news": [
+    {
+      "rank": 1,
+      "cat": "手游",
+      "products": [],
+      "title": "《异环》公测倒计时3天，全平台预约量突破3500万",
+      "source": "微博热搜 #1",
+      "company": "完美世界Hotta",
+      "hot": "预约3500万",
+      "detail": "《异环》全平台公测倒计时3天，全平台预约量突破3500万，创完美世界历史新高。游戏将于4月23日开启PC、安卓、iOS、Mac、鸿蒙、PS5六端公测。",
+      "url": "https://weibo.com/"
+    },
+    {
+      "rank": 2,
+      "cat": "手游",
+      "products": [],
+      "title": "《星布谷地》明日星旅测试开测，米哈游新品首测倒计时1天",
+      "source": "米哈游官宣",
+      "company": "米哈游",
+      "hot": "明日开测",
+      "detail": "米哈游田园模拟经营新作《星布谷地》明日（4月21日）正式开启星旅测试，测试资格正在陆续发放中。这是米哈游新IP的首轮测试，采用删档形式。",
+      "url": "https://sr.mihoyo.com/"
+    },
+    {
+      "rank": 3,
+      "cat": "手游",
+      "products": [],
+      "title": "《三国：百将牌》明日不删档测试，预约人数已破150万",
+      "source": "B站官宣",
+      "company": "哔哩哔哩游戏",
+      "hot": "明日开测",
+      "detail": "B站自研《三国：百将牌》明日（4月22日）不删档测试，预约人数已突破150万。游戏主打三国武将卡牌对战，支持PC/iOS/Android/Steam四端互通。",
+      "url": "https://game.bilibili.com/"
+    },
+    {
+      "rank": 4,
+      "cat": "行业",
+      "products": [],
+      "title": "《王者荣耀世界》上线4天iOS免费榜霸榜，腾讯Q2业绩预期提升",
+      "source": "微博热搜 #4",
+      "company": "腾讯天美",
+      "hot": "免费榜霸榜",
+      "detail": "《王者荣耀世界》移动端上线4天持续占据iOS免费榜榜首，带动腾讯游戏Q2业绩预期提升。多券商上调腾讯目标价，看好国民级IP的长期变现能力。",
+      "url": "https://weibo.com/"
+    },
+    {
+      "rank": 5,
+      "cat": "行业",
+      "products": [],
+      "title": "游戏产业首次纳入国家文化出口重点企业名单，15款游戏入选",
+      "source": "央视新闻",
+      "company": "商务部",
+      "hot": "政策利好",
+      "detail": "商务部公布2026年国家文化出口重点企业和重点项目名单，《原神》《崩坏：星穹铁道》《黑神话：悟空》等15款国产游戏首次入选，游戏出海获得政策支持。",
+      "url": "https://news.cctv.com/"
+    },
+    {
+      "rank": 6,
+      "cat": "行业",
+      "products": [],
+      "title": "NVIDIA发布DLSS 4.0技术，游戏行业AI画质革命加速",
+      "source": "英伟达GTC大会",
+      "company": "NVIDIA",
+      "hot": "技术革新",
+      "detail": "NVIDIA在GTC大会上正式发布DLSS 4.0技术，通过AI实现更高效的超级采样和帧生成，游戏画质和性能将迎来革命性提升，多家游戏厂商表示将支持该技术。",
+      "url": "https://www.nvidia.com/"
+    },
+    {
+      "rank": 7,
+      "cat": "行业",
+      "products": [],
+      "title": "网易游戏王怡调任海外业务负责人，出海战略再升级",
+      "source": "36氪",
+      "company": "网易游戏",
+      "hot": "人事变动",
+      "detail": "网易游戏高管王怡正式调任海外业务负责人，统筹管理网易游戏的海外发行和运营工作，这是网易游戏出海战略的重要升级。",
+      "url": "https://www.36kr.com/"
+    },
+    {
+      "rank": 8,
+      "cat": "手游",
+      "products": ["原神"],
+      "title": "《原神》5.6版本上线首周流水表现稳定，新角色「曙云」受欢迎",
+      "source": "微博热搜 #9",
+      "company": "米哈游",
+      "hot": "版本流水",
+      "detail": "《原神》5.6版本上线首周流水表现稳定，新角色「曙云」成为版本最受欢迎角色。社区玩家对版本剧情和活动内容评价积极。",
+      "url": "https://weibo.com/"
+    },
+    {
+      "rank": 9,
+      "cat": "行业",
+      "products": [],
+      "title": "腾讯《MONOPOLY GO!》衍生社交APP半月下载破200万，休闲游戏赛道持续火热",
+      "source": "游戏陀螺",
+      "company": "腾讯",
+      "hot": "休闲爆款",
+      "detail": "腾讯《MONOPOLY GO!》衍生的社交APP上线半月下载量突破200万，成为休闲游戏领域的新爆款，展现了经典桌游IP的移动化潜力。",
+      "url": "https://www.yoyocent.com/"
+    },
+    {
+      "rank": 10,
+      "cat": "行业",
+      "products": [],
+      "title": "中手游《仙剑世界》失败后续：连续第四年亏损，行业反思大厂策略",
+      "source": "新浪财经/中国经营报",
+      "company": "中手游",
+      "hot": "行业头条",
+      "detail": "中手游《仙剑世界》失败事件持续引发行业讨论，该公司自2022年以来连续第四年亏损，2025年利润亏损14.77亿元，分析师指出大厂押注旗舰项目风险加剧。",
+      "url": "https://finance.sina.com.cn/"
+    },
+    {
+      "rank": 11,
+      "cat": "电竞",
+      "products": [],
+      "title": "2026LPL春季赛决赛BLG vs WBG，5月3日争夺冠军",
+      "source": "LPL官方",
+      "company": "LPL赛事",
+      "hot": "决赛预告",
+      "detail": "2026年LPL春季赛决赛赛程正式公布，BLG将与WBG于5月3日展开冠军争夺战，胜者将代表LPL出征MSI国际赛事。",
+      "url": "https://lpl.qq.com/"
+    },
+    {
+      "rank": 12,
+      "cat": "行业",
+      "products": [],
+      "title": "《绝区零》二周年庆典5月预热，2.0版本内容提前泄露",
+      "source": "抖音热搜 #15",
+      "company": "米哈游",
+      "hot": "二周年预热",
+      "detail": "《绝区零》将于7月4日迎来二周年庆典，官方宣布5月开始预热活动。近日2.0版本内容疑似提前泄露，引发玩家社区热议。",
+      "url": "https://www.douyin.com/"
+    },
+    {
+      "rank": 13,
+      "cat": "行业",
+      "products": [],
+      "title": "Epic Games公布虚幻引擎6预览版，游戏开发进入新纪元",
+      "source": "Epic Games官宣",
+      "company": "Epic Games",
+      "hot": "技术发布",
+      "detail": "Epic Games正式公布虚幻引擎6预览版，带来全新的Nanite和Lumen技术升级，游戏开发进入新纪元。多款3A大作已确认将使用虚幻引擎6开发。",
+      "url": "https://www.epicgames.com/"
+    },
+    {
+      "rank": 14,
+      "cat": "手游",
+      "products": ["明日方舟"],
+      "title": "《明日方舟》七周年庆典5月1日开启，限定干员立绘提前曝光",
+      "source": "鹰角官宣",
+      "company": "鹰角网络",
+      "hot": "七周年庆",
+      "detail": "《明日方舟》七周年庆典将于5月1日正式开启，七周年限定干员立绘今日提前曝光，新干员「???」引发玩家猜测。限定礼盒预订持续火爆。",
+      "url": "https://ak.hypergryph.com/"
+    },
+    {
+      "rank": 15,
+      "cat": "行业",
+      "products": [],
+      "title": "Yandex Ads深圳大会聚焦游戏出海俄语区流量",
+      "source": "Yandex官宣",
+      "company": "Yandex",
+      "hot": "行业动态",
+      "detail": "Yandex在深圳举办广告合作伙伴大会，重点分享俄罗斯及CIS地区游戏用户画像与投放策略，为国内游戏厂商出海东欧提供更多流量路径参考。",
+      "url": "https://advertising.yandex.com/"
+    },
+    {
+      "rank": 16,
+      "cat": "行业",
+      "products": [],
+      "title": "App Store游戏板块改版，新增\"开发者角\"功能",
+      "source": "苹果App Store",
+      "company": "苹果",
+      "hot": "平台改版",
+      "detail": "苹果App Store宣布对游戏板块进行重大改版，新增\"开发者角\"功能，为独立开发者提供更多展示机会和变现工具。",
+      "url": "https://www.apple.com/"
+    },
+    {
+      "rank": 17,
+      "cat": "行业",
+      "products": [],
+      "title": "七麦数据：2026年3月App Store游戏免费榜，《王者荣耀世界》预约即登顶",
+      "source": "七麦数据",
+      "company": "七麦数据",
+      "hot": "榜单数据",
+      "detail": "七麦数据发布2026年3月App Store游戏免费榜，《王者荣耀世界》凭借预抽卡活动空降榜首，国民级IP效应显著。",
+      "url": "https://www.qimai.cn/"
+    },
+    {
+      "rank": 18,
+      "cat": "电竞",
+      "products": [],
+      "title": "电竞苏超启幕后续：长三角电竞联赛体系化推进，虎牙资源导入",
+      "source": "21世纪经济报道",
+      "company": "虎牙/江苏电竞",
+      "hot": "区域电竞",
+      "detail": "2026江苏省电竞超级联赛启动后持续推进，长三角电竞联赛体系化，虎牙持续导入赛事资源和商业合作，以\"体育+文旅+电竞\"融合模式探索区域电竞产业发展路径。",
+      "url": "https://www.21jingji.com/"
+    },
+    {
+      "rank": 19,
+      "cat": "行业",
+      "products": [],
+      "title": "追爆款赔千万转头用AI做UGC两月流水破千万，游戏创业新路径",
+      "source": "游戏陀螺",
+      "company": "游戏创业者",
+      "hot": "创业案例",
+      "detail": "游戏行业出现新的创业模式：追爆款可能赔千万，但转头用AI做UGC内容，两月流水破千万。这种轻量化创业路径引发行业关注。",
+      "url": "https://www.yoyocent.com/"
+    },
+    {
+      "rank": 20,
+      "cat": "手游",
+      "products": [],
+      "title": "《恋与深空》×故宫博物院联动正式公布，文物活化新范式",
+      "source": "叠纸官宣",
+      "company": "叠纸游戏",
+      "hot": "文化联动",
+      "detail": "叠纸游戏与故宫博物院正式宣布联动合作，将故宫文物元素融入《恋与深空》游戏内容，文物活化新范式引发文化界和游戏界关注。",
+      "url": "https://www.papergames.io/"
+    }
+  ]
+}

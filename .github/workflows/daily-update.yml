@@ -66,66 +66,37 @@ jobs:
               '新角色','新干员','新英雄','限定','UP池','抽卡','限时','赛季',
           ]
 
-          # ── 1. B站综合热门中筛选游戏相关内容 ──
-          # 使用 /x/web-interface/popular（无需WBI签名，稳定可用）
-          # 分区名含"游戏"或标题含游戏关键词的内容直接收录
+          # ═══════════════════════════════════════════════════════
+          # 来源1：B站热搜（替代原来的B站综合热门）
+          # ═══════════════════════════════════════════════════════
           bilibili_topics = []
           try:
-              collected = []
-              for pn in range(1, 6):   # 最多取5页（每页20条）
-                  r = requests.get(
-                      f'https://api.bilibili.com/x/web-interface/popular?ps=20&pn={pn}',
-                      timeout=10, headers=HEADERS
-                  )
-                  if r.status_code != 200:
-                      break
-                  page_items = r.json().get('data', {}).get('list', [])
-                  if not page_items:
-                      break
-                  for item in page_items:
-                      tname = item.get('tname', '')      # 分区名
-                      title = item.get('title', '').strip()
-                      # 游戏分区直接收录；非游戏分区做关键词匹配
-                      if '游戏' in tname or any(k in title for k in GAME_KEYWORDS):
-                          collected.append(item)
-                  if len(collected) >= 20:
-                      break
-
-              print(f"B站综合热门 筛出游戏相关 {len(collected)} 条")
-              for i, item in enumerate(collected[:20]):
-                  title = item.get('title', '').strip()
-                  owner = item.get('owner', {}).get('name', '')
-                  tname = item.get('tname', '')
-                  stat = item.get('stat', {})
-                  view = stat.get('view', 0)
-                  desc = item.get('desc', '') or title
-                  # 推断分类
-                  cat = '手游'
-                  tname_lower = tname.lower()
-                  if '单机' in tname or '主机' in tname:
-                      cat = '端游'
-                  elif '网络游戏' in tname:
-                      cat = '端游'
-                  for kw, c in [('联赛','电竞'),('赛季','电竞'),('电竞','电竞'),('LPL','电竞'),
-                                 ('KPL','电竞'),('VCT','电竞')]:
-                      if kw in title:
-                          cat = c
-                          break
-                  hot_str = f'{view//10000}万播放' if view >= 10000 else f'{view}播放'
-                  bilibili_topics.append({
-                      'rank': i + 1,
-                      'cat': cat,
-                      'title': title,
-                      'source': f'B站热门/{tname}',
-                      'company': owner,
-                      'hot': hot_str,
-                      'detail': desc[:100] if desc else title,
-                      'url': f'https://www.bilibili.com/video/{item.get("bvid","")}'
-                  })
+              r = requests.get('https://tenapi.cn/v2/bilihot', timeout=10, headers=HEADERS)
+              if r.status_code == 200:
+                  data = r.json()
+                  if data.get('code') == 200 and data.get('data'):
+                      for item in data['data'][:30]:
+                          word = item.get('name', '').strip()
+                          if any(k in word for k in GAME_KEYWORDS):
+                              hot_val = item.get('hot', 0)
+                              hot_str = f'{int(hot_val)//10000}万热度' if hot_val and int(hot_val) > 9999 else str(hot_val)
+                              bilibili_topics.append({
+                                  'rank': 0,
+                                  'cat': '行业',
+                                  'title': word,
+                                  'source': 'B站热搜',
+                                  'company': '',
+                                  'hot': hot_str,
+                                  'detail': word,
+                                  'url': item.get('url', f'https://search.bilibili.com/all?vt=1&keyword={word}')
+                              })
+                      print(f"✅ B站热搜 游戏相关 {len(bilibili_topics)} 条")
           except Exception as e:
-              print(f"⚠️ B站热门抓取失败: {e}")
+              print(f"⚠️ B站热搜抓取失败: {e}")
 
-          # ── 2. 微博热搜（过滤游戏关键词）──
+          # ═══════════════════════════════════════════════════════
+          # 来源2：微博热搜（保留）
+          # ═══════════════════════════════════════════════════════
           weibo_topics = []
           try:
               r = requests.get(
@@ -159,8 +130,123 @@ jobs:
           except Exception as e:
               print(f"⚠️ 微博热搜抓取失败: {e}")
 
-          # ── 3. 合并 + 去重 + 排序 ──
-          all_topics = bilibili_topics + weibo_topics
+          # ═══════════════════════════════════════════════════════
+          # 来源3：抖音热榜（过滤游戏关键词）
+          # ═══════════════════════════════════════════════════════
+          douyin_topics = []
+          try:
+              r = requests.get('https://tenapi.cn/v2/douyinhot', timeout=10, headers=HEADERS)
+              if r.status_code == 200:
+                  data = r.json()
+                  if data.get('code') == 200 and data.get('data'):
+                      for item in data['data'][:50]:
+                          word = item.get('name', '').strip()
+                          if any(k in word for k in GAME_KEYWORDS):
+                              hot_val = item.get('hot', 0)
+                              hot_str = f'{int(hot_val)//10000}万热度' if hot_val and int(hot_val) > 9999 else str(hot_val)
+                              douyin_topics.append({
+                                  'rank': 0,
+                                  'cat': '手游',
+                                  'title': word,
+                                  'source': '抖音热搜',
+                                  'company': '',
+                                  'hot': hot_str,
+                                  'detail': word,
+                                  'url': item.get('url', f'https://www.douyin.com/search/{word}')
+                              })
+                      print(f"✅ 抖音热搜 游戏相关 {len(douyin_topics)} 条")
+          except Exception as e:
+              print(f"⚠️ 抖音热搜抓取失败: {e}")
+
+          # ═══════════════════════════════════════════════════════
+          # 来源4：知乎热榜（过滤游戏关键词）
+          # ═══════════════════════════════════════════════════════
+          zhihu_topics = []
+          try:
+              r = requests.get('https://tenapi.cn/v2/zhihuhot', timeout=10, headers=HEADERS)
+              if r.status_code == 200:
+                  data = r.json()
+                  if data.get('code') == 200 and data.get('data'):
+                      for item in data['data'][:30]:
+                          word = item.get('name', '').strip()
+                          if any(k in word for k in GAME_KEYWORDS):
+                              hot_str = item.get('hot', '')
+                              zhihu_topics.append({
+                                  'rank': 0,
+                                  'cat': '行业',
+                                  'title': word,
+                                  'source': '知乎热榜',
+                                  'company': '',
+                                  'hot': hot_str,
+                                  'detail': word,
+                                  'url': item.get('url', f'https://www.zhihu.com/search?q={word}')
+                              })
+                      print(f"✅ 知乎热榜 游戏相关 {len(zhihu_topics)} 条")
+          except Exception as e:
+              print(f"⚠️ 知乎热榜抓取失败: {e}")
+
+          # ═══════════════════════════════════════════════════════
+          # 来源5：今日头条热榜（过滤游戏关键词）
+          # ═══════════════════════════════════════════════════════
+          toutiao_topics = []
+          try:
+              r = requests.get('https://tenapi.cn/v2/toutiaohot', timeout=10, headers=HEADERS)
+              if r.status_code == 200:
+                  data = r.json()
+                  if data.get('code') == 200 and data.get('data'):
+                      for item in data['data'][:30]:
+                          word = item.get('name', '').strip()
+                          if any(k in word for k in GAME_KEYWORDS):
+                              toutiao_topics.append({
+                                  'rank': 0,
+                                  'cat': '行业',
+                                  'title': word,
+                                  'source': '今日头条',
+                                  'company': '',
+                                  'hot': '',
+                                  'detail': word,
+                                  'url': item.get('url', f'https://www.toutiao.com/trending/{word}')
+                              })
+                      print(f"✅ 今日头条 游戏相关 {len(toutiao_topics)} 条")
+          except Exception as e:
+              print(f"⚠️ 今日头条热榜抓取失败: {e}")
+
+          # ═══════════════════════════════════════════════════════
+          # 来源6：游民星空游戏新闻（爬虫）
+          # ═══════════════════════════════════════════════════════
+          gamersky_topics = []
+          try:
+              from bs4 import BeautifulSoup
+              r = requests.get('https://www.gamersky.com/news/', timeout=15, headers={
+                  **HEADERS, 'Referer': 'https://www.gamersky.com/'
+              })
+              if r.status_code == 200:
+                  soup = BeautifulSoup(r.text, 'lxml')
+                  items = soup.select('.newslist .txt, .mid1 .tit, .newslist li')
+                  for item in items[:20]:
+                      title_el = item.select_one('a') or item.select_one('h3 a') or item.select_one('.tit a')
+                      if title_el:
+                          title = title_el.get_text(strip=True)
+                          href = title_el.get('href', '')
+                          if title and any(k in title for k in GAME_KEYWORDS):
+                              if href and not href.startswith('http'):
+                                  href = 'https://www.gamersky.com' + href
+                              gamersky_topics.append({
+                                  'rank': 0,
+                                  'cat': '行业',
+                                  'title': title,
+                                  'source': '游民星空',
+                                  'company': '',
+                                  'hot': '',
+                                  'detail': title,
+                                  'url': href
+                              })
+                  print(f"✅ 游民星空 游戏相关 {len(gamersky_topics)} 条")
+          except Exception as e:
+              print(f"⚠️ 游民星空抓取失败: {e}")
+
+          # ── 合并 + 去重 + 排序 ──
+          all_topics = bilibili_topics + weibo_topics + douyin_topics + zhihu_topics + toutiao_topics + gamersky_topics
           seen_titles = set()
           unique_topics = []
           for t in all_topics:
@@ -175,8 +261,10 @@ jobs:
           unique_topics = unique_topics[:20]
 
           print(f"✅ 最终合并 {len(unique_topics)} 条热点")
+          for t in unique_topics:
+              print(f"  [{t['source']}] {t['title'][:30]}")
 
-          # ── 2. 写入 data/daily/{date}.json（历史存档）──
+          # ── 写入 data/daily/{date}.json（历史存档）──
           day_label = datetime.strptime(target_date, '%Y-%m-%d').strftime('%-m月%-d日')
           day_label = day_label.replace('January','1月').replace('February','2月') \
                                .replace('March','3月').replace('April','4月') \
@@ -199,7 +287,7 @@ jobs:
               json.dump(latest_report, f, ensure_ascii=False, indent=2)
           print(f"✅ 已写入 data/daily/{target_date}.json")
 
-          # ── 3. 写入 data/latest.json（快捷引用，指向当天）──
+          # ── 写入 data/latest.json（快捷引用，指向当天）──
           with open('data/latest.json', 'w', encoding='utf-8') as f:
               json.dump(latest_report, f, ensure_ascii=False, indent=2)
           print(f"✅ 已写入 data/latest.json（{len(unique_topics)} 条）")

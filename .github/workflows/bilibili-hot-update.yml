@@ -1,0 +1,133 @@
+name: 🎬 游戏行业看板 - B站热门视频数据
+
+on:
+  schedule:
+    # 每小时更新一次B站热门视频数据
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  collect-bilibili-hot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Scrape Bilibili Hot Videos
+        run: |
+          python3 << 'EOF'
+          import os
+          import json
+          import requests
+          from datetime import datetime
+
+          HEADERS = {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+              'Accept': 'application/json, text/plain, */*',
+              'Accept-Language': 'zh-CN,zh;q=0.9',
+              'Referer': 'https://www.bilibili.com/'
+          }
+
+          # ── 游戏关键词（用于过滤游戏视频）──
+          GAME_KEYWORDS = [
+              '游戏','原神','崩铁','崩坏','王者荣耀','王者世界','鸣潮','绝区零','方舟','明日方舟',
+              'LOL','英雄联盟','三角洲','和平精英','蛋仔','元梦','永劫无间','逆水寒',
+              '金铲铲','云顶','星穹铁道','星铁','米哈游','鹰角','库洛','完美世界',
+              '暗区突围','黑神话','悟空','剑与远征','碧蓝航线','阴阳师','第五人格',
+              '光遇','光与夜之恋','恋与深空','幻塔','无限暖暖','电竞',
+              'Steam','网易游戏','腾讯游戏','B站游戏','Genshin','Honkai','ZZZ',
+              'LPL','LCK','KPL','VCT','版本更新','公测','内测','上线','周年庆',
+          ]
+
+          def format_play(num):
+              if not num: return '0'
+              if num >= 100000000: return f'{num/100000000:.1f}亿'
+              if num >= 10000: return f'{num/10000:.1f}万'
+              return str(num)
+
+          videos = []
+          try:
+              # 使用排行榜API获取游戏区热门视频
+              r = requests.get(
+                  'https://api.bilibili.com/x/web-interface/ranking/v2?rid=4',
+                  timeout=15, headers=HEADERS
+              )
+              if r.status_code == 200:
+                  data = r.json()
+                  if data.get('code') == 0 and data.get('data', {}).get('list'):
+                      for item in data['data']['list']:
+                          title = item.get('title', '').strip()
+                          owner = item.get('owner', {}) or {}
+                          stat = item.get('stat', {}) or {}
+
+                          # 关键词过滤
+                          if not any(k in title for k in GAME_KEYWORDS):
+                              continue
+
+                          bvid = item.get('bvid', '')
+                          view = stat.get('view', 0)
+                          like = stat.get('like', 0)
+                          coins = stat.get('coin', 0)
+                          favorites = stat.get('favorite', 0)
+                          shares = stat.get('share', 0)
+
+                          videos.append({
+                              'bvid': bvid,
+                              'title': title,
+                              'author': owner.get('name', '未知'),
+                              'author_mid': owner.get('mid', ''),
+                              'tname': item.get('tname', ''),
+                              'pic': item.get('pic', ''),
+                              'play': format_play(view),
+                              'playRaw': view,
+                              'like': format_play(like),
+                              'likeRaw': like,
+                              'coins': format_play(coins),
+                              'favorites': format_play(favorites),
+                              'shares': format_play(shares),
+                              'duration': item.get('duration', 0),
+                              'url': f'https://www.bilibili.com/video/{bvid}/'
+                          })
+
+                      print(f"✅ B站游戏区热门 获取 {len(videos)} 条视频")
+              else:
+                  print(f"⚠️ B站API返回状态码: {r.status_code}")
+          except Exception as e:
+              print(f"⚠️ B站热门视频抓取失败: {e}")
+
+          # 按播放量排序，取前30
+          videos.sort(key=lambda x: x['playRaw'], reverse=True)
+          videos = videos[:30]
+
+          # 添加序号
+          for i, v in enumerate(videos):
+              v['rank'] = i + 1
+
+          # 写入 data/bilibili_hot.json
+          os.makedirs('data', exist_ok=True)
+          bilibili_data = {
+              'updatedAt': datetime.now().isoformat(),
+              'count': len(videos),
+              'videos': videos
+          }
+          with open('data/bilibili_hot.json', 'w', encoding='utf-8') as f:
+              json.dump(bilibili_data, f, ensure_ascii=False, indent=2)
+          print(f"✅ 已写入 data/bilibili_hot.json（{len(videos)} 条）")
+
+          # 打印前5条预览
+          for v in videos[:5]:
+              print(f"  [{v['rank']}] {v['title'][:30]} | {v['author']} | ▶{v['play']}")
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/bilibili_hot.json
+          git diff --staged --quiet || git commit -m "🎬 更新B站热门视频: $(date +%m-%d\ %H:%M)"
+          git push
