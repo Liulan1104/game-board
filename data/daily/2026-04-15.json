@@ -4,237 +4,223 @@
   "news": [
     {
       "rank": 1,
-      "cat": "手游",
-      "products": [
-        "崩坏星穹铁道"
-      ],
-      "title": "《崩坏：星穹铁道》即兴巡演PV冲上B站热搜第1，2.1万点赞",
-      "source": "B站热搜 #1",
-      "company": "米哈游",
-      "hot": "B站热搜#1",
-      "detail": "《崩坏：星穹铁道》即兴巡演LAND票务系统一开放即遭疯狂抢购，数十万张票在1分钟内全部售罄，黄牛倒票价格最高溢价5倍。官方表示正研究加开场次。",
-      "url": ""
+      "cat": "电竞",
+      "products": [],
+      "title": "2026LPL春季赛决赛BLG vs WBG，5月3日争夺冠军",
+      "source": "LPL官方",
+      "company": "LPL赛事",
+      "hot": "",
+      "detail": "2026年LPL春季赛决赛赛程正式公布，BLG将与WBG于5月3日展开冠军争夺战。",
+      "url": "https://lpl.qq.com/"
     },
     {
       "rank": 2,
       "cat": "手游",
       "products": [],
-      "title": "《王者荣耀世界》移动端明日上线倒计时，PC端已开放体验",
-      "source": "腾讯官宣",
-      "company": "腾讯天美",
-      "hot": "明日上线",
-      "detail": "腾讯天美工作室《王者荣耀世界》移动端明日（4月17日）正式上线，iOS/Android/PC三端互通，PC端已开放体验，移动端较PC延迟一周，游戏使用虚幻引擎5打造无缝开放世界。",
-      "url": ""
+      "title": "《恋与深空》×故宫博物院联动正式公布，文物活化新范式",
+      "source": "叠纸官宣",
+      "company": "叠纸游戏",
+      "hot": "",
+      "detail": "叠纸游戏与故宫博物院正式宣布联动合作，将故宫文物元素融入游戏内容。",
+      "url": "https://www.papergames.io/"
     },
     {
       "rank": 3,
-      "cat": "手游",
-      "products": [
-        "崩坏星穹铁道"
-      ],
-      "title": "《崩坏：星穹铁道》三周年嘉年华门票1分钟售罄，数十万张票秒光",
-      "source": "微博/米哈游官宣",
-      "company": "米哈游",
-      "hot": "1分钟售罄",
-      "detail": "《崩坏：星穹铁道》三周年嘉年华门票在1分钟内全部售罄，数十万张票被抢购一空，黄牛倒票价格最高溢价5倍，官方表示正研究加开场次以满足玩家需求。",
-      "url": ""
+      "cat": "行业",
+      "products": [],
+      "title": "中国游戏市场Q1规模达890亿元，端游增速首超手游",
+      "source": "微博热搜 #2",
+      "company": "伽马数据",
+      "hot": "30万热度",
+      "detail": "伽马数据发布2026年Q1中国游戏产业报告，市场规模持续增长。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     },
     {
       "rank": 4,
       "cat": "手游",
-      "products": [
-        "三角洲行动"
-      ],
-      "title": "《三角洲行动》S9回声赛季今日上线，古墓丽影联动同步开启",
-      "source": "抖音热搜 #13",
-      "company": "腾讯琳琅天地",
-      "hot": "858万热度",
-      "detail": "S9赛季代号回声，引入新地图生命禁区·古墓丽影联动皮肤，藏宝堆活动点位攻略成为抖音热搜#13，单话题热度858万，Steam愿望单排名持续攀升。",
-      "url": ""
+      "products": [],
+      "title": "《逆水寒》手游2周年庆典开启，新资料片\"天演之境\"上线",
+      "source": "微博热搜 #4",
+      "company": "网易雷火",
+      "hot": "50万热度",
+      "detail": "《逆水寒》手游迎来2周年庆典，年度资料片\"天演之境\"同步上线。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     },
     {
       "rank": 5,
       "cat": "手游",
-      "products": [
-        "崩坏星穹铁道"
-      ],
-      "title": "崩铁银狼LV.999+欢愉主综合测评爆火，B站热搜#15，7131点赞",
-      "source": "B站热搜 #15",
-      "company": "米哈游",
-      "hot": "7131点赞",
-      "detail": "B站UP主发布崩铁角色银狼LV.999养成极限测试，全面评估输出上限与队伍配置，内容兼顾硬核与趣味，B站热搜#15，点赞超7000。",
-      "url": ""
+      "products": [],
+      "title": "《明日方舟：终末地》1.2版本「春晓时」今日上线，新干员登场",
+      "source": "B站热搜 #3",
+      "company": "鹰角网络",
+      "hot": "50万热度",
+      "detail": "鹰角网络《明日方舟：终末地》1.2版本「春晓时」今日正式上线。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     },
     {
       "rank": 6,
-      "cat": "IP",
+      "cat": "手游",
       "products": [],
-      "title": "国漫《逆天邪神年番》明日正式开播，抖音热搜766万热度",
-      "source": "抖音热搜 #29",
-      "company": "爱奇艺动漫",
-      "hot": "766万热度",
-      "detail": "基于游戏IP改编的国漫《逆天邪神年番》明日正式开播，凭借原作粉丝基础迅速冲上抖音热搜#29，热度达766万，带动原游戏同名版本搜索量上涨35%。",
-      "url": ""
+      "title": "《异环》公测今日开启，3000万预约创纪录",
+      "source": "完美世界官宣",
+      "company": "完美世界Hotta",
+      "hot": "",
+      "detail": "完美世界《异环》全平台公测今日正式开启，预约量超3000万。",
+      "url": "https://yh.wanmei.com/"
     },
     {
       "rank": 7,
       "cat": "手游",
       "products": [],
-      "title": "新游《漂泊团》PV热度2.6万，超越崩铁成当日游戏最高",
-      "source": "B站热搜 #19",
-      "company": "国产新游",
-      "hot": "2.6万收藏",
-      "detail": "新兴独立游戏《漂泊团》发布正式PV，B站热搜飙至#19，单日热度2.6万超越崩铁PV，主打多人合作Roguelike玩法，画风清新引发大量关注。",
-      "url": ""
+      "title": "《王者荣耀世界》移动端正式上线，iOS免费榜霸榜48小时",
+      "source": "微博热搜 #5",
+      "company": "腾讯天美",
+      "hot": "40万热度",
+      "detail": "腾讯天美工作室《王者荣耀世界》移动端正式上线，全平台公测开启。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     },
     {
       "rank": 8,
-      "cat": "手游",
-      "products": [
-        "明日方舟"
-      ],
-      "title": "《明日方舟：终末地》干员战斗演示B站热搜#22，4430点赞",
-      "source": "B站热搜 #22",
-      "company": "鹰角网络",
-      "hot": "4430点赞",
-      "detail": "鹰角网络旗下3D动作RPG《明日方舟：终末地》陆续放出多名干员战斗演示，B站热搜冲上#22，粉丝对战斗系统流畅度给予高度好评。",
-      "url": ""
+      "cat": "行业",
+      "products": [],
+      "title": "App Store游戏板块改版，新增\"开发者角\"功能",
+      "source": "知乎热榜 #2",
+      "company": "苹果",
+      "hot": "10万热度",
+      "detail": "苹果App Store宣布对游戏板块进行重大改版。",
+      "url": "https://www.zhihu.com/search?q=游戏"
     },
     {
       "rank": 9,
-      "cat": "行业",
-      "products": [
-        "崩坏星穹铁道"
-      ],
-      "title": "《崩坏：星穹铁道》4.2版本前瞻直播「如是，众生欢笑不已」引发热议",
-      "source": "知乎/微博",
-      "company": "米哈游",
-      "hot": "版本前瞻",
-      "detail": "米哈游《崩坏：星穹铁道》4.2版本前瞻直播「如是，众生欢笑不已」引发玩家社区广泛讨论，新角色、新剧情和新活动内容悬念全面拉满，版本预计4月底正式上线。",
-      "url": ""
+      "cat": "手游",
+      "products": [],
+      "title": "《三角洲行动》S9回声赛季正式开启，古墓丽影联动同步上线",
+      "source": "抖音热搜 #3",
+      "company": "腾讯天美",
+      "hot": "50万热度",
+      "detail": "《三角洲行动》S9赛季正式开启，古墓丽影联动内容同步推出。",
+      "url": "https://www.douyin.com/search/游戏"
     },
     {
       "rank": 10,
       "cat": "行业",
-      "products": [
-        "异环"
-      ],
-      "title": "《异环》4月23日公测倒计时8天，4月18日前瞻直播预约持续攀升",
-      "source": "完美世界官宣",
-      "company": "完美世界Hotta",
-      "hot": "8天倒计时",
-      "detail": "完美世界Hotta《异环》4月23日公测8天倒计时，4月18日前瞻直播预约人数持续攀升，游戏支持PC/PS5/iOS/Android/鸿蒙五端互通，3000万预约量为公测蓄力。",
-      "url": ""
+      "products": [],
+      "title": "追爆款赔千万转头用AI做UGC两月流水破千万，游戏创业新路径",
+      "source": "知乎热榜 #1",
+      "company": "游戏陀螺",
+      "hot": "40万热度",
+      "detail": "游戏行业出现新的创业模式引发关注。",
+      "url": "https://www.zhihu.com/search?q=游戏"
     },
     {
       "rank": 11,
       "cat": "手游",
       "products": [],
-      "title": "《金铲铲之战》S17赛季同步上线，活跃玩家数创近三赛季新高",
-      "source": "腾讯TiMi",
-      "company": "腾讯TiMi",
-      "hot": "赛季新高",
-      "detail": "《金铲铲之战》S17赛季与三角洲S9同步上线，引入新赛季机制和棋盘皮肤，活跃玩家数创近三赛季新高，自走棋品类持续保持稳健增长。",
-      "url": ""
+      "title": "《王者荣耀世界》移动端今日正式上线，iOS/Android/PC三端互通",
+      "source": "腾讯官宣",
+      "company": "腾讯天美",
+      "hot": "",
+      "detail": "腾讯天美工作室《王者荣耀世界》移动端今日正式上线，三端互通。",
+      "url": "https://world.qq.com/"
     },
     {
       "rank": 12,
-      "cat": "行业",
+      "cat": "端游",
       "products": [],
-      "title": "《守望先锋》黑爪之治第二赛季：尖峰之上正式上线",
-      "source": "暴雪官宣/3DM",
-      "company": "暴雪娱乐",
-      "hot": "全球战场",
-      "detail": "《守望先锋》黑爪之治第二赛季尖峰之上正式上线，全新输出英雄登场，地图重做、神话皮肤、角斗领域优化、威能系统调整，春季主题外观同步推出。",
-      "url": ""
+      "title": "《怪物猎人：荒野》Steam在线峰值突破18万，好评率87%",
+      "source": "B站热搜 #5",
+      "company": "CAPCOM",
+      "hot": "20万热度",
+      "detail": "《怪物猎人：荒野》Steam版上线后在线峰值突破18万人。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     },
     {
       "rank": 13,
-      "cat": "手游",
+      "cat": "端游",
       "products": [],
-      "title": "恺英《三国：天下归心》全平台公测，送588抽福利冲击市场",
-      "source": "恺英官宣",
-      "company": "恺英网络",
-      "hot": "全平台推广",
-      "detail": "恺英网络三国题材MMORPG《三国：天下归心》正式开启全平台公测，推出首充礼包最高送588次抽卡机会，以高福利策略吸引玩家回流。",
-      "url": ""
+      "title": "Epic公布虚幻引擎6预览版，游戏开发进入新纪元",
+      "source": "抖音热搜 #1",
+      "company": "Epic Games",
+      "hot": "80万热度",
+      "detail": "Epic Games正式公布虚幻引擎6预览版。",
+      "url": "https://www.douyin.com/search/游戏"
     },
     {
       "rank": 14,
-      "cat": "电竞",
+      "cat": "行业",
       "products": [],
-      "title": "2026LPL春季赛最后冲刺阶段：BLG两连胜、IG胜WBG爆冷",
-      "source": "LPL官方",
-      "company": "LPL赛事",
-      "hot": "赛事直播",
-      "detail": "2026年LPL春季赛进入最后冲刺阶段，BLG以两连胜继续领跑积分榜，IG爆冷击败卫冕冠军WBG，成为本周最大黑马，引发赛事讨论热潮。",
-      "url": ""
+      "title": "腾讯《MONOPOLY GO!》衍生社交APP半月下载破200万，休闲游戏赛道持续火热",
+      "source": "今日头条 #1",
+      "company": "游戏陀螺",
+      "hot": "50万热度",
+      "detail": "腾讯《MONOPOLY GO!》衍生的社交APP上线半月下载量突破200万。",
+      "url": "https://www.toutiao.com/trending/?keyword=游戏"
     },
     {
       "rank": 15,
       "cat": "行业",
       "products": [],
-      "title": "中手游《仙剑世界》失败后续：连续第四年亏损，行业反思大厂策略",
-      "source": "新浪财经/中国经营报",
-      "company": "中手游",
-      "hot": "行业头条",
-      "detail": "中手游《仙剑世界》失败持续引发行业反思，该公司自2022年以来连续第四年亏损，2025年利润亏损14.77亿元，分析师指出大厂押注旗舰项目风险加剧。",
-      "url": ""
+      "title": "《绝区零》二周年庆典5月预热，2.0版本内容疑似提前泄露",
+      "source": "抖音热搜 #2",
+      "company": "米哈游",
+      "hot": "60万热度",
+      "detail": "《绝区零》2.0版本内容疑似提前泄露，引发玩家社区热议。",
+      "url": "https://www.douyin.com/search/游戏"
     },
     {
       "rank": 16,
-      "cat": "端游",
+      "cat": "行业",
       "products": [],
-      "title": "《暗黑破坏神4》新资料片「憎恨之王」倒计时2天，暴雪全力预热",
-      "source": "暴雪官宣",
-      "company": "暴雪娱乐",
-      "hot": "主机/PC热门",
-      "detail": "暴雪《暗黑破坏神4》新资料片「憎恨之王」倒计时2天，暴雪同步在各大平台加大预热力度，新职业完整技能展示和剧情预告全面发布。",
-      "url": ""
+      "title": "NVIDIA发布DLSS 4.0技术，游戏行业AI画质革命加速",
+      "source": "微博热搜 #3",
+      "company": "NVIDIA",
+      "hot": "60万热度",
+      "detail": "NVIDIA在GTC大会上正式发布DLSS 4.0技术，游戏画质和性能将迎来革命性提升。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     },
     {
       "rank": 17,
-      "cat": "行业",
+      "cat": "电竞",
       "products": [],
-      "title": "B站游戏区月活创新高，UP主游戏内容收益同比增长47%",
-      "source": "B站数据",
-      "company": "哔哩哔哩",
-      "hot": "平台数据",
-      "detail": "据B站最新数据，游戏区月活用户突破历史新高，游戏UP主平均创作收益同比增长47%，二次元手游攻略、实况类内容仍是增长最快的赛道。",
-      "url": ""
+      "title": "2026LPL春季赛决赛BLG vs WBG，5月3日争夺冠军",
+      "source": "微博热搜 #1",
+      "company": "LPL赛事",
+      "hot": "30万热度",
+      "detail": "2026年LPL春季赛决赛赛程正式公布，BLG将与WBG于5月3日展开冠军争夺战。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     },
     {
       "rank": 18,
-      "cat": "行业",
+      "cat": "手游",
       "products": [],
-      "title": "伽马数据报告：2026年游戏产业趋势与潜力分析",
-      "source": "伽马数据/新浪财经",
-      "company": "伽马数据",
-      "hot": "行业报告",
-      "detail": "伽马数据发布2026年中国游戏产业趋势及潜力分析报告，指出内容周期+监管周期+AI赋能三重共振，国产3A历史性突破正在重塑行业话语权，市场进入新一轮增长周期。",
-      "url": ""
+      "title": "《蓝色协议》国际服今日上线，Steam同时在线8万人",
+      "source": "B站热搜 #1",
+      "company": "万代南梦宫",
+      "hot": "90万热度",
+      "detail": "万代南梦宫开发的日系MMORPG《蓝色协议》国际服正式上线。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     },
     {
       "rank": 19,
-      "cat": "行业",
+      "cat": "手游",
       "products": [],
-      "title": "兴业证券研报：游戏板块进入三重共振窗口，推荐腾讯/网易/米哈游",
-      "source": "兴业证券研报",
-      "company": "兴业证券",
-      "hot": "研报推荐",
-      "detail": "兴业证券发布游戏行业研报，指出当前板块处于内容周期+监管周期+AI赋能三重共振窗口，重点推荐腾讯、网易、米哈游三大标的，目标价均上调。",
-      "url": ""
+      "title": "《金铲铲之战》×《咒术回战》联动开启，五条领域登场",
+      "source": "B站热搜 #4",
+      "company": "腾讯TiMi",
+      "hot": "10万热度",
+      "detail": "《金铲铲之战》与《咒术回战》联动正式开启。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     },
     {
       "rank": 20,
-      "cat": "行业",
+      "cat": "端游",
       "products": [],
-      "title": "Yandex Ads深圳大会圆满落幕，聚焦游戏出海俄语区流量，助力东欧市场",
-      "source": "Yandex官宣",
-      "company": "Yandex",
-      "hot": "行业动态",
-      "detail": "Yandex在深圳举办广告合作伙伴大会，重点分享俄罗斯及CIS地区游戏用户画像与投放策略，为国内游戏厂商出海东欧提供更多流量路径参考。",
-      "url": ""
+      "title": "《黑神话：悟空》DLC\"真假美猴王\"开发中，画面泄露引热议",
+      "source": "B站热搜 #2",
+      "company": "游戏科学",
+      "hot": "70万热度",
+      "detail": "游戏科学《黑神话：悟空》DLC正在开发中，概念图泄露引发热议。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     }
   ]
 }

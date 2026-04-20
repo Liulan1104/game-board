@@ -4,233 +4,223 @@
   "news": [
     {
       "rank": 1,
-      "cat": "端游",
+      "cat": "行业",
       "products": [],
-      "title": "《战神》系列下一部正传游戏确认将于本月公布，索尼PlayStation最强IP",
-      "source": "PlayStation官宣",
-      "company": "索尼互娱",
-      "hot": "主机头条",
-      "detail": "索尼PlayStation正式宣布《战神》系列下一部正传游戏将于本月公布。自《诸神黄昏》发售后，粉丝持续猜测系列未来走向。索尼已推出类银河恶魔城游戏，战神IP全产业链布局加速。",
-      "url": ""
+      "title": "NVIDIA发布DLSS 4.0技术，游戏行业AI画质革命加速",
+      "source": "微博热搜 #3",
+      "company": "NVIDIA",
+      "hot": "80万热度",
+      "detail": "NVIDIA在GTC大会上正式发布DLSS 4.0技术，游戏画质和性能将迎来革命性提升。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     },
     {
       "rank": 2,
       "cat": "手游",
       "products": [],
-      "title": "《王者荣耀世界》移动端4月17日倒计时，3天后正式上线",
-      "source": "腾讯官宣",
-      "company": "腾讯天美",
-      "hot": "3天倒计时",
-      "detail": "腾讯正式宣布《王者荣耀世界》移动端4月17日上线进入3天倒计时，游戏使用虚幻引擎5打造，王者大陆无缝连接、无空气墙和读条，支持潜水、爬山、滑翔，含昼夜循环和天气变化系统，预约量持续攀升。",
-      "url": ""
+      "title": "《逆水寒》手游2周年庆典开启，新资料片\"天演之境\"上线",
+      "source": "微博热搜 #1",
+      "company": "网易雷火",
+      "hot": "10万热度",
+      "detail": "《逆水寒》手游迎来2周年庆典，年度资料片\"天演之境\"同步上线。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     },
     {
       "rank": 3,
       "cat": "手游",
-      "products": [
-        "三角洲行动"
-      ],
-      "title": "《三角洲行动》PC端S9赛季预热收尾，Steam愿望单进入TOP30",
-      "source": "Steam/抖音",
-      "company": "腾讯琳琅天地",
-      "hot": "Steam TOP30",
-      "detail": "《三角洲行动》S9赛季进入上线前最后预热阶段，Steam愿望单排名已升至TOP30，抖音相关话题播放量突破8000万，新赛季古墓丽影联动内容引发玩家高度期待。",
-      "url": ""
+      "products": [],
+      "title": "《金铲铲之战》×《咒术回战》联动开启，五条领域登场",
+      "source": "B站热搜 #2",
+      "company": "腾讯TiMi",
+      "hot": "60万热度",
+      "detail": "《金铲铲之战》与《咒术回战》联动正式开启。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     },
     {
       "rank": 4,
-      "cat": "电竞",
+      "cat": "行业",
       "products": [],
-      "title": "LPL季后赛关键日：BLG让二追三逆转JDG，Knight多项数据领跑",
-      "source": "LPL官方",
-      "company": "BLG/Knight",
-      "hot": "让二追三",
-      "detail": "LPL季后赛BLG在落后两局情况下让二追三完成逆转（3-2），成为LPL历史上第十次完成让二追三的队伍。Knight在分均伤害、伤转效率、场均击杀等多项关键数据上均位列联赛第一。",
-      "url": ""
+      "title": "中国游戏市场Q1规模达890亿元，端游增速首超手游",
+      "source": "微博热搜 #4",
+      "company": "伽马数据",
+      "hot": "80万热度",
+      "detail": "伽马数据发布2026年Q1中国游戏产业报告，市场规模持续增长。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     },
     {
       "rank": 5,
-      "cat": "行业",
-      "products": [
-        "崩坏星穹铁道"
-      ],
-      "title": "《崩坏：星穹铁道》4.2版本前瞻直播「如是，众生欢笑不已」引发热议",
-      "source": "知乎/微博",
-      "company": "米哈游",
-      "hot": "版本前瞻",
-      "detail": "米哈游《崩坏：星穹铁道》4.2版本前瞻直播「如是，众生欢笑不已」引发玩家社区广泛讨论，新角色、新剧情和新活动内容悬念全面拉满，版本预计4月底正式上线。",
-      "url": ""
+      "cat": "手游",
+      "products": [],
+      "title": "《三国：百将牌》明日不删档测试，预约人数已破150万",
+      "source": "B站热搜 #1",
+      "company": "哔哩哔哩游戏",
+      "hot": "30万热度",
+      "detail": "B站自研《三国：百将牌》不删档测试即将开启。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     },
     {
       "rank": 6,
-      "cat": "行业",
-      "products": [
-        "原神"
-      ],
-      "title": "《原神》5.6版本「曙云春穗」悬念持续，新角色悬念引发玩家解读热潮",
-      "source": "米哈游官宣",
-      "company": "米哈游",
-      "hot": "社区热议",
-      "detail": "《原神》5.6版本「曙云春穗」悬念内容持续引发玩家社区讨论，新角色「曙云」立绘图和相关剧情线索引发玩家解读热潮，版本预计4月中下旬上线。",
-      "url": ""
+      "cat": "手游",
+      "products": [],
+      "title": "《恋与深空》×故宫博物院联动正式公布，文物活化新范式",
+      "source": "抖音热搜 #3",
+      "company": "叠纸游戏",
+      "hot": "20万热度",
+      "detail": "叠纸游戏与故宫博物院正式宣布联动合作。",
+      "url": "https://www.douyin.com/search/游戏"
     },
     {
       "rank": 7,
-      "cat": "手游",
+      "cat": "行业",
       "products": [],
-      "title": "《王者荣耀世界》4月14日紧急更新公告，优化第一章任务流程",
-      "source": "17173/王者荣耀世界官宣",
-      "company": "腾讯天美",
-      "hot": "不停服更新",
-      "detail": "《王者荣耀世界》于4月14日4:00~5:00进行不停服维护更新，更新大小约50MB，更新范围为PC端，主要优化第一章任务流程，去除码头逛逛等部分拖沓环节。",
-      "url": ""
+      "title": "兴业证券：游戏板块进入三重共振窗口，推荐腾讯/网易/米哈游",
+      "source": "兴业证券研报",
+      "company": "兴业证券",
+      "hot": "",
+      "detail": "兴业证券发布游戏行业研报，看好头部游戏公司。",
+      "url": "https://www.xyzq.com.cn/"
     },
     {
       "rank": 8,
-      "cat": "端游",
+      "cat": "手游",
       "products": [],
-      "title": "《星空》PS5版崩溃问题：贝塞斯达宣布本周推出修复补丁",
-      "source": "贝塞斯达官宣",
-      "company": "贝塞斯达/微软",
-      "hot": "版本修复",
-      "detail": "贝塞斯达针对《星空》PS5版频繁崩溃问题正式回应，宣布本周将推出修复补丁，大量PS5玩家反馈的崩溃问题有望得到解决。",
-      "url": ""
+      "title": "《星布谷地》明日星旅测试开测，米哈游新品首测倒计时",
+      "source": "B站热搜 #4",
+      "company": "米哈游",
+      "hot": "100万热度",
+      "detail": "米哈游田园模拟经营新作《星布谷地》正式开启星旅测试。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     },
     {
       "rank": 9,
       "cat": "行业",
-      "products": [
-        "异环"
-      ],
-      "title": "《异环》4月23日公测倒计时9天，4月18日前瞻直播预约破百万",
-      "source": "完美世界官宣",
-      "company": "完美世界Hotta",
-      "hot": "9天倒计时",
-      "detail": "完美世界Hotta《异环》4月23日公测9天倒计时，4月18日前瞻直播预约人数已破百万，游戏支持PC/PS5/iOS/Android/鸿蒙五端互通，3000万预约量持续为公测蓄力。",
-      "url": ""
+      "products": [],
+      "title": "追爆款赔千万转头用AI做UGC两月流水破千万，游戏创业新路径",
+      "source": "知乎热榜 #2",
+      "company": "游戏陀螺",
+      "hot": "30万热度",
+      "detail": "游戏行业出现新的创业模式引发关注。",
+      "url": "https://www.zhihu.com/search?q=游戏"
     },
     {
       "rank": 10,
-      "cat": "行业",
+      "cat": "手游",
       "products": [],
-      "title": "中手游《仙剑世界》失败持续发酵：连续第四年亏损，行业反思大厂策略",
-      "source": "中国经营报/新浪财经",
-      "company": "中手游",
-      "hot": "行业头条",
-      "detail": "中手游《仙剑世界》失败持续引发行业反思。该公司自2022年以来连续第四年亏损，2025年利润亏损14.77亿元。行业分析师指出，大厂押注旗舰项目风险加剧，小成本试错或成行业新主流策略。",
-      "url": ""
+      "title": "《逆天邪神年番》开播首日：抖音热度766万，IP联动效应持续",
+      "source": "抖音热搜 #2",
+      "company": "爱奇艺动漫",
+      "hot": "20万热度",
+      "detail": "国漫《逆天邪神年番》开播首日表现亮眼，抖音热搜766万热度。",
+      "url": "https://www.douyin.com/search/游戏"
     },
     {
       "rank": 11,
-      "cat": "电竞",
+      "cat": "行业",
       "products": [],
-      "title": "佛山电竞粤超海选赛落幕，王者荣耀/无畏契约冠军出炉",
-      "source": "佛山电竞",
-      "company": "区域电竞",
-      "hot": "赛事战报",
-      "detail": "佛山电竞粤超海选赛落幕，王者荣耀冠军为战队，无畏契约冠军为战队，两支队伍将代表佛山出征电竞粤超城市巡回赛。",
-      "url": ""
+      "title": "VCT上海大师赛即将开赛，12支全球战队齐聚上海",
+      "source": "今日头条 #1",
+      "company": "VCT赛事",
+      "hot": "70万热度",
+      "detail": "2026年VCT上海大师赛即将开赛，全球12支顶级战队参赛。",
+      "url": "https://www.toutiao.com/trending/?keyword=游戏"
     },
     {
       "rank": 12,
-      "cat": "端游",
+      "cat": "行业",
       "products": [],
-      "title": "《暗黑破坏神4》新资料片「憎恨之王」倒计时3天，暴雪发布完整预告",
-      "source": "暴雪官宣",
-      "company": "暴雪娱乐",
-      "hot": "主机/PC热门",
-      "detail": "暴雪《暗黑破坏神4》新资料片「憎恨之王」倒计时3天，暴雪同步发布资料片完整预告片，新职业技能全面展示，画质升级和剧情延续。",
-      "url": ""
+      "title": "《王者荣耀世界》上线即登顶iOS免费榜，腾讯股价上涨",
+      "source": "App Store",
+      "company": "腾讯",
+      "hot": "",
+      "detail": "《王者荣耀世界》上线后迅速登顶App Store免费榜。",
+      "url": "https://www.apple.com/"
     },
     {
       "rank": 13,
-      "cat": "手游",
-      "products": [
-        "明日方舟"
-      ],
-      "title": "《明日方舟：终末地》1.2版本「春晓时」倒计时3天，新干员登场",
-      "source": "鹰角官宣",
-      "company": "鹰角网络",
-      "hot": "3天倒计时",
-      "detail": "鹰角网络宣布《明日方舟：终末地》1.2版本「春晓时」3天后（4月17日）上线，新干员「庄方宜」正式登场，剧情章节延续前作设定，战斗系统进一步优化。",
-      "url": ""
+      "cat": "端游",
+      "products": [],
+      "title": "《怪物猎人：荒野》Steam在线峰值突破18万，好评率87%",
+      "source": "B站热搜 #3",
+      "company": "CAPCOM",
+      "hot": "70万热度",
+      "detail": "《怪物猎人：荒野》Steam版上线后在线峰值突破18万人。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     },
     {
       "rank": 14,
       "cat": "行业",
       "products": [],
-      "title": "META HORIZON+ 2026年4月更新：新增战术射击、休闲模拟等多款VR游戏",
-      "source": "Meta官宣",
-      "company": "Meta",
-      "hot": "VR游戏",
-      "detail": "Meta为其VR订阅服务META HORIZON+发布2026年4月更新，新增多款VR游戏，涵盖战术射击、休闲模拟、经营解谜等类型，其中类《彩虹六号：围攻》玩法最受关注。",
-      "url": ""
+      "title": "App Store游戏板块改版，新增\"开发者角\"功能",
+      "source": "知乎热榜 #1",
+      "company": "苹果",
+      "hot": "80万热度",
+      "detail": "苹果App Store宣布对游戏板块进行重大改版。",
+      "url": "https://www.zhihu.com/search?q=游戏"
     },
     {
       "rank": 15,
       "cat": "行业",
       "products": [],
-      "title": "索尼2026年Q1财报：游戏业务连续第八季度增长，PS Plus用户增长",
-      "source": "索尼官宣",
-      "company": "索尼互娱",
-      "hot": "财报数据",
-      "detail": "索尼2026年第一季度财报显示游戏业务连续第八个季度同比增长，PS Plus订阅用户持续增长，《战神》系列、《星空》等第一方作品贡献可观收入。",
-      "url": ""
+      "title": "B站游戏区月活创新高，UP主游戏内容收益同比增长47%",
+      "source": "B站数据",
+      "company": "B站",
+      "hot": "",
+      "detail": "B站游戏区月活数据创历史新高。",
+      "url": "https://www.bilibili.com/"
     },
     {
       "rank": 16,
-      "cat": "行业",
+      "cat": "手游",
       "products": [],
-      "title": "伽马数据报告：游戏板块进入三重共振窗口，推荐腾讯/网易/米哈游",
-      "source": "兴业证券研报",
-      "company": "兴业证券",
-      "hot": "研报推荐",
-      "detail": "兴业证券发布游戏行业研报，指出当前板块处于内容周期+监管周期+AI赋能三重共振窗口，重点推荐腾讯、网易、米哈游三大标的，目标价均上调。",
-      "url": ""
+      "title": "《金铲铲之战》S17赛季同步上线，新增棋盘与英雄池",
+      "source": "腾讯TiMi",
+      "company": "腾讯TiMi",
+      "hot": "",
+      "detail": "《金铲铲之战》S17赛季正式上线，带来全新内容。",
+      "url": "https://jcc.qq.com/"
     },
     {
       "rank": 17,
-      "cat": "电竞",
+      "cat": "手游",
       "products": [],
-      "title": "电竞苏超启幕后续：长三角电竞联赛体系化推进，虎牙资源持续导入",
-      "source": "21世纪经济报道",
-      "company": "虎牙/江苏电竞",
-      "hot": "区域电竞",
-      "detail": "2026江苏省电竞超级联赛启动后，长三角电竞联赛体系化推进，虎牙持续导入赛事资源和商业合作，以体育+文旅+电竞融合模式探索区域电竞产业发展路径。",
-      "url": ""
+      "title": "《原神》4.7版本新角色\"艾梅\"演示发布，B站播放破千万",
+      "source": "B站热搜 #5",
+      "company": "米哈游",
+      "hot": "40万热度",
+      "detail": "《原神》4.7版本新五星角色\"艾梅\"角色演示正式发布，B站播放量迅速突破千万。",
+      "url": "https://search.bilibili.com/all?vt=1&keyword=游戏"
     },
     {
       "rank": 18,
       "cat": "行业",
       "products": [],
-      "title": "高通与网易合作深化：25款网易游戏适配骁龙X平台PC设备",
-      "source": "高通/网易官宣",
-      "company": "高通x网易",
-      "hot": "跨界合作",
-      "detail": "高通与网易宣布深度合作，《永劫无间》《光遇》等25款网易游戏全面适配骁龙X Elite平台PC设备，双方在移动性能和AI算力方面展开深度合作。",
-      "url": ""
+      "title": "《绝区零》二周年庆典5月预热，2.0版本内容疑似提前泄露",
+      "source": "抖音热搜 #1",
+      "company": "米哈游",
+      "hot": "90万热度",
+      "detail": "《绝区零》2.0版本内容疑似提前泄露，引发玩家社区热议。",
+      "url": "https://www.douyin.com/search/游戏"
     },
     {
       "rank": 19,
-      "cat": "端游",
+      "cat": "手游",
       "products": [],
-      "title": "《Pragmata》发售倒计时：卡普空科幻新作Steam愿望单突破80万",
-      "source": "卡普空官宣",
-      "company": "卡普空",
-      "hot": "Steam热门",
-      "detail": "卡普空旗下科幻动作冒险游戏《Pragmata》发售倒计时中，Steam愿望单已突破80万，游戏将支持PS5/Xbox/PC/Switch2多平台。",
-      "url": ""
+      "title": "《王者荣耀世界》移动端正式上线，iOS免费榜霸榜48小时",
+      "source": "微博热搜 #2",
+      "company": "腾讯天美",
+      "hot": "60万热度",
+      "detail": "腾讯天美工作室《王者荣耀世界》移动端正式上线，全平台公测开启。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     },
     {
       "rank": 20,
-      "cat": "行业",
+      "cat": "电竞",
       "products": [],
-      "title": "版号常态化：2026年上半年已公布47款国产游戏版号，有序收紧成主旋律",
-      "source": "舆情白皮书",
-      "company": "国家新闻出版总署",
-      "hot": "政策关注",
-      "detail": "据2026游戏行业舆情白皮书数据，国家新闻出版总署2026年上半年累计公布47款国产游戏版号，节奏较2024年高峰期明显放缓，已形成有序收紧常态化节奏。",
-      "url": ""
+      "title": "2026LPL春季赛决赛BLG vs WBG，5月3日争夺冠军",
+      "source": "微博热搜 #5",
+      "company": "LPL赛事",
+      "hot": "20万热度",
+      "detail": "2026年LPL春季赛决赛赛程正式公布，BLG将与WBG于5月3日展开冠军争夺战。",
+      "url": "https://s.weibo.com/weibo?q=游戏&xsort=hot&suball=1&Refer=SWeibo_box"
     }
   ]
 }
