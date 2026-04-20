@@ -34,7 +34,12 @@ jobs:
           import json
           import requests
           from datetime import datetime, timedelta
-          from bs4 import BeautifulSoup
+
+          HEADERS = {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+              'Accept': 'application/json, text/plain, */*',
+              'Accept-Language': 'zh-CN,zh;q=0.9',
+          }
 
           # ── 目标日期（默认抓取昨天，因为9:00时当天新闻尚未完整）──
           target_date = os.environ.get('TARGET_DATE', '')
@@ -42,73 +47,134 @@ jobs:
               target_date = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
           print(f"📅 目标日期: {target_date}")
 
-          # ── 1. 抓取热点新闻 ──
-          hot_topics = []
+          # ── 游戏关键词大全（用于微博/抖音等非垂类平台过滤）──
+          GAME_KEYWORDS = [
+              # 知名游戏
+              '游戏','原神','崩铁','崩坏','王者荣耀','王者世界','鸣潮','绝区零','方舟','明日方舟',
+              'LOL','英雄联盟','三角洲','和平精英','PUBG','蛋仔','元梦','永劫无间','逆水寒',
+              '金铲铲','云顶','星穹铁道','星铁','米哈游','鹰角','库洛','完美世界',
+              '暗区突围','黑神话','悟空','剑与远征','召唤之海','白夜极光','少女前线',
+              '碧蓝航线','碧蓝幻想','阴阳师','第五人格','光遇','光与夜之恋','恋与深空',
+              '重返未来','无限暖暖','无限世界','幻塔','《幻塔》','深空之眼','海角',
+              # 平台/公司
+              'Steam','网易游戏','腾讯游戏','bilibili游戏','B站游戏','IGN','TapTap',
+              'Genshin','Honkai','ZZZ','MiHoYo','HoYoverse','CAPCOM','卡普空',
+              # 电竞
+              'LPL','LCK','KPL','VCT','CFTL','S14','英雄联盟赛事','王者赛事','电竞',
+              # 通用游戏词
+              '版本更新','公测','内测','删档','首测','开服','上线','联动','周年庆',
+              '新角色','新干员','新英雄','限定','UP池','抽卡','限时','赛季',
+          ]
 
-          # B站热搜榜
+          # ── 1. B站综合热门中筛选游戏相关内容 ──
+          # 使用 /x/web-interface/popular（无需WBI签名，稳定可用）
+          # 分区名含"游戏"或标题含游戏关键词的内容直接收录
+          bilibili_topics = []
           try:
-              r = requests.get(
-                  'https://api.bilibili.com/x/web-interface/ranking/v2?rid=4&type=all',
-                  timeout=8, headers={'User-Agent': 'Mozilla/5.0'}
-              )
-              if r.status_code == 200:
-                  data = r.json().get('data', {}).get('list', [])
-                  for i, item in enumerate(data[:20]):
-                      title = item.get('title', '')
-                      keywords = ['游戏','原神','崩铁','王者','鸣潮','绝区零','方舟',
-                                  'LOL','英雄联盟','三角洲','星铁','米哈游','鹰角']
-                      if any(k in title for k in keywords):
-                          hot_topics.append({
-                              'rank': i + 1,
-                              'cat': '手游',
-                              'title': title,
-                              'source': f'B站热搜 #{i+1}',
-                              'company': '',
-                              'hot': f'{item.get("like", 0)}点赞',
-                              'detail': item.get('desc', title)
-                          })
-          except Exception as e:
-              print(f"⚠️ B站热搜抓取失败: {e}")
+              collected = []
+              for pn in range(1, 6):   # 最多取5页（每页20条）
+                  r = requests.get(
+                      f'https://api.bilibili.com/x/web-interface/popular?ps=20&pn={pn}',
+                      timeout=10, headers=HEADERS
+                  )
+                  if r.status_code != 200:
+                      break
+                  page_items = r.json().get('data', {}).get('list', [])
+                  if not page_items:
+                      break
+                  for item in page_items:
+                      tname = item.get('tname', '')      # 分区名
+                      title = item.get('title', '').strip()
+                      # 游戏分区直接收录；非游戏分区做关键词匹配
+                      if '游戏' in tname or any(k in title for k in GAME_KEYWORDS):
+                          collected.append(item)
+                  if len(collected) >= 20:
+                      break
 
-          # 微博热搜
+              print(f"B站综合热门 筛出游戏相关 {len(collected)} 条")
+              for i, item in enumerate(collected[:20]):
+                  title = item.get('title', '').strip()
+                  owner = item.get('owner', {}).get('name', '')
+                  tname = item.get('tname', '')
+                  stat = item.get('stat', {})
+                  view = stat.get('view', 0)
+                  desc = item.get('desc', '') or title
+                  # 推断分类
+                  cat = '手游'
+                  tname_lower = tname.lower()
+                  if '单机' in tname or '主机' in tname:
+                      cat = '端游'
+                  elif '网络游戏' in tname:
+                      cat = '端游'
+                  for kw, c in [('联赛','电竞'),('赛季','电竞'),('电竞','电竞'),('LPL','电竞'),
+                                 ('KPL','电竞'),('VCT','电竞')]:
+                      if kw in title:
+                          cat = c
+                          break
+                  hot_str = f'{view//10000}万播放' if view >= 10000 else f'{view}播放'
+                  bilibili_topics.append({
+                      'rank': i + 1,
+                      'cat': cat,
+                      'title': title,
+                      'source': f'B站热门/{tname}',
+                      'company': owner,
+                      'hot': hot_str,
+                      'detail': desc[:100] if desc else title,
+                      'url': f'https://www.bilibili.com/video/{item.get("bvid","")}'
+                  })
+          except Exception as e:
+              print(f"⚠️ B站热门抓取失败: {e}")
+
+          # ── 2. 微博热搜（过滤游戏关键词）──
+          weibo_topics = []
           try:
               r = requests.get(
                   'https://weibo.com/ajax/side/hotSearch',
-                  timeout=8,
-                  headers={'User-Agent': 'Mozilla/5.0', 'Referer': 'https://weibo.com'}
+                  timeout=10,
+                  headers={**HEADERS, 'Referer': 'https://weibo.com'}
               )
               if r.status_code == 200:
-                  data = r.json().get('data', {}).get('realtime', [])
-                  for item in data[:30]:
-                      word = item.get('word', '')
-                      keywords = ['游戏','原神','崩铁','王者','鸣潮','绝区零','方舟','LOL']
-                      if any(k in word for k in keywords):
-                          hot_topics.append({
+                  items = r.json().get('data', {}).get('realtime', [])
+                  print(f"微博热搜 获取 {len(items)} 条原始数据")
+                  matched = 0
+                  for item in items[:50]:
+                      word = item.get('word', '').strip()
+                      note = item.get('note', '') or ''
+                      combined = word + note
+                      if any(k in combined for k in GAME_KEYWORDS):
+                          matched += 1
+                          hot_num = item.get('num', 0)
+                          hot_str = f'{hot_num//10000}万热度' if hot_num >= 10000 else f'热搜中'
+                          weibo_topics.append({
                               'rank': 0,
                               'cat': '行业',
                               'title': word,
                               'source': '微博热搜',
                               'company': '',
-                              'hot': f'热搜 #{item.get("num", 0)}',
-                              'detail': word
+                              'hot': hot_str,
+                              'detail': note if note else word,
+                              'url': f'https://s.weibo.com/weibo?q={word}'
                           })
+                  print(f"✅ 微博热搜 游戏相关 {matched} 条")
           except Exception as e:
               print(f"⚠️ 微博热搜抓取失败: {e}")
 
-          # 去重 + 排序
+          # ── 3. 合并 + 去重 + 排序 ──
+          all_topics = bilibili_topics + weibo_topics
           seen_titles = set()
           unique_topics = []
-          for t in hot_topics:
-              key = t['title'][:20]
+          for t in all_topics:
+              key = t['title'][:15]
               if key not in seen_titles:
                   seen_titles.add(key)
                   unique_topics.append(t)
 
-          unique_topics.sort(key=lambda x: x['rank'] if x['rank'] > 0 else 999)
+          # 重新编排排名
           for i, t in enumerate(unique_topics[:20]):
               t['rank'] = i + 1
+          unique_topics = unique_topics[:20]
 
-          print(f"✅ 抓取到 {len(unique_topics)} 条热点")
+          print(f"✅ 最终合并 {len(unique_topics)} 条热点")
 
           # ── 2. 写入 data/daily/{date}.json（历史存档）──
           day_label = datetime.strptime(target_date, '%Y-%m-%d').strftime('%-m月%-d日')
