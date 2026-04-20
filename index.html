@@ -1443,6 +1443,7 @@ async function loadBilibiliHot() {
     const data = await response.json();
     if (data.code === 0 && data.data?.list) {
       const gameKeywords = ['游戏', '原神', '崩坏', '王者', '联盟', '我的世界', '绝区零', '鸣潮', '方舟', 'DNF', 'CF', 'CSGO', '永劫', '逆水寒', '光遇', '阴阳师', '碧蓝', '明日', '怪物猎人', '艾尔登法环', '赛博朋克', '黑神话', '蓝色协议', '异环'];
+      const gameKeywords = ['游戏', '原神', '崩坏', '王者', '联盟', '我的世界', '绝区零', '鸣潮', '方舟', 'DNF', 'CF', 'CSGO', '永劫', '逆水寒', '光遇', '阴阳师', '碧蓝', '明日', '怪物猎人', '艾尔登法环', '赛博朋克', '黑神话', '蓝色协议', '异环', '蛋仔', '三角洲', '金铲铲', '恋与深空', '幻塔', '暗区', '米哈游', '鹰角', '库洛'];
       bilibiliHotData = data.data.list
         .filter(item => {
           const title = item.title.toLowerCase();
@@ -1452,6 +1453,7 @@ async function loadBilibiliHot() {
         .map(item => ({
           title: item.title,
           author: item.owner?.name || '未知',
+          tname: item.tname || '',
           play: formatPlay(item.stat?.view || 0),
           playRaw: item.stat?.view || 0,
           like: formatPlay(item.stat?.like || 0),
@@ -1507,36 +1509,36 @@ function renderBiliCards() {
 }
 
 const fallbackBilibiliData = [
-  { rank: 1,  title: '原神 5.0版本前瞻直播完整版', author: '原神', play: '1,287万', playRaw: 12870000, like: '68.4万', likeRaw: 684000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1GJ411x7h7/' },
-  { rank: 2,  title: '绝区零 2.0版本PV', author: '绝区零', play: '956万', playRaw: 9560000, like: '52.1万', likeRaw: 521000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1Nc411k7fN/' },
-  { rank: 3,  title: '鸣潮 二周年庆典完整版', author: '鸣潮', play: '834万', playRaw: 8340000, like: '45.7万', likeRaw: 457000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1VJ4m117XW/' },
-  { rank: 4,  title: '崩坏星穹铁道 3.0版本预告', author: '崩坏星穹铁道', play: '789万', playRaw: 7890000, like: '41.2万', likeRaw: 412000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1sN4y1q7Xp/' },
-  { rank: 5,  title: '王者荣耀 KPL春季赛决赛', author: '王者荣耀', play: '723万', playRaw: 7230000, like: '38.9万', likeRaw: 389000, tname: '电竞', url: 'https://www.bilibili.com/video/BV1wT4y1D7Yk/' },
-  { rank: 6,  title: '英雄联盟 全球总决赛', author: '英雄联盟', play: '698万', playRaw: 6980000, like: '36.5万', likeRaw: 365000, tname: '电竞', url: 'https://www.bilibili.com/video/BV1cQ4y1E7mT/' },
-  { rank: 7,  title: '怪物猎人荒野 更新内容', author: '卡普空官方', play: '645万', playRaw: 6450000, like: '33.8万', likeRaw: 338000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1eA4y1F7nW/' },
-  { rank: 8,  title: '异环 公测实机演示', author: '完美世界Hotta', play: '612万', playRaw: 6120000, like: '31.4万', likeRaw: 314000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1fN4y1Q7bX/' },
-  { rank: 9,  title: '艾尔登法环 DLC速通攻略', author: '某硬核玩家', play: '587万', playRaw: 5870000, like: '29.7万', likeRaw: 297000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1qJ4m1E7cT/' },
-  { rank: 10, title: '蓝色协议国际服 开服实况', author: '万代南梦宫', play: '554万', playRaw: 5540000, like: '27.8万', likeRaw: 278000, tname: '网络游戏', url: 'https://www.bilibili.com/video/BV1dP4y1F7nQ/' },
-  { rank: 11, title: 'DNF手游 版本更新详解', author: 'DNF官方', play: '523万', playRaw: 5230000, like: '26.1万', likeRaw: 261000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1oN4y1E7bP/' },
-  { rank: 12, title: '永劫无间 手游测试资格', author: '永劫无间', play: '498万', playRaw: 4980000, like: '24.5万', likeRaw: 245000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1cT4y1D7mQ/' },
-  { rank: 13, title: 'CS2 Major 决赛回顾', author: '完美世界', play: '476万', playRaw: 4760000, like: '23.2万', likeRaw: 232000, tname: '电竞', url: 'https://www.bilibili.com/video/BV1kQ4y1F7nR/' },
-  { rank: 14, title: '我的世界 基岩版更新', author: 'Minecraft', play: '445万', playRaw: 4450000, like: '21.8万', likeRaw: 218000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1fA4y1D7mP/' },
-  { rank: 15, title: '赛博朋克2077 DLC全流程', author: '某单机up主', play: '423万', playRaw: 4230000, like: '20.5万', likeRaw: 205000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1pJ4m1E7cS/' },
-  { rank: 16, title: '原神 新角色攻略', author: '原神攻略组', play: '398万', playRaw: 3980000, like: '19.2万', likeRaw: 192000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1eN4y1Q7bT/' },
-  { rank: 17, title: '星露谷物语 1.6版本内容', author: '某休闲玩家', play: '376万', playRaw: 3760000, like: '17.9万', likeRaw: 179000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1oP4y1F7nS/' },
-  { rank: 18, title: '黑神话悟空 全成就攻略', author: '某单机up主', play: '354万', playRaw: 3540000, like: '16.7万', likeRaw: 167000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1cQ4y1E7mU/' },
-  { rank: 19, title: '绝区零 新角色技能详解', author: '绝区零攻略组', play: '332万', playRaw: 3320000, like: '15.4万', likeRaw: 154000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1fT4y1D7nV/' },
-  { rank: 20, title: '明日方舟 夏活预告', author: '明日方舟', play: '312万', playRaw: 3120000, like: '14.2万', likeRaw: 142000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1pN4y1Q7bW/' },
-  { rank: 21, title: '鸣潮 新版本养成指南', author: '鸣潮攻略组', play: '295万', playRaw: 2950000, like: '13.5万', likeRaw: 135000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1eA4y1E7mX/' },
-  { rank: 22, title: '塞尔达传说 攻略', author: '某任系up主', play: '278万', playRaw: 2780000, like: '12.8万', likeRaw: 128000, tname: '单机/主机', url: 'https://www.bilibili.com/video/BV1oJ4m1D7nY/' },
-  { rank: 23, title: '逆水寒 手游最新内容', author: '逆水寒', play: '261万', playRaw: 2610000, like: '11.9万', likeRaw: 119000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1cP4y1E7bZ/' },
-  { rank: 24, title: '光遇 周年庆活动', author: '光遇', play: '245万', playRaw: 2450000, like: '11.2万', likeRaw: 112000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1fQ4y1F7nA/' },
-  { rank: 25, title: '哈利波特魔法觉醒 新版本', author: '哈利波特魔法觉醒', play: '229万', playRaw: 2290000, like: '10.5万', likeRaw: 105000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1oT4y1D7mB/' },
-  { rank: 26, title: '阴阳师 新式神CG', author: '阴阳师', play: '214万', playRaw: 2140000, like: '9.8万', likeRaw: 98000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1eN4y1Q7bC/' },
-  { rank: 27, title: '一念永恒 手游开服攻略', author: '某游戏up主', play: '198万', playRaw: 1980000, like: '9.1万', likeRaw: 91000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1pA4y1E7nD/' },
-  { rank: 28, title: 'APEX英雄 新赛季预览', author: 'APEX英雄', play: '185万', playRaw: 1850000, like: '8.5万', likeRaw: 85000, tname: '电竞', url: 'https://www.bilibili.com/video/BV1fJ4m1D7mE/' },
-  { rank: 29, title: '碧蓝档案 国际服攻略', author: '某二次元up主', play: '172万', playRaw: 1720000, like: '7.9万', likeRaw: 79000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1oQ4y1F7bF/' },
-  { rank: 30, title: '坎公骑冠剑 新版本内容', author: '某休闲up主', play: '159万', playRaw: 1590000, like: '7.3万', likeRaw: 73000, tname: '游戏', url: 'https://www.bilibili.com/video/BV1eT4y1E7nG/' }
+  { rank: 1,  title: '《崩坏：星穹铁道》动画短片：「那安息的长夜」', author: '崩坏星穹铁道', play: '670.5万', playRaw: 6705311, like: '51.2万', likeRaw: 511618, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV16io9YTEqH/' },
+  { rank: 2,  title: '蛋仔派对：新手教程暗藏地牢？幕后老大曝光，他要毁灭新手玩家！', author: '游小浪Game', play: '387.6万', playRaw: 3876021, like: '7925', likeRaw: 7925, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1aoZtYDEZG/' },
+  { rank: 3,  title: '《鸣潮》0.1版本PV | 缩拉里斯', author: '鸣潮', play: '344.7万', playRaw: 3446968, like: '28.9万', likeRaw: 288764, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1JcZtYFEDq/' },
+  { rank: 4,  title: '"我花了5年一个人做的独立像素游戏4月17日就要上线啦！"', author: '换影循迹官方', play: '340.3万', playRaw: 3402518, like: '69.4万', likeRaw: 693764, tname: '单机游戏', url: 'https://www.bilibili.com/video/BV1eqZJYaESc/' },
+  { rank: 5,  title: '价值129的MC官方食谱，能还原MC的食物吗？【游戏之外】', author: '史蒂猪StevenPig', play: '335.7万', playRaw: 3356970, like: '21.4万', likeRaw: 213627, tname: '单机游戏', url: 'https://www.bilibili.com/video/BV1v9oZY3Efq/' },
+  { rank: 6,  title: '【崩铁】遐蝶综合测评：死龙一喷！武器对比+抽取建议+配队思路+星魂提升，砍队友型大C', author: '卡特亚', play: '334.1万', playRaw: 3341476, like: '15.4万', likeRaw: 153535, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1tNfAYVEDT/' },
+  { rank: 7,  title: '4月1日版本更新速览丨新干员新武器即将加入！', author: '三角洲行动', play: '332.8万', playRaw: 3327726, like: '11.4万', likeRaw: 114413, tname: '网络游戏', url: 'https://www.bilibili.com/video/BV1bRZWYiEmb/' },
+  { rank: 8,  title: '请选择你的穿搭！永劫无间新模式"衣V衣"实机演示', author: '永劫无间官方', play: '268.6万', playRaw: 2686351, like: '7.6万', likeRaw: 75733, tname: '网络游戏', url: 'https://www.bilibili.com/video/BV1j4Z4YpELF/' },
+  { rank: 9,  title: '当我在游戏里为"狙击手"拍照...【绝区零摄影】', author: '语堂天天啃土', play: '243.2万', playRaw: 2432383, like: '29.0万', likeRaw: 290385, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1pJfNYrExn/' },
+  { rank: 10, title: '《绝区零》星徽骑士EP丨拂晓之空 闪耀之誓', author: '绝区零', play: '214.0万', playRaw: 2139829, like: '24.7万', likeRaw: 246904, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1HTZpYSExJ/' },
+  { rank: 11, title: '【明日方舟】我成整合运动了？愚人节关卡攻略合集！  |魔法Zc目录', author: '魔法Zc目录', play: '209.8万', playRaw: 2098369, like: '6.0万', likeRaw: 59578, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV17bZhYqEY3/' },
+  { rank: 12, title: '赛博败家子儿星铁：送240万设定集，把印刷厂整破防了｜顺便讲点背后的商业逻辑', author: '退役编辑雨上', play: '197.3万', playRaw: 1973096, like: '10.2万', likeRaw: 102111, tname: '网络游戏', url: 'https://www.bilibili.com/video/BV1V9ZzYpENN/' },
+  { rank: 13, title: '明明开发的是游戏！玩家却催厂商去做卫生巾？', author: '张子zi', play: '173.6万', playRaw: 1735815, like: '4.3万', likeRaw: 42664, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1TQZhYQEXe/' },
+  { rank: 14, title: '还有12小时，我们做了4年的游戏就要上线了……', author: '开放空间官方', play: '135.4万', playRaw: 1354376, like: '5.2万', likeRaw: 52341, tname: '单机游戏', url: 'https://www.bilibili.com/video/BV1QTZWYBE8W/' },
+  { rank: 15, title: '盘点地铁逃生4月8号新版本更新六个优化？提前了解新版本改动！', author: '千阳的地铁逃生', play: '130.0万', playRaw: 1299741, like: '5928', likeRaw: 5928, tname: '网络游戏', url: 'https://www.bilibili.com/video/BV1p6ZnYJEio/' },
+  { rank: 16, title: '蛋仔奖励时间点❗️最全攻略收好❗️', author: '蛋仔派对芒果', play: '124.8万', playRaw: 1248196, like: '1.2万', likeRaw: 11787, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV13yZhY4Ey6/' },
+  { rank: 17, title: '"你们可能不相信，但这就是绝区零玩家的日常"', author: 'ODer刹', play: '124.4万', playRaw: 1243878, like: '16.0万', likeRaw: 160373, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1ZGZnYBEHg/' },
+  { rank: 18, title: '真刺激，真定档！暗区突围端游国服4月29日正式上线！', author: '暗区突围无限', play: '114.6万', playRaw: 1145734, like: '4.0万', likeRaw: 39660, tname: '网络游戏', url: 'https://www.bilibili.com/video/BV154Z4YpEid/' },
+  { rank: 19, title: '2025年的FPS游戏画质应该是怎样的？', author: '黑镖客梦回', play: '113.9万', playRaw: 1138788, like: '4.2万', likeRaw: 41756, tname: '单机游戏', url: 'https://www.bilibili.com/video/BV1BHZ4YdE6k/' },
+  { rank: 20, title: '蛋仔派对：冈易你就跟玩家学吧！这才是玩家想要的福利！', author: '醒醒点灯呐', play: '107.4万', playRaw: 1074271, like: '1.9万', likeRaw: 19311, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1T3ZJYnEiZ/' },
+  { rank: 21, title: '在游戏里复刻中国古都为什么那么难？', author: '搅拌摩擦的石叶', play: '100.4万', playRaw: 1003576, like: '4.6万', likeRaw: 45981, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1mnZqYTEYM/' },
+  { rank: 22, title: '扫除游戏健康生态"新害虫"，米哈游协助警方斩断"游戏账号非法租售黑灰产"链条', author: '米哈游法务部', play: '99.8万', playRaw: 998044, like: '17.3万', likeRaw: 173396, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1b4ZrYUEef/' },
+  { rank: 23, title: '《原神》过场动画-「菇菇餮宴」', author: '原神', play: '89.3万', playRaw: 893046, like: '8.2万', likeRaw: 81943, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1Y6ZJY8EeE/' },
+  { rank: 24, title: '【鸣潮摄影】震撼圈外人，二游场景已经进化成这样了吗？!', author: '洛灯盏', play: '89.2万', playRaw: 892420, like: '7.5万', likeRaw: 74855, tname: '手机游戏', url: 'https://www.bilibili.com/video/BV1hoZqYkEp3/' },
+  { rank: 25, title: '新干员终于来啦！突击位里唯一的残疾登场！鼠不如蜂医，攻不如花来威龙「三角洲行动」', author: 'Key725', play: '88.4万', playRaw: 884393, like: '2.0万', likeRaw: 19850, tname: '网络游戏', url: 'https://www.bilibili.com/video/BV1GWZnYcELC/' },
+  { rank: 26, title: '明日S14开服玩什么？11套强势阵容推荐！【云顶之弈】【金铲铲之战】', author: '林小北Lindo', play: '85.0万', playRaw: 850428, like: '1.4万', likeRaw: 14396, tname: '电子竞技', url: 'https://www.bilibili.com/video/BV1ASZ4YqE21/' },
+  { rank: 27, title: '永远在追求极致的鸣潮！"二游有很多难忘瞬间，你游未免太多了吧！"', author: '哇周某人', play: '84.1万', playRaw: 841442, like: '12.3万', likeRaw: 123254, tname: 'GMV', url: 'https://www.bilibili.com/video/BV1aCZHYKEpY/' },
+  { rank: 28, title: 'lol愚人节彩蛋：破败王无法占据琴女！石头人可将敌人R出游戏！', author: '布锅锅', play: '79.9万', playRaw: 798977, like: '1.3万', likeRaw: 13278, tname: '电子竞技', url: 'https://www.bilibili.com/video/BV1qtZbY8EDh/' },
+  { rank: 29, title: '牛奶奶才是唯一真神.丨恐怖游戏《地狱钱汤》重制版03', author: '小熊flippy', play: '76.7万', playRaw: 767066, like: '5.8万', likeRaw: 57909, tname: '单机游戏', url: 'https://www.bilibili.com/video/BV1anZnYAERq/' },
+  { rank: 30, title: '好久没和白菜打LOL了', author: '橘子怪丶', play: '70.9万', playRaw: 708887, like: '3.0万', likeRaw: 29587, tname: '网络游戏', url: 'https://www.bilibili.com/video/BV1HPZpYQEsD/' }
 ];
 
 // ── 日期选择器 ──
