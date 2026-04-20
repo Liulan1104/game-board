@@ -1423,6 +1423,7 @@ async function loadBilibiliHot() {
         bilibiliHotData = json.videos.map(v => ({
           title: v.title,
           author: v.author,
+          tname: v.tname || '',
           play: v.play,
           playRaw: v.playRaw || 0,
           like: v.like,
@@ -1442,7 +1443,6 @@ async function loadBilibiliHot() {
     });
     const data = await response.json();
     if (data.code === 0 && data.data?.list) {
-      const gameKeywords = ['游戏', '原神', '崩坏', '王者', '联盟', '我的世界', '绝区零', '鸣潮', '方舟', 'DNF', 'CF', 'CSGO', '永劫', '逆水寒', '光遇', '阴阳师', '碧蓝', '明日', '怪物猎人', '艾尔登法环', '赛博朋克', '黑神话', '蓝色协议', '异环'];
       const gameKeywords = ['游戏', '原神', '崩坏', '王者', '联盟', '我的世界', '绝区零', '鸣潮', '方舟', 'DNF', 'CF', 'CSGO', '永劫', '逆水寒', '光遇', '阴阳师', '碧蓝', '明日', '怪物猎人', '艾尔登法环', '赛博朋克', '黑神话', '蓝色协议', '异环', '蛋仔', '三角洲', '金铲铲', '恋与深空', '幻塔', '暗区', '米哈游', '鹰角', '库洛'];
       bilibiliHotData = data.data.list
         .filter(item => {
